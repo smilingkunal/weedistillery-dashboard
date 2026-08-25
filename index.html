@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WeeDistillery Marketing Dashboard</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Auth gate -->
+  <div id="auth-gate" class="auth-gate">
+    <div class="auth-card">
+      <h1>WeeDistillery Dashboard</h1>
+      <p class="muted">Sign in with Google to view this dashboard.</p>
+      <button id="sign-in-btn" class="btn-primary">Sign in with Google</button>
+      <p id="auth-error" class="error"></p>
+    </div>
+  </div>
+
+  <!-- Main dashboard (hidden until authenticated) -->
+  <div id="dashboard" class="dashboard hidden">
+    <header class="topbar">
+      <div class="topbar-left">
+        <h1 class="brand">🌿 WeeDistillery</h1>
+        <span class="subtitle">Marketing Dashboard</span>
+      </div>
+      <div class="topbar-right">
+        <span id="user-info" class="user-info"></span>
+        <button id="sign-out-btn" class="btn-secondary">Sign out</button>
+      </div>
+    </header>
+
+    <nav class="tabs">
+      <button class="tab active" data-tab="opportunities">
+        Top 10 Opportunities
+        <span class="tab-badge" id="opps-badge">10</span>
+      </button>
+      <button class="tab" data-tab="blogs">
+        Blogs
+        <span class="tab-badge" id="blogs-badge">8</span>
+      </button>
+      <button class="tab" data-tab="competitors" disabled>
+        Competitors <span class="tab-soon">soon</span>
+      </button>
+      <button class="tab" data-tab="gbp" disabled>
+        GBP <span class="tab-soon">soon</span>
+      </button>
+      <button class="tab" data-tab="seo" disabled>
+        SEO On-Page <span class="tab-soon">soon</span>
+      </button>
+    </nav>
+
+    <main class="content">
+      <!-- Opportunities tab -->
+      <section id="tab-opportunities" class="tab-panel active">
+        <div class="panel-header">
+          <h2>Top 10 Opportunities</h2>
+          <p class="muted">Ranked by potential traffic impact. Click "Grab" to send to content pipeline.</p>
+        </div>
+
+        <div class="stats-row">
+          <div class="stat-card">
+            <div class="stat-value" id="stat-high">3</div>
+            <div class="stat-label">High impact</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value" id="stat-medium">6</div>
+            <div class="stat-label">Medium impact</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value" id="stat-low">3</div>
+            <div class="stat-label">Low impact</div>
+          </div>
+          <div class="stat-card highlight">
+            <div class="stat-value" id="stat-uplift">+91</div>
+            <div class="stat-label">Est. monthly visits if all shipped</div>
+          </div>
+        </div>
+
+        <div class="filter-bar">
+          <label><input type="checkbox" data-filter="impact" value="high" checked> High</label>
+          <label><input type="checkbox" data-filter="impact" value="medium" checked> Medium</label>
+          <label><input type="checkbox" data-filter="impact" value="low" checked> Low</label>
+          <label><input type="checkbox" data-filter="category" value="content_gap" checked> Content gap</label>
+          <label><input type="checkbox" data-filter="category" value="onpage" checked> On-page</label>
+          <label><input type="checkbox" data-filter="category" value="geo_targeting" checked> Geo</label>
+          <label><input type="checkbox" data-filter="category" value="competitor" checked> Competitor</label>
+          <label><input type="checkbox" data-filter="category" value="gbp_qa" checked> GBP Q</label>
+        </div>
+
+        <table class="opps-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Priority</th>
+              <th>Opportunity</th>
+              <th>Source</th>
+              <th>Est. lift</th>
+              <th>Action</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="opps-tbody">
+            <tr><td colspan="7" class="loading">Loading opportunities...</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- Blogs tab -->
+      <section id="tab-blogs" class="tab-panel">
+        <div class="panel-header">
+          <h2>Blog Pipeline</h2>
+          <p class="muted">Drafts awaiting review and published posts. Approve inline or open in WordPress.</p>
+        </div>
+
+        <div class="stats-row">
+          <div class="stat-card">
+            <div class="stat-value" id="blog-stat-drafts">3</div>
+            <div class="stat-label">Pending review</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value" id="blog-stat-published">5</div>
+            <div class="stat-label">Published this week</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value" id="blog-stat-rejected">0</div>
+            <div class="stat-label">Rejected this week</div>
+          </div>
+          <div class="stat-card highlight">
+            <div class="stat-value" id="blog-stat-time">2.3h</div>
+            <div class="stat-label">Avg time to publish</div>
+          </div>
+        </div>
+
+        <div class="filter-bar">
+          <label>Filter:
+            <select id="blog-filter">
+              <option value="all">All</option>
+              <option value="pending_approval">Pending review</option>
+              <option value="published">Published</option>
+              <option value="rejected">Rejected</option>
+            </select>
+          </label>
+          <label><input type="checkbox" id="blog-show-real" checked> Real images</label>
+          <label><input type="checkbox" id="blog-show-placeholder" checked> Placeholder images</label>
+        </div>
+
+        <div id="blog-list" class="blog-list">
+          <div class="loading">Loading blogs...</div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <span>WeeDistillery Content Bot • Pipeline status: <span class="status-pill status-mock">MOCK DATA</span> • Real data when n8n pipeline ships</span>
+    </footer>
+  </div>
+
+  <script src="dashboard.js"></script>
+  <script src="auth.js"></script>
+  <!-- Google Identity Services for "Sign in with Google" (only loaded when DEMO_MODE=false in auth.js) -->
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+</body>
+</html>

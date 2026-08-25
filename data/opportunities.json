@@ -1,0 +1,135 @@
+{
+  "last_updated": "2026-08-25T22:30:00Z",
+  "note": "MOCK DATA — will be replaced with live content_jobs Sheet data once the pipeline ships",
+  "stats": {
+    "opportunities_total": 12,
+    "high_impact": 3,
+    "medium_impact": 6,
+    "low_impact": 3,
+    "captured_in_pipeline": 5,
+    "published_this_month": 8,
+    "drafts_pending_review": 2
+  },
+  "opportunities": [
+    {
+      "id": "opp-001",
+      "priority": "high",
+      "impact": "high",
+      "category": "geo_targeting",
+      "title": "Create dedicated Brampton cannabis landing page",
+      "context": "Query 'weed delivery Brampton' has 36 monthly impressions but you're at position 24.8 — far below page 1. Brampton-specific landing page targeting 'cannabis delivery Brampton', 'marijuana delivery Brampton ON' would capture existing demand.",
+      "est_traffic_uplift": "+12 visits/mo",
+      "source": "GSC + topic cluster analysis",
+      "action": "Create page",
+      "cluster": "local-seo"
+    },
+    {
+      "id": "opp-002",
+      "priority": "high",
+      "impact": "high",
+      "category": "content_gap",
+      "title": "Cannabis for sleep: comprehensive Brampton guide",
+      "context": "Local search volume for 'cannabis for sleep' is ~90/mo. No dedicated page exists. Pillar page in 'wellness-sleep' topic cluster.",
+      "est_traffic_uplift": "+8 visits/mo",
+      "source": "Topic cluster gap",
+      "action": "Create blog",
+      "cluster": "wellness-sleep"
+    },
+    {
+      "id": "opp-003",
+      "priority": "high",
+      "impact": "high",
+      "category": "competitor",
+      "title": "Toronto cannabis dispensary comparison page",
+      "context": "Competitors (Tokyo Smoke, Spiritleaf) have comparison guides ranking in top 10. Zero coverage on your site.",
+      "est_traffic_uplift": "+15 visits/mo",
+      "source": "Competitor content audit",
+      "action": "Create page",
+      "cluster": "local-seo"
+    },
+    {
+      "id": "opp-004",
+      "priority": "medium",
+      "impact": "medium",
+      "category": "onpage",
+      "title": "Optimize product page meta descriptions",
+      "context": "12 product pages have meta descriptions > 155 chars or missing entirely. Fixing could improve CTR by ~8%.",
+      "est_traffic_uplift": "+5 visits/mo",
+      "source": "Screaming Frog crawl",
+      "action": "Edit meta",
+      "cluster": "products-edibles"
+    },
+    {
+      "id": "opp-005",
+      "priority": "medium",
+      "impact": "medium",
+      "category": "content_gap",
+      "title": "Cannabis dosing guide for beginners",
+      "context": "Trending topic, ~140/mo volume. Educational spoke for 'beginners-dosing' cluster.",
+      "est_traffic_uplift": "+10 visits/mo",
+      "source": "Topic cluster gap",
+      "action": "Create blog",
+      "cluster": "beginners-dosing"
+    },
+    {
+      "id": "opp-006",
+      "priority": "medium",
+      "impact": "medium",
+      "category": "content_gap",
+      "title": "Best edibles for beginners in Canada",
+      "context": "130/mo volume. Product-focused educational spoke.",
+      "est_traffic_uplift": "+9 visits/mo",
+      "source": "Topic cluster gap",
+      "action": "Create blog",
+      "cluster": "products-edibles"
+    },
+    {
+      "id": "opp-007",
+      "priority": "medium",
+      "impact": "medium",
+      "category": "gbp_qa",
+      "title": "Answer top-asked GBP question: 'do you deliver to [neighborhood]'",
+      "context": "Question has 23 views, no answer. Answering boosts GBP ranking + adds internal linking opportunity.",
+      "est_traffic_uplift": "+3 visits/mo",
+      "source": "GBP Q&A analysis (pending quota)",
+      "action": "Answer GBP Q&A",
+      "cluster": "local-seo"
+    },
+    {
+      "id": "opp-008",
+      "priority": "medium",
+      "impact": "medium",
+      "category": "onpage",
+      "title": "Add FAQ schema to product pages",
+      "context": "No structured data on 24 product pages. FAQ schema could enable rich snippets and improve CTR.",
+      "est_traffic_uplift": "+6 visits/mo",
+      "source": "Technical SEO audit",
+      "action": "Add schema",
+      "cluster": "products-edibles"
+    },
+    {
+      "id": "opp-009",
+      "priority": "low",
+      "impact": "low",
+      "category": "content_gap",
+      "title": "Indica vs sativa vs hybrid explained",
+      "context": "200/mo volume but high competition. Pillar content for 'products-flower' cluster.",
+      "est_traffic_uplift": "+12 visits/mo",
+      "source": "Topic cluster gap",
+      "action": "Create blog",
+      "cluster": "products-flower"
+    },
+    {
+      "id": "opp-010",
+      "priority": "low",
+      "impact": "low",
+      "category": "content_gap",
+      "title": "CBD oil benefits in Canada",
+      "context": "180/mo volume. Educational spoke for 'products-cbd' cluster.",
+      "est_traffic_uplift": "+11 visits/mo",
+      "source": "Topic cluster gap",
+      "action": "Create blog",
+      "cluster": "products-cbd"
+    }
+  ]
+}
