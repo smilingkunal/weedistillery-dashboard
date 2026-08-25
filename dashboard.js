@@ -1,7 +1,7 @@
 // WeeDistillery Marketing Dashboard - LIVE DATA version
 // Reads from the helper API at https://a96e2ad4a51497.lhr.life
 
-const HELPER_URL = 'https://a96e2ad4a51497.lhr.life';
+const HELPER_URL = 'https://80b884eb0aba1f36-223-185-54-142.serveousercontent.com';
 
 let jobsData = [];
 let stats = {};
