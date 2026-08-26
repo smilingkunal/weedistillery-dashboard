@@ -1,0 +1,297 @@
+{
+  "site": "weedistillery.com",
+  "source": "Google Search Console",
+  "period": "byProperty",
+  "last_updated": "2026-08-25T07:31:38.857670Z",
+  "totals": {
+    "clicks": 4,
+    "impressions": 60,
+    "ctr": 6.67,
+    "queries_count": 25,
+    "pages_count": 0
+  },
+  "opportunities": [
+    {
+      "query": "pink chapo strain",
+      "impressions": 15,
+      "clicks": 1,
+      "position": 6.6,
+      "ctr": 6.666666666666667,
+      "cluster": "flower-hybrid-balanced",
+      "opportunity_score": 22.73,
+      "type": "quick_win"
+    },
+    {
+      "query": "weed distillery",
+      "impressions": 4,
+      "clicks": 1,
+      "position": 1.8,
+      "ctr": 25.0,
+      "cluster": null,
+      "opportunity_score": 22.22,
+      "type": "quick_win"
+    },
+    {
+      "query": "2000mg",
+      "impressions": 1,
+      "clicks": 0,
+      "position": 1,
+      "ctr": 0,
+      "cluster": null,
+      "opportunity_score": 10.0,
+      "type": "monitor"
+    },
+    {
+      "query": "top tier gummies",
+      "impressions": 8,
+      "clicks": 1,
+      "position": 9.2,
+      "ctr": 12.5,
+      "cluster": "edibles-beginners",
+      "opportunity_score": 8.7,
+      "type": "quick_win"
+    },
+    {
+      "query": "2000mg edibles canada",
+      "impressions": 3,
+      "clicks": 0,
+      "position": 5.7,
+      "ctr": 0,
+      "cluster": "edibles-beginners",
+      "opportunity_score": 5.26,
+      "type": "quick_win"
+    },
+    {
+      "query": "1000 mg edible near me",
+      "impressions": 2,
+      "clicks": 0,
+      "position": 4,
+      "ctr": 0,
+      "cluster": "edibles-beginners",
+      "opportunity_score": 5.0,
+      "type": "quick_win"
+    },
+    {
+      "query": "300 mg thc gummies",
+      "impressions": 2,
+      "clicks": 0,
+      "position": 4.5,
+      "ctr": 0,
+      "cluster": "edibles-beginners",
+      "opportunity_score": 4.44,
+      "type": "quick_win"
+    },
+    {
+      "query": "2000 mg thc edibles",
+      "impressions": 2,
+      "clicks": 0,
+      "position": 6.5,
+      "ctr": 0,
+      "cluster": "edibles-beginners",
+      "opportunity_score": 3.08,
+      "type": "quick_win"
+    },
+    {
+      "query": "2000 mg edible",
+      "impressions": 2,
+      "clicks": 0,
+      "position": 7.5,
+      "ctr": 0,
+      "cluster": "edibles-beginners",
+      "opportunity_score": 2.67,
+      "type": "quick_win"
+    },
+    {
+      "query": "2000mg edibles",
+      "impressions": 1,
+      "clicks": 0,
+      "position": 5,
+      "ctr": 0,
+      "cluster": "edibles-beginners",
+      "opportunity_score": 2.0,
+      "type": "monitor"
+    },
+    {
+      "query": "2000 mg thc gummies",
+      "impressions": 1,
+      "clicks": 0,
+      "position": 6,
+      "ctr": 0,
+      "cluster": "edibles-beginners",
+      "opportunity_score": 1.67,
+      "type": "monitor"
+    },
+    {
+      "query": "300 mg gummies",
+      "impressions": 1,
+      "clicks": 0,
+      "position": 7,
+      "ctr": 0,
+      "cluster": "edibles-beginners",
+      "opportunity_score": 1.43,
+      "type": "monitor"
+    },
+    {
+      "query": "weed delivery brampton 24 7",
+      "impressions": 2,
+      "clicks": 1,
+      "position": 14.5,
+      "ctr": 50.0,
+      "cluster": "local-delivery",
+      "opportunity_score": 1.38,
+      "type": "content_gap"
+    },
+    {
+      "query": "2500 mg edible",
+      "impressions": 1,
+      "clicks": 0,
+      "position": 8,
+      "ctr": 0,
+      "cluster": "edibles-beginners",
+      "opportunity_score": 1.25,
+      "type": "monitor"
+    },
+    {
+      "query": "2000 mg edibles",
+      "impressions": 1,
+      "clicks": 0,
+      "position": 9,
+      "ctr": 0,
+      "cluster": "edibles-beginners",
+      "opportunity_score": 1.11,
+      "type": "monitor"
+    },
+    {
+      "query": "2000 mg weed gummies",
+      "impressions": 1,
+      "clicks": 0,
+      "position": 11,
+      "ctr": 0,
+      "cluster": "edibles-beginners",
+      "opportunity_score": 0.91,
+      "type": "content_gap"
+    },
+    {
+      "query": "2000mg gummy",
+      "impressions": 1,
+      "clicks": 0,
+      "position": 11,
+      "ctr": 0,
+      "cluster": "edibles-beginners",
+      "opportunity_score": 0.91,
+      "type": "content_gap"
+    },
+    {
+      "query": "24/7 weed delivery",
+      "impressions": 1,
+      "clicks": 0,
+      "position": 11,
+      "ctr": 0,
+      "cluster": "local-delivery",
+      "opportunity_score": 0.91,
+      "type": "content_gap"
+    },
+    {
+      "query": "300 mg thc",
+      "impressions": 1,
+      "clicks": 0,
+      "position": 13,
+      "ctr": 0,
+      "cluster": null,
+      "opportunity_score": 0.77,
+      "type": "content_gap"
+    },
+    {
+      "query": "250mg edible",
+      "impressions": 3,
+      "clicks": 0,
+      "position": 49,
+      "ctr": 0,
+      "cluster": "edibles-beginners",
+      "opportunity_score": 0.61,
+      "type": "content_gap"
+    },
+    {
+      "query": "24/7 weed delivery brampton",
+      "impressions": 1,
+      "clicks": 0,
+      "position": 20,
+      "ctr": 0,
+      "cluster": "local-delivery",
+      "opportunity_score": 0.5,
+      "type": "content_gap"
+    },
+    {
+      "query": "250 mg edible",
+      "impressions": 2,
+      "clicks": 0,
+      "position": 58.5,
+      "ctr": 0,
+      "cluster": "edibles-beginners",
+      "opportunity_score": 0.34,
+      "type": "content_gap"
+    },
+    {
+      "query": "24 hour dispensary",
+      "impressions": 2,
+      "clicks": 0,
+      "position": 60,
+      "ctr": 0,
+      "cluster": "vape-pens-discretion",
+      "opportunity_score": 0.33,
+      "type": "content_gap"
+    },
+    {
+      "query": "24 7 dispensary near me",
+      "impressions": 1,
+      "clicks": 0,
+      "position": 45,
+      "ctr": 0,
+      "cluster": "vape-pens-discretion",
+      "opportunity_score": 0.22,
+      "type": "content_gap"
+    },
+    {
+      "query": "24/7 weed delivery surrey",
+      "impressions": 1,
+      "clicks": 0,
+      "position": 65,
+      "ctr": 0,
+      "cluster": "local-delivery",
+      "opportunity_score": 0.15,
+      "type": "content_gap"
+    }
+  ],
+  "cluster_summary": {
+    "flower-hybrid-balanced": {
+      "count": 1,
+      "total_impressions": 15,
+      "avg_position": 6.6,
+      "top_query": "pink chapo strain"
+    },
+    "unmapped": {
+      "count": 3,
+      "total_impressions": 6,
+      "avg_position": 5.3,
+      "top_query": "weed distillery"
+    },
+    "edibles-beginners": {
+      "count": 15,
+      "total_impressions": 31,
+      "avg_position": 13.5,
+      "top_query": "top tier gummies"
+    },
+    "local-delivery": {
+      "count": 4,
+      "total_impressions": 5,
+      "avg_position": 27.6,
+      "top_query": "weed delivery brampton 24 7"
+    },
+    "vape-pens-discretion": {
+      "count": 2,
+      "total_impressions": 3,
+      "avg_position": 52.5,
+      "top_query": "24 hour dispensary"
+    }
+  }
+}
