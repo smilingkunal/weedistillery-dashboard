@@ -2,7 +2,7 @@
 // Primary: helper API via serveo tunnel (live)
 // Fallback: GitHub Pages hosted dashboard-data.json (always available)
 
-const HELPER_URL = 'https://32f176651988c25b-223-185-54-142.serveousercontent.com';
+const HELPER_URL = 'https://847731ecdb503089-223-185-54-142.serveousercontent.com';
 const GITHUB_FALLBACK_URL = 'https://smilingkunal.github.io/weedistillery-dashboard/data/dashboard-data.json';
 
 let jobsData = [];
