@@ -6,15 +6,17 @@
 const HELPER_URL = 'https://847731ecdb503089-223-185-54-142.serveousercontent.com';
 const GITHUB_FALLBACK_URL = 'https://smilingkunal.github.io/weedistillery-dashboard/data/dashboard-data.json';
 const ARCH_URL = 'https://smilingkunal.github.io/weedistillery-dashboard/data/content-architecture.json';
+const GSC_GAP_URL = 'https://smilingkunal.github.io/weedistillery-dashboard/data/gsc-gap-data.json';
 
 let jobsData = [];
 let stats = {};
 let architecture = null;
+let gscGapData = null;
 let currentBlogFilter = 'all';
 let lastDataSource = '';
 
 async function init() {
-  await Promise.all([loadJobs(), loadArchitecture()]);
+  await Promise.all([loadJobs(), loadArchitecture(), loadGscGap()]);
   setupTabs();
   setupBlogFilters();
   renderStats();
@@ -93,6 +95,88 @@ async function loadArchitecture() {
   } catch (e) {
     console.log('GitHub arch fallback failed:', e.message);
   }
+}
+
+async function loadGscGap() {
+  try {
+    const res = await fetch(GSC_GAP_URL + '?bust=' + Date.now());
+    if (res.ok) {
+      const data = await res.json();
+      if (data.opportunities) {
+        gscGapData = data;
+        renderGscGap();
+      }
+    }
+  } catch (e) {
+    console.log('GSC gap load failed:', e.message);
+  }
+}
+
+function renderGscGap() {
+  const container = document.getElementById('gsc-gap-content');
+  if (!container || !gscGapData) return;
+  const opps = gscGapData.opportunities || [];
+  const totals = gscGapData.totals || {};
+
+  // Summary
+  let html = '<div style="margin-bottom: 20px; padding: 12px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px;">';
+  html += `<div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 12px;">
+    <div><strong>${opps.length}</strong> real queries</div>
+    <div><strong>${totals.impressions || 0}</strong> total impressions</div>
+    <div><strong>${totals.clicks || 0}</strong> total clicks</div>
+    <div><strong>${totals.ctr || 0}%</strong> avg CTR</div>
+  </div>`;
+  html += `<div style="font-size: 12px; color: var(--text-secondary);">Source: Google Search Console. Period: ${gscGapData.period || 'byProperty'}. Updated: ${gscGapData.last_updated ? new Date(gscGapData.last_updated).toLocaleDateString() : 'unknown'}.</div>`;
+  html += '</div>';
+
+  // Cluster summary
+  if (gscGapData.cluster_summary) {
+    html += '<h3 style="margin-bottom: 12px;">By Cluster</h3>';
+    html += '<div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 20px;">';
+    for (const [cluster, info] of Object.entries(gscGapData.cluster_summary)) {
+      html += `<div style="padding: 12px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px;">
+        <div style="font-weight: 600; color: var(--accent);">${cluster}</div>
+        <div style="font-size: 12px; color: var(--text-secondary);">${info.count} queries · ${info.total_impressions} imp · avg pos ${info.avg_position}</div>
+        <div style="font-size: 11px; color: var(--text-muted); margin-top: 4px;">Top: "${info.top_query}"</div>
+      </div>`;
+    }
+    html += '</div>';
+  }
+
+  // Top opportunities
+  html += '<h3 style="margin-bottom: 12px;">Top 10 Real Opportunities</h3>';
+  html += '<table class="opps-table"><thead><tr><th>#</th><th>Type</th><th>Query</th><th>Imp</th><th>Pos</th><th>Score</th><th>Cluster</th></tr></thead><tbody>';
+  for (let i = 0; i < Math.min(10, opps.length); i++) {
+    const o = opps[i];
+    const typeClass = o.type === 'quick_win' ? 'priority-high' : (o.type === 'content_gap' ? 'priority-medium' : 'priority-low');
+    html += `<tr>
+      <td>${i + 1}</td>
+      <td><span class="priority-badge ${typeClass}">${o.type.replace('_', ' ')}</span></td>
+      <td><strong>${escapeHtml(o.query)}</strong></td>
+      <td>${o.impressions}</td>
+      <td>${o.position.toFixed(1)}</td>
+      <td>${o.opportunity_score}</td>
+      <td>${escapeHtml(o.cluster || 'unmapped')}</td>
+    </tr>`;
+  }
+  html += '</tbody></table>';
+
+  // All opportunities
+  html += '<h3 style="margin: 24px 0 12px;">All Queries</h3>';
+  html += '<table class="opps-table"><thead><tr><th>Query</th><th>Imp</th><th>Clicks</th><th>Pos</th><th>CTR</th><th>Cluster</th></tr></thead><tbody>';
+  for (const o of opps) {
+    html += `<tr>
+      <td>${escapeHtml(o.query)}</td>
+      <td>${o.impressions}</td>
+      <td>${o.clicks}</td>
+      <td>${o.position.toFixed(1)}</td>
+      <td>${o.ctr.toFixed(1)}%</td>
+      <td>${escapeHtml(o.cluster || 'unmapped')}</td>
+    </tr>`;
+  }
+  html += '</tbody></table>';
+
+  container.innerHTML = html;
 }
 
 function updateSourceIndicator() {
