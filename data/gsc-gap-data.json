@@ -2,9 +2,9 @@
   "site": "weedistillery.com",
   "source": "Google Search Console (aggregated from 4 date-range exports)",
   "generated_at": "2026-08-26",
-  "total_queries": 67,
-  "total_impressions": 19192,
-  "total_clicks": 301,
+  "total_queries": 40,
+  "total_impressions": 141,
+  "total_clicks": 8,
   "intent_patterns": {
     "definitive_guide": {
       "patterns": [
@@ -177,32 +177,21 @@
   },
   "cluster_summary": {
     "unmapped": {
-      "total_impressions": 12951,
-      "query_count": 10,
+      "total_impressions": 25,
+      "query_count": 5,
       "queries": [
-        "https://weedistillery.com/",
-        "https://weedistillery.com/product/gas-gang/",
-        "https://weedistillery.com/product/pink-chapo-lso-top-shelf-5a/",
-        "https://weedistillery.com/product/top-tier-2500mg/",
         "weed distillery",
-        "https://weedistillery.com/product/death-bubba-quads-4a/",
         "pink chapo strain",
         "weedistillery",
         "2000mg",
         "300 mg thc"
       ],
-      "avg_position": 13.9
+      "avg_position": 4.7
     },
     "local-delivery": {
-      "total_impressions": 2897,
-      "query_count": 16,
+      "total_impressions": 48,
+      "query_count": 10,
       "queries": [
-        "https://weedistillery.com/locations/weed-delivery-brampton/",
-        "https://weedistillery.com/weed-delivery-locations/",
-        "https://weedistillery.com/weed-delivery-locations/weed-delivery-mississauga/",
-        "https://weedistillery.com/locations/weed-delivery-burlington/",
-        "https://weedistillery.com/best-cannabis-strains-burlington-2026/",
-        "https://weedistillery.com/brampton-cannabis-guide-first-time-buyer-2026/",
         "weed delivery brampton",
         "weed delivery brampton 24 7",
         "24/7 weed delivery",
@@ -214,22 +203,12 @@
         "24/7 weed delivery surrey",
         "24 hour delivery weed"
       ],
-      "avg_position": 29.0
+      "avg_position": 37.7
     },
     "edibles-beginners": {
-      "total_impressions": 2240,
-      "query_count": 30,
+      "total_impressions": 54,
+      "query_count": 20,
       "queries": [
-        "https://weedistillery.com/edibles/",
-        "https://weedistillery.com/edibles-delivery-milton/",
-        "https://weedistillery.com/product-category/edibles/",
-        "https://weedistillery.com/product/higher-fire-4-gram-mushroom-gummy/",
-        "https://weedistillery.com/product/300mg-thc-gummies-gta-delivery/",
-        "https://weedistillery.com/best-edibles-mississauga/",
-        "https://weedistillery.com/edibles-delivery-oakville/",
-        "https://weedistillery.com/edibles-delivery-halton-hills/",
-        "https://weedistillery.com/edibles-near-me-in-halton-region/",
-        "https://weedistillery.com/edibles-delivery-burlington/",
         "top tier gummies",
         "2000mg edibles",
         "2000mg edibles canada",
@@ -251,640 +230,29 @@
         "250 mg edible",
         "20mg edible"
       ],
-      "avg_position": 16.1
+      "avg_position": 15.9
     },
     "vape-pens-discretion": {
-      "total_impressions": 715,
-      "query_count": 7,
+      "total_impressions": 13,
+      "query_count": 4,
       "queries": [
-        "https://weedistillery.com/product/dvp-premium-disposable-vape-pen-1ml/",
-        "https://weedistillery.com/mississauga-cannabis-vapes-guide-2026/",
-        "https://weedistillery.com/product-category/vape-pens/",
         "24 hour dispensary brampton",
         "24 hour dispensary",
         "24 7 dispensary near me",
         "24 hour dispensary mississauga"
       ],
-      "avg_position": 35.6
+      "avg_position": 50.7
     },
     "ounce-special-value": {
-      "total_impressions": 304,
-      "query_count": 2,
+      "total_impressions": 1,
+      "query_count": 1,
       "queries": [
-        "https://weedistillery.com/ounce-special/",
         "100 dollar ounces"
       ],
-      "avg_position": 15.2
-    },
-    "flower-sativa-energy": {
-      "total_impressions": 85,
-      "query_count": 2,
-      "queries": [
-        "https://weedistillery.com/product/sweet-island-skunk-aa-sativa/",
-        "https://weedistillery.com/best-sativa-strains-peel-region/"
-      ],
-      "avg_position": 12.6
+      "avg_position": 16.0
     }
   },
   "opportunities": [
-    {
-      "query": "https://weedistillery.com/",
-      "clicks": 76,
-      "impressions": 11226,
-      "ctr": 0.68,
-      "position": 51.3,
-      "data_points": 2,
-      "cluster": "unmapped",
-      "intent": "informational",
-      "word_count_range": [
-        1500,
-        2200
-      ],
-      "target_word_count": 1800,
-      "sections_required": [
-        "intro",
-        "main_explanation",
-        "considerations",
-        "faq"
-      ],
-      "intent_description": "Informational \u2014 explain a concept, shorter than definitive guide",
-      "opportunity_score": 2188.3,
-      "opp_type": "content_gap"
-    },
-    {
-      "query": "https://weedistillery.com/product/gas-gang/",
-      "clicks": 8,
-      "impressions": 1004,
-      "ctr": 0.8,
-      "position": 10.2,
-      "data_points": 2,
-      "cluster": "unmapped",
-      "intent": "informational",
-      "word_count_range": [
-        1500,
-        2200
-      ],
-      "target_word_count": 1800,
-      "sections_required": [
-        "intro",
-        "main_explanation",
-        "considerations",
-        "faq"
-      ],
-      "intent_description": "Informational \u2014 explain a concept, shorter than definitive guide",
-      "opportunity_score": 984.31,
-      "opp_type": "content_gap"
-    },
-    {
-      "query": "https://weedistillery.com/locations/weed-delivery-brampton/",
-      "clicks": 63,
-      "impressions": 1430,
-      "ctr": 4.41,
-      "position": 20.1,
-      "data_points": 2,
-      "cluster": "local-delivery",
-      "intent": "local_delivery",
-      "word_count_range": [
-        1500,
-        2200
-      ],
-      "target_word_count": 1800,
-      "sections_required": [
-        "intro",
-        "how_it_works",
-        "service_areas",
-        "pricing",
-        "responsible_use",
-        "faq"
-      ],
-      "intent_description": "Local delivery / service area",
-      "opportunity_score": 711.44,
-      "opp_type": "content_gap"
-    },
-    {
-      "query": "https://weedistillery.com/edibles/",
-      "clicks": 12,
-      "impressions": 802,
-      "ctr": 1.5,
-      "position": 14.2,
-      "data_points": 2,
-      "cluster": "edibles-beginners",
-      "intent": "informational",
-      "word_count_range": [
-        1500,
-        2200
-      ],
-      "target_word_count": 1800,
-      "sections_required": [
-        "intro",
-        "main_explanation",
-        "considerations",
-        "faq"
-      ],
-      "intent_description": "Informational \u2014 explain a concept, shorter than definitive guide",
-      "opportunity_score": 564.79,
-      "opp_type": "content_gap"
-    },
-    {
-      "query": "https://weedistillery.com/weed-delivery-locations/",
-      "clicks": 5,
-      "impressions": 418,
-      "ctr": 1.2,
-      "position": 9.5,
-      "data_points": 2,
-      "cluster": "local-delivery",
-      "intent": "local_delivery",
-      "word_count_range": [
-        1500,
-        2200
-      ],
-      "target_word_count": 1800,
-      "sections_required": [
-        "intro",
-        "how_it_works",
-        "service_areas",
-        "pricing",
-        "responsible_use",
-        "faq"
-      ],
-      "intent_description": "Local delivery / service area",
-      "opportunity_score": 440.0,
-      "opp_type": "quick_win"
-    },
-    {
-      "query": "https://weedistillery.com/product/dvp-premium-disposable-vape-pen-1ml/",
-      "clicks": 9,
-      "impressions": 241,
-      "ctr": 3.73,
-      "position": 5.5,
-      "data_points": 2,
-      "cluster": "vape-pens-discretion",
-      "intent": "informational",
-      "word_count_range": [
-        1500,
-        2200
-      ],
-      "target_word_count": 1800,
-      "sections_required": [
-        "intro",
-        "main_explanation",
-        "considerations",
-        "faq"
-      ],
-      "intent_description": "Informational \u2014 explain a concept, shorter than definitive guide",
-      "opportunity_score": 438.18,
-      "opp_type": "quick_win"
-    },
-    {
-      "query": "https://weedistillery.com/product/pink-chapo-lso-top-shelf-5a/",
-      "clicks": 13,
-      "impressions": 279,
-      "ctr": 4.66,
-      "position": 7.4,
-      "data_points": 2,
-      "cluster": "unmapped",
-      "intent": "informational",
-      "word_count_range": [
-        1500,
-        2200
-      ],
-      "target_word_count": 1800,
-      "sections_required": [
-        "intro",
-        "main_explanation",
-        "considerations",
-        "faq"
-      ],
-      "intent_description": "Informational \u2014 explain a concept, shorter than definitive guide",
-      "opportunity_score": 377.03,
-      "opp_type": "quick_win"
-    },
-    {
-      "query": "https://weedistillery.com/edibles-delivery-milton/",
-      "clicks": 5,
-      "impressions": 292,
-      "ctr": 1.71,
-      "position": 10.4,
-      "data_points": 2,
-      "cluster": "edibles-beginners",
-      "intent": "local_delivery",
-      "word_count_range": [
-        1500,
-        2200
-      ],
-      "target_word_count": 1800,
-      "sections_required": [
-        "intro",
-        "how_it_works",
-        "service_areas",
-        "pricing",
-        "responsible_use",
-        "faq"
-      ],
-      "intent_description": "Local delivery / service area",
-      "opportunity_score": 280.77,
-      "opp_type": "content_gap"
-    },
-    {
-      "query": "https://weedistillery.com/weed-delivery-locations/weed-delivery-mississauga/",
-      "clicks": 5,
-      "impressions": 655,
-      "ctr": 0.76,
-      "position": 23.9,
-      "data_points": 2,
-      "cluster": "local-delivery",
-      "intent": "local_delivery",
-      "word_count_range": [
-        1500,
-        2200
-      ],
-      "target_word_count": 1800,
-      "sections_required": [
-        "intro",
-        "how_it_works",
-        "service_areas",
-        "pricing",
-        "responsible_use",
-        "faq"
-      ],
-      "intent_description": "Local delivery / service area",
-      "opportunity_score": 274.06,
-      "opp_type": "content_gap"
-    },
-    {
-      "query": "https://weedistillery.com/mississauga-cannabis-vapes-guide-2026/",
-      "clicks": 5,
-      "impressions": 113,
-      "ctr": 4.42,
-      "position": 4.8,
-      "data_points": 2,
-      "cluster": "vape-pens-discretion",
-      "intent": "definitive_guide",
-      "word_count_range": [
-        2500,
-        3500
-      ],
-      "target_word_count": 3000,
-      "sections_required": [
-        "intro",
-        "what_is",
-        "benefits",
-        "top_picks",
-        "how_to_use",
-        "faq",
-        "related"
-      ],
-      "intent_description": "Definitive guide \u2014 comprehensive, long-form, education-focused",
-      "opportunity_score": 235.42,
-      "opp_type": "quick_win"
-    },
-    {
-      "query": "https://weedistillery.com/product-category/edibles/",
-      "clicks": 9,
-      "impressions": 211,
-      "ctr": 4.27,
-      "position": 9.7,
-      "data_points": 2,
-      "cluster": "edibles-beginners",
-      "intent": "informational",
-      "word_count_range": [
-        1500,
-        2200
-      ],
-      "target_word_count": 1800,
-      "sections_required": [
-        "intro",
-        "main_explanation",
-        "considerations",
-        "faq"
-      ],
-      "intent_description": "Informational \u2014 explain a concept, shorter than definitive guide",
-      "opportunity_score": 217.53,
-      "opp_type": "quick_win"
-    },
-    {
-      "query": "https://weedistillery.com/product/higher-fire-4-gram-mushroom-gummy/",
-      "clicks": 8,
-      "impressions": 123,
-      "ctr": 6.5,
-      "position": 5.8,
-      "data_points": 2,
-      "cluster": "edibles-beginners",
-      "intent": "informational",
-      "word_count_range": [
-        1500,
-        2200
-      ],
-      "target_word_count": 1800,
-      "sections_required": [
-        "intro",
-        "main_explanation",
-        "considerations",
-        "faq"
-      ],
-      "intent_description": "Informational \u2014 explain a concept, shorter than definitive guide",
-      "opportunity_score": 212.07,
-      "opp_type": "quick_win"
-    },
-    {
-      "query": "https://weedistillery.com/ounce-special/",
-      "clicks": 6,
-      "impressions": 303,
-      "ctr": 1.98,
-      "position": 14.4,
-      "data_points": 2,
-      "cluster": "ounce-special-value",
-      "intent": "informational",
-      "word_count_range": [
-        1500,
-        2200
-      ],
-      "target_word_count": 1800,
-      "sections_required": [
-        "intro",
-        "main_explanation",
-        "considerations",
-        "faq"
-      ],
-      "intent_description": "Informational \u2014 explain a concept, shorter than definitive guide",
-      "opportunity_score": 210.42,
-      "opp_type": "content_gap"
-    },
-    {
-      "query": "https://weedistillery.com/product/top-tier-2500mg/",
-      "clicks": 12,
-      "impressions": 357,
-      "ctr": 3.36,
-      "position": 25.5,
-      "data_points": 2,
-      "cluster": "unmapped",
-      "intent": "informational",
-      "word_count_range": [
-        1500,
-        2200
-      ],
-      "target_word_count": 1800,
-      "sections_required": [
-        "intro",
-        "main_explanation",
-        "considerations",
-        "faq"
-      ],
-      "intent_description": "Informational \u2014 explain a concept, shorter than definitive guide",
-      "opportunity_score": 140.0,
-      "opp_type": "content_gap"
-    },
-    {
-      "query": "https://weedistillery.com/locations/weed-delivery-burlington/",
-      "clicks": 21,
-      "impressions": 199,
-      "ctr": 10.55,
-      "position": 17.0,
-      "data_points": 2,
-      "cluster": "local-delivery",
-      "intent": "local_delivery",
-      "word_count_range": [
-        1500,
-        2200
-      ],
-      "target_word_count": 1800,
-      "sections_required": [
-        "intro",
-        "how_it_works",
-        "service_areas",
-        "pricing",
-        "responsible_use",
-        "faq"
-      ],
-      "intent_description": "Local delivery / service area",
-      "opportunity_score": 117.06,
-      "opp_type": "content_gap"
-    },
-    {
-      "query": "https://weedistillery.com/best-cannabis-strains-burlington-2026/",
-      "clicks": 2,
-      "impressions": 80,
-      "ctr": 2.5,
-      "position": 7.8,
-      "data_points": 2,
-      "cluster": "local-delivery",
-      "intent": "informational",
-      "word_count_range": [
-        1500,
-        2200
-      ],
-      "target_word_count": 1800,
-      "sections_required": [
-        "intro",
-        "main_explanation",
-        "considerations",
-        "faq"
-      ],
-      "intent_description": "Informational \u2014 explain a concept, shorter than definitive guide",
-      "opportunity_score": 102.56,
-      "opp_type": "quick_win"
-    },
-    {
-      "query": "https://weedistillery.com/product/300mg-thc-gummies-gta-delivery/",
-      "clicks": 5,
-      "impressions": 246,
-      "ctr": 2.03,
-      "position": 24.9,
-      "data_points": 2,
-      "cluster": "edibles-beginners",
-      "intent": "local_delivery",
-      "word_count_range": [
-        1500,
-        2200
-      ],
-      "target_word_count": 1800,
-      "sections_required": [
-        "intro",
-        "how_it_works",
-        "service_areas",
-        "pricing",
-        "responsible_use",
-        "faq"
-      ],
-      "intent_description": "Local delivery / service area",
-      "opportunity_score": 98.8,
-      "opp_type": "content_gap"
-    },
-    {
-      "query": "https://weedistillery.com/product-category/vape-pens/",
-      "clicks": 2,
-      "impressions": 348,
-      "ctr": 0.57,
-      "position": 36.0,
-      "data_points": 1,
-      "cluster": "vape-pens-discretion",
-      "intent": "informational",
-      "word_count_range": [
-        1500,
-        2200
-      ],
-      "target_word_count": 1800,
-      "sections_required": [
-        "intro",
-        "main_explanation",
-        "considerations",
-        "faq"
-      ],
-      "intent_description": "Informational \u2014 explain a concept, shorter than definitive guide",
-      "opportunity_score": 96.67,
-      "opp_type": "content_gap"
-    },
-    {
-      "query": "https://weedistillery.com/brampton-cannabis-guide-first-time-buyer-2026/",
-      "clicks": 2,
-      "impressions": 67,
-      "ctr": 2.99,
-      "position": 8.7,
-      "data_points": 2,
-      "cluster": "local-delivery",
-      "intent": "definitive_guide",
-      "word_count_range": [
-        2500,
-        3500
-      ],
-      "target_word_count": 3000,
-      "sections_required": [
-        "intro",
-        "what_is",
-        "benefits",
-        "top_picks",
-        "how_to_use",
-        "faq",
-        "related"
-      ],
-      "intent_description": "Definitive guide \u2014 comprehensive, long-form, education-focused",
-      "opportunity_score": 77.01,
-      "opp_type": "quick_win"
-    },
-    {
-      "query": "https://weedistillery.com/best-edibles-mississauga/",
-      "clicks": 1,
-      "impressions": 114,
-      "ctr": 0.88,
-      "position": 17.0,
-      "data_points": 1,
-      "cluster": "edibles-beginners",
-      "intent": "informational",
-      "word_count_range": [
-        1500,
-        2200
-      ],
-      "target_word_count": 1800,
-      "sections_required": [
-        "intro",
-        "main_explanation",
-        "considerations",
-        "faq"
-      ],
-      "intent_description": "Informational \u2014 explain a concept, shorter than definitive guide",
-      "opportunity_score": 67.06,
-      "opp_type": "content_gap"
-    },
-    {
-      "query": "https://weedistillery.com/edibles-delivery-oakville/",
-      "clicks": 1,
-      "impressions": 157,
-      "ctr": 0.64,
-      "position": 24.4,
-      "data_points": 1,
-      "cluster": "edibles-beginners",
-      "intent": "local_delivery",
-      "word_count_range": [
-        1500,
-        2200
-      ],
-      "target_word_count": 1800,
-      "sections_required": [
-        "intro",
-        "how_it_works",
-        "service_areas",
-        "pricing",
-        "responsible_use",
-        "faq"
-      ],
-      "intent_description": "Local delivery / service area",
-      "opportunity_score": 64.34,
-      "opp_type": "content_gap"
-    },
-    {
-      "query": "https://weedistillery.com/edibles-delivery-halton-hills/",
-      "clicks": 3,
-      "impressions": 44,
-      "ctr": 6.82,
-      "position": 10.2,
-      "data_points": 2,
-      "cluster": "edibles-beginners",
-      "intent": "local_delivery",
-      "word_count_range": [
-        1500,
-        2200
-      ],
-      "target_word_count": 1800,
-      "sections_required": [
-        "intro",
-        "how_it_works",
-        "service_areas",
-        "pricing",
-        "responsible_use",
-        "faq"
-      ],
-      "intent_description": "Local delivery / service area",
-      "opportunity_score": 43.14,
-      "opp_type": "content_gap"
-    },
-    {
-      "query": "https://weedistillery.com/edibles-near-me-in-halton-region/",
-      "clicks": 1,
-      "impressions": 156,
-      "ctr": 0.64,
-      "position": 36.2,
-      "data_points": 1,
-      "cluster": "edibles-beginners",
-      "intent": "informational",
-      "word_count_range": [
-        1500,
-        2200
-      ],
-      "target_word_count": 1800,
-      "sections_required": [
-        "intro",
-        "main_explanation",
-        "considerations",
-        "faq"
-      ],
-      "intent_description": "Informational \u2014 explain a concept, shorter than definitive guide",
-      "opportunity_score": 43.09,
-      "opp_type": "content_gap"
-    },
-    {
-      "query": "https://weedistillery.com/product/sweet-island-skunk-aa-sativa/",
-      "clicks": 10,
-      "impressions": 53,
-      "ctr": 18.87,
-      "position": 14.5,
-      "data_points": 2,
-      "cluster": "flower-sativa-energy",
-      "intent": "informational",
-      "word_count_range": [
-        1500,
-        2200
-      ],
-      "target_word_count": 1800,
-      "sections_required": [
-        "intro",
-        "main_explanation",
-        "considerations",
-        "faq"
-      ],
-      "intent_description": "Informational \u2014 explain a concept, shorter than definitive guide",
-      "opportunity_score": 36.55,
-      "opp_type": "content_gap"
-    },
     {
       "query": "weed distillery",
       "clicks": 2,
@@ -908,80 +276,6 @@
       "intent_description": "Informational \u2014 explain a concept, shorter than definitive guide",
       "opportunity_score": 35.71,
       "opp_type": "quick_win"
-    },
-    {
-      "query": "https://weedistillery.com/edibles-delivery-burlington/",
-      "clicks": 2,
-      "impressions": 41,
-      "ctr": 4.88,
-      "position": 12.4,
-      "data_points": 2,
-      "cluster": "edibles-beginners",
-      "intent": "local_delivery",
-      "word_count_range": [
-        1500,
-        2200
-      ],
-      "target_word_count": 1800,
-      "sections_required": [
-        "intro",
-        "how_it_works",
-        "service_areas",
-        "pricing",
-        "responsible_use",
-        "faq"
-      ],
-      "intent_description": "Local delivery / service area",
-      "opportunity_score": 33.06,
-      "opp_type": "content_gap"
-    },
-    {
-      "query": "https://weedistillery.com/best-sativa-strains-peel-region/",
-      "clicks": 2,
-      "impressions": 32,
-      "ctr": 6.25,
-      "position": 10.6,
-      "data_points": 2,
-      "cluster": "flower-sativa-energy",
-      "intent": "informational",
-      "word_count_range": [
-        1500,
-        2200
-      ],
-      "target_word_count": 1800,
-      "sections_required": [
-        "intro",
-        "main_explanation",
-        "considerations",
-        "faq"
-      ],
-      "intent_description": "Informational \u2014 explain a concept, shorter than definitive guide",
-      "opportunity_score": 30.19,
-      "opp_type": "content_gap"
-    },
-    {
-      "query": "https://weedistillery.com/product/death-bubba-quads-4a/",
-      "clicks": 5,
-      "impressions": 60,
-      "ctr": 8.33,
-      "position": 20.8,
-      "data_points": 2,
-      "cluster": "unmapped",
-      "intent": "informational",
-      "word_count_range": [
-        1500,
-        2200
-      ],
-      "target_word_count": 1800,
-      "sections_required": [
-        "intro",
-        "main_explanation",
-        "considerations",
-        "faq"
-      ],
-      "intent_description": "Informational \u2014 explain a concept, shorter than definitive guide",
-      "opportunity_score": 28.85,
-      "opp_type": "content_gap"
     },
     {
       "query": "pink chapo strain",
@@ -1964,11 +1258,11 @@
   ],
   "top_10_by_opportunity": [
     {
-      "query": "https://weedistillery.com/",
-      "clicks": 76,
-      "impressions": 11226,
-      "ctr": 0.68,
-      "position": 51.3,
+      "query": "weed distillery",
+      "clicks": 2,
+      "impressions": 5,
+      "ctr": 40.0,
+      "position": 1.4,
       "data_points": 2,
       "cluster": "unmapped",
       "intent": "informational",
@@ -1984,294 +1278,241 @@
         "faq"
       ],
       "intent_description": "Informational \u2014 explain a concept, shorter than definitive guide",
-      "opportunity_score": 2188.3,
-      "opp_type": "content_gap"
+      "opportunity_score": 35.71,
+      "opp_type": "quick_win"
     },
     {
-      "query": "https://weedistillery.com/product/gas-gang/",
-      "clicks": 8,
-      "impressions": 1004,
-      "ctr": 0.8,
-      "position": 10.2,
-      "data_points": 2,
+      "query": "pink chapo strain",
+      "clicks": 1,
+      "impressions": 15,
+      "ctr": 6.67,
+      "position": 6.6,
+      "data_points": 1,
       "cluster": "unmapped",
-      "intent": "informational",
+      "intent": "product_specific",
       "word_count_range": [
-        1500,
-        2200
+        1800,
+        2400
       ],
-      "target_word_count": 1800,
+      "target_word_count": 2100,
       "sections_required": [
         "intro",
-        "main_explanation",
-        "considerations",
-        "faq"
-      ],
-      "intent_description": "Informational \u2014 explain a concept, shorter than definitive guide",
-      "opportunity_score": 984.31,
-      "opp_type": "content_gap"
-    },
-    {
-      "query": "https://weedistillery.com/locations/weed-delivery-brampton/",
-      "clicks": 63,
-      "impressions": 1430,
-      "ctr": 4.41,
-      "position": 20.1,
-      "data_points": 2,
-      "cluster": "local-delivery",
-      "intent": "local_delivery",
-      "word_count_range": [
-        1500,
-        2200
-      ],
-      "target_word_count": 1800,
-      "sections_required": [
-        "intro",
-        "how_it_works",
-        "service_areas",
-        "pricing",
-        "responsible_use",
-        "faq"
-      ],
-      "intent_description": "Local delivery / service area",
-      "opportunity_score": 711.44,
-      "opp_type": "content_gap"
-    },
-    {
-      "query": "https://weedistillery.com/edibles/",
-      "clicks": 12,
-      "impressions": 802,
-      "ctr": 1.5,
-      "position": 14.2,
-      "data_points": 2,
-      "cluster": "edibles-beginners",
-      "intent": "informational",
-      "word_count_range": [
-        1500,
-        2200
-      ],
-      "target_word_count": 1800,
-      "sections_required": [
-        "intro",
-        "main_explanation",
-        "considerations",
-        "faq"
-      ],
-      "intent_description": "Informational \u2014 explain a concept, shorter than definitive guide",
-      "opportunity_score": 564.79,
-      "opp_type": "content_gap"
-    },
-    {
-      "query": "https://weedistillery.com/weed-delivery-locations/",
-      "clicks": 5,
-      "impressions": 418,
-      "ctr": 1.2,
-      "position": 9.5,
-      "data_points": 2,
-      "cluster": "local-delivery",
-      "intent": "local_delivery",
-      "word_count_range": [
-        1500,
-        2200
-      ],
-      "target_word_count": 1800,
-      "sections_required": [
-        "intro",
-        "how_it_works",
-        "service_areas",
-        "pricing",
-        "responsible_use",
-        "faq"
-      ],
-      "intent_description": "Local delivery / service area",
-      "opportunity_score": 440.0,
-      "opp_type": "quick_win"
-    },
-    {
-      "query": "https://weedistillery.com/product/dvp-premium-disposable-vape-pen-1ml/",
-      "clicks": 9,
-      "impressions": 241,
-      "ctr": 3.73,
-      "position": 5.5,
-      "data_points": 2,
-      "cluster": "vape-pens-discretion",
-      "intent": "informational",
-      "word_count_range": [
-        1500,
-        2200
-      ],
-      "target_word_count": 1800,
-      "sections_required": [
-        "intro",
-        "main_explanation",
-        "considerations",
-        "faq"
-      ],
-      "intent_description": "Informational \u2014 explain a concept, shorter than definitive guide",
-      "opportunity_score": 438.18,
-      "opp_type": "quick_win"
-    },
-    {
-      "query": "https://weedistillery.com/product/pink-chapo-lso-top-shelf-5a/",
-      "clicks": 13,
-      "impressions": 279,
-      "ctr": 4.66,
-      "position": 7.4,
-      "data_points": 2,
-      "cluster": "unmapped",
-      "intent": "informational",
-      "word_count_range": [
-        1500,
-        2200
-      ],
-      "target_word_count": 1800,
-      "sections_required": [
-        "intro",
-        "main_explanation",
-        "considerations",
-        "faq"
-      ],
-      "intent_description": "Informational \u2014 explain a concept, shorter than definitive guide",
-      "opportunity_score": 377.03,
-      "opp_type": "quick_win"
-    },
-    {
-      "query": "https://weedistillery.com/edibles-delivery-milton/",
-      "clicks": 5,
-      "impressions": 292,
-      "ctr": 1.71,
-      "position": 10.4,
-      "data_points": 2,
-      "cluster": "edibles-beginners",
-      "intent": "local_delivery",
-      "word_count_range": [
-        1500,
-        2200
-      ],
-      "target_word_count": 1800,
-      "sections_required": [
-        "intro",
-        "how_it_works",
-        "service_areas",
-        "pricing",
-        "responsible_use",
-        "faq"
-      ],
-      "intent_description": "Local delivery / service area",
-      "opportunity_score": 280.77,
-      "opp_type": "content_gap"
-    },
-    {
-      "query": "https://weedistillery.com/weed-delivery-locations/weed-delivery-mississauga/",
-      "clicks": 5,
-      "impressions": 655,
-      "ctr": 0.76,
-      "position": 23.9,
-      "data_points": 2,
-      "cluster": "local-delivery",
-      "intent": "local_delivery",
-      "word_count_range": [
-        1500,
-        2200
-      ],
-      "target_word_count": 1800,
-      "sections_required": [
-        "intro",
-        "how_it_works",
-        "service_areas",
-        "pricing",
-        "responsible_use",
-        "faq"
-      ],
-      "intent_description": "Local delivery / service area",
-      "opportunity_score": 274.06,
-      "opp_type": "content_gap"
-    },
-    {
-      "query": "https://weedistillery.com/mississauga-cannabis-vapes-guide-2026/",
-      "clicks": 5,
-      "impressions": 113,
-      "ctr": 4.42,
-      "position": 4.8,
-      "data_points": 2,
-      "cluster": "vape-pens-discretion",
-      "intent": "definitive_guide",
-      "word_count_range": [
-        2500,
-        3500
-      ],
-      "target_word_count": 3000,
-      "sections_required": [
-        "intro",
-        "what_is",
-        "benefits",
-        "top_picks",
+        "about_strain",
+        "effects_profile",
+        "product_callout",
         "how_to_use",
-        "faq",
-        "related"
+        "faq"
       ],
-      "intent_description": "Definitive guide \u2014 comprehensive, long-form, education-focused",
-      "opportunity_score": 235.42,
+      "intent_description": "Product or strain-specific",
+      "opportunity_score": 22.73,
+      "opp_type": "quick_win"
+    },
+    {
+      "query": "weedistillery",
+      "clicks": 1,
+      "impressions": 3,
+      "ctr": 33.33,
+      "position": 1.7,
+      "data_points": 1,
+      "cluster": "unmapped",
+      "intent": "informational",
+      "word_count_range": [
+        1500,
+        2200
+      ],
+      "target_word_count": 1800,
+      "sections_required": [
+        "intro",
+        "main_explanation",
+        "considerations",
+        "faq"
+      ],
+      "intent_description": "Informational \u2014 explain a concept, shorter than definitive guide",
+      "opportunity_score": 17.65,
+      "opp_type": "quick_win"
+    },
+    {
+      "query": "weed delivery brampton",
+      "clicks": 1,
+      "impressions": 36,
+      "ctr": 2.78,
+      "position": 24.8,
+      "data_points": 1,
+      "cluster": "local-delivery",
+      "intent": "local_delivery",
+      "word_count_range": [
+        1500,
+        2200
+      ],
+      "target_word_count": 1800,
+      "sections_required": [
+        "intro",
+        "how_it_works",
+        "service_areas",
+        "pricing",
+        "responsible_use",
+        "faq"
+      ],
+      "intent_description": "Local delivery / service area",
+      "opportunity_score": 14.52,
+      "opp_type": "content_gap"
+    },
+    {
+      "query": "2000mg",
+      "clicks": 0,
+      "impressions": 1,
+      "ctr": 0.0,
+      "position": 1.0,
+      "data_points": 1,
+      "cluster": "unmapped",
+      "intent": "quick_answer",
+      "word_count_range": [
+        1200,
+        1600
+      ],
+      "target_word_count": 1400,
+      "sections_required": [
+        "intro",
+        "direct_answer",
+        "considerations",
+        "cta",
+        "faq"
+      ],
+      "intent_description": "Quick answer \u2014 short, direct, addresses specific query",
+      "opportunity_score": 10.0,
+      "opp_type": "monitor"
+    },
+    {
+      "query": "top tier gummies",
+      "clicks": 1,
+      "impressions": 8,
+      "ctr": 12.5,
+      "position": 9.2,
+      "data_points": 1,
+      "cluster": "edibles-beginners",
+      "intent": "informational",
+      "word_count_range": [
+        1500,
+        2200
+      ],
+      "target_word_count": 1800,
+      "sections_required": [
+        "intro",
+        "main_explanation",
+        "considerations",
+        "faq"
+      ],
+      "intent_description": "Informational \u2014 explain a concept, shorter than definitive guide",
+      "opportunity_score": 8.7,
+      "opp_type": "quick_win"
+    },
+    {
+      "query": "2000mg edibles",
+      "clicks": 0,
+      "impressions": 4,
+      "ctr": 0.0,
+      "position": 5.0,
+      "data_points": 2,
+      "cluster": "edibles-beginners",
+      "intent": "quick_answer",
+      "word_count_range": [
+        1200,
+        1600
+      ],
+      "target_word_count": 1400,
+      "sections_required": [
+        "intro",
+        "direct_answer",
+        "considerations",
+        "cta",
+        "faq"
+      ],
+      "intent_description": "Quick answer \u2014 short, direct, addresses specific query",
+      "opportunity_score": 8.0,
+      "opp_type": "quick_win"
+    },
+    {
+      "query": "2000mg edibles canada",
+      "clicks": 0,
+      "impressions": 5,
+      "ctr": 0.0,
+      "position": 6.3,
+      "data_points": 2,
+      "cluster": "edibles-beginners",
+      "intent": "quick_answer",
+      "word_count_range": [
+        1200,
+        1600
+      ],
+      "target_word_count": 1400,
+      "sections_required": [
+        "intro",
+        "direct_answer",
+        "considerations",
+        "cta",
+        "faq"
+      ],
+      "intent_description": "Quick answer \u2014 short, direct, addresses specific query",
+      "opportunity_score": 7.94,
+      "opp_type": "quick_win"
+    },
+    {
+      "query": "2000 mg edibles",
+      "clicks": 0,
+      "impressions": 5,
+      "ctr": 0.0,
+      "position": 8.1,
+      "data_points": 2,
+      "cluster": "edibles-beginners",
+      "intent": "quick_answer",
+      "word_count_range": [
+        1200,
+        1600
+      ],
+      "target_word_count": 1400,
+      "sections_required": [
+        "intro",
+        "direct_answer",
+        "considerations",
+        "cta",
+        "faq"
+      ],
+      "intent_description": "Quick answer \u2014 short, direct, addresses specific query",
+      "opportunity_score": 6.17,
+      "opp_type": "quick_win"
+    },
+    {
+      "query": "top tier edibles",
+      "clicks": 1,
+      "impressions": 4,
+      "ctr": 25.0,
+      "position": 7.0,
+      "data_points": 1,
+      "cluster": "edibles-beginners",
+      "intent": "informational",
+      "word_count_range": [
+        1500,
+        2200
+      ],
+      "target_word_count": 1800,
+      "sections_required": [
+        "intro",
+        "main_explanation",
+        "considerations",
+        "faq"
+      ],
+      "intent_description": "Informational \u2014 explain a concept, shorter than definitive guide",
+      "opportunity_score": 5.71,
       "opp_type": "quick_win"
     }
   ],
   "top_3_quick_wins": [
     {
-      "query": "https://weedistillery.com/weed-delivery-locations/",
-      "clicks": 5,
-      "impressions": 418,
-      "ctr": 1.2,
-      "position": 9.5,
-      "data_points": 2,
-      "cluster": "local-delivery",
-      "intent": "local_delivery",
-      "word_count_range": [
-        1500,
-        2200
-      ],
-      "target_word_count": 1800,
-      "sections_required": [
-        "intro",
-        "how_it_works",
-        "service_areas",
-        "pricing",
-        "responsible_use",
-        "faq"
-      ],
-      "intent_description": "Local delivery / service area",
-      "opportunity_score": 440.0,
-      "opp_type": "quick_win"
-    },
-    {
-      "query": "https://weedistillery.com/product/dvp-premium-disposable-vape-pen-1ml/",
-      "clicks": 9,
-      "impressions": 241,
-      "ctr": 3.73,
-      "position": 5.5,
-      "data_points": 2,
-      "cluster": "vape-pens-discretion",
-      "intent": "informational",
-      "word_count_range": [
-        1500,
-        2200
-      ],
-      "target_word_count": 1800,
-      "sections_required": [
-        "intro",
-        "main_explanation",
-        "considerations",
-        "faq"
-      ],
-      "intent_description": "Informational \u2014 explain a concept, shorter than definitive guide",
-      "opportunity_score": 438.18,
-      "opp_type": "quick_win"
-    },
-    {
-      "query": "https://weedistillery.com/product/pink-chapo-lso-top-shelf-5a/",
-      "clicks": 13,
-      "impressions": 279,
-      "ctr": 4.66,
-      "position": 7.4,
+      "query": "weed distillery",
+      "clicks": 2,
+      "impressions": 5,
+      "ctr": 40.0,
+      "position": 1.4,
       "data_points": 2,
       "cluster": "unmapped",
       "intent": "informational",
@@ -2287,66 +1528,68 @@
         "faq"
       ],
       "intent_description": "Informational \u2014 explain a concept, shorter than definitive guide",
-      "opportunity_score": 377.03,
+      "opportunity_score": 35.71,
+      "opp_type": "quick_win"
+    },
+    {
+      "query": "pink chapo strain",
+      "clicks": 1,
+      "impressions": 15,
+      "ctr": 6.67,
+      "position": 6.6,
+      "data_points": 1,
+      "cluster": "unmapped",
+      "intent": "product_specific",
+      "word_count_range": [
+        1800,
+        2400
+      ],
+      "target_word_count": 2100,
+      "sections_required": [
+        "intro",
+        "about_strain",
+        "effects_profile",
+        "product_callout",
+        "how_to_use",
+        "faq"
+      ],
+      "intent_description": "Product or strain-specific",
+      "opportunity_score": 22.73,
+      "opp_type": "quick_win"
+    },
+    {
+      "query": "weedistillery",
+      "clicks": 1,
+      "impressions": 3,
+      "ctr": 33.33,
+      "position": 1.7,
+      "data_points": 1,
+      "cluster": "unmapped",
+      "intent": "informational",
+      "word_count_range": [
+        1500,
+        2200
+      ],
+      "target_word_count": 1800,
+      "sections_required": [
+        "intro",
+        "main_explanation",
+        "considerations",
+        "faq"
+      ],
+      "intent_description": "Informational \u2014 explain a concept, shorter than definitive guide",
+      "opportunity_score": 17.65,
       "opp_type": "quick_win"
     }
   ],
   "top_3_content_gaps": [
     {
-      "query": "https://weedistillery.com/",
-      "clicks": 76,
-      "impressions": 11226,
-      "ctr": 0.68,
-      "position": 51.3,
-      "data_points": 2,
-      "cluster": "unmapped",
-      "intent": "informational",
-      "word_count_range": [
-        1500,
-        2200
-      ],
-      "target_word_count": 1800,
-      "sections_required": [
-        "intro",
-        "main_explanation",
-        "considerations",
-        "faq"
-      ],
-      "intent_description": "Informational \u2014 explain a concept, shorter than definitive guide",
-      "opportunity_score": 2188.3,
-      "opp_type": "content_gap"
-    },
-    {
-      "query": "https://weedistillery.com/product/gas-gang/",
-      "clicks": 8,
-      "impressions": 1004,
-      "ctr": 0.8,
-      "position": 10.2,
-      "data_points": 2,
-      "cluster": "unmapped",
-      "intent": "informational",
-      "word_count_range": [
-        1500,
-        2200
-      ],
-      "target_word_count": 1800,
-      "sections_required": [
-        "intro",
-        "main_explanation",
-        "considerations",
-        "faq"
-      ],
-      "intent_description": "Informational \u2014 explain a concept, shorter than definitive guide",
-      "opportunity_score": 984.31,
-      "opp_type": "content_gap"
-    },
-    {
-      "query": "https://weedistillery.com/locations/weed-delivery-brampton/",
-      "clicks": 63,
-      "impressions": 1430,
-      "ctr": 4.41,
-      "position": 20.1,
-      "data_points": 2,
+      "query": "weed delivery brampton",
+      "clicks": 1,
+      "impressions": 36,
+      "ctr": 2.78,
+      "position": 24.8,
+      "data_points": 1,
       "cluster": "local-delivery",
       "intent": "local_delivery",
       "word_count_range": [
@@ -2363,7 +1606,58 @@
         "faq"
       ],
       "intent_description": "Local delivery / service area",
-      "opportunity_score": 711.44,
+      "opportunity_score": 14.52,
+      "opp_type": "content_gap"
+    },
+    {
+      "query": "2000 mg weed gummies",
+      "clicks": 0,
+      "impressions": 2,
+      "ctr": 0.0,
+      "position": 11.0,
+      "data_points": 2,
+      "cluster": "edibles-beginners",
+      "intent": "quick_answer",
+      "word_count_range": [
+        1200,
+        1600
+      ],
+      "target_word_count": 1400,
+      "sections_required": [
+        "intro",
+        "direct_answer",
+        "considerations",
+        "cta",
+        "faq"
+      ],
+      "intent_description": "Quick answer \u2014 short, direct, addresses specific query",
+      "opportunity_score": 1.82,
+      "opp_type": "content_gap"
+    },
+    {
+      "query": "weed delivery brampton 24 7",
+      "clicks": 1,
+      "impressions": 2,
+      "ctr": 50.0,
+      "position": 14.5,
+      "data_points": 1,
+      "cluster": "local-delivery",
+      "intent": "local_delivery",
+      "word_count_range": [
+        1500,
+        2200
+      ],
+      "target_word_count": 1800,
+      "sections_required": [
+        "intro",
+        "how_it_works",
+        "service_areas",
+        "pricing",
+        "responsible_use",
+        "faq"
+      ],
+      "intent_description": "Local delivery / service area",
+      "opportunity_score": 1.38,
       "opp_type": "content_gap"
     }
   ]
