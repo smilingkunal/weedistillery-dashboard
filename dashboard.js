@@ -1,11 +1,14 @@
 // WeeDistillery Marketing Dashboard - LIVE DATA version
-// Reads from the helper API at https://a96e2ad4a51497.lhr.life
+// Primary: helper API via serveo tunnel (live)
+// Fallback: GitHub Pages hosted dashboard-data.json (always available)
 
 const HELPER_URL = 'https://32f176651988c25b-223-185-54-142.serveousercontent.com';
+const GITHUB_FALLBACK_URL = 'https://smilingkunal.github.io/weedistillery-dashboard/data/dashboard-data.json';
 
 let jobsData = [];
 let stats = {};
 let currentBlogFilter = 'all';
+let lastDataSource = '';
 
 async function init() {
   await loadJobs();
@@ -15,7 +18,6 @@ async function init() {
   renderOpportunities();
   renderBlogs();
 
-  // Auto-refresh every 30 seconds
   setInterval(async () => {
     await loadJobs();
     renderStats();
@@ -25,17 +27,55 @@ async function init() {
 }
 
 async function loadJobs() {
+  // Try the live helper first
   try {
-    const res = await fetch(HELPER_URL + '/dashboard-data');
-    const data = await res.json();
-    if (data.success) {
-      jobsData = data.jobs || [];
-      stats = data.stats || {};
+    const res = await fetch(HELPER_URL + '/dashboard-data', { signal: AbortSignal.timeout(5000) });
+    if (res.ok) {
+      const data = await res.json();
+      if (data.success) {
+        jobsData = data.jobs || [];
+        stats = data.stats || {};
+        lastDataSource = 'live';
+        updateSourceIndicator();
+        return;
+      }
     }
   } catch (e) {
-    console.error('Failed to load jobs:', e);
-    // Show helpful error in UI
-    document.getElementById('helper-error')?.classList.remove('hidden');
+    console.log('Live helper failed, trying GitHub fallback:', e.message);
+  }
+
+  // Fallback to GitHub Pages
+  try {
+    const res = await fetch(GITHUB_FALLBACK_URL + '?bust=' + Date.now());
+    if (res.ok) {
+      const data = await res.json();
+      if (data.success || data.jobs || data.stats) {
+        jobsData = data.jobs || [];
+        stats = data.stats || {};
+        lastDataSource = 'cached';
+        updateSourceIndicator();
+        return;
+      }
+    }
+  } catch (e) {
+    console.error('GitHub fallback also failed:', e.message);
+    lastDataSource = 'offline';
+    updateSourceIndicator();
+  }
+}
+
+function updateSourceIndicator() {
+  const el = document.getElementById('data-source');
+  if (!el) return;
+  if (lastDataSource === 'live') {
+    el.textContent = '🟢 Live';
+    el.style.color = 'var(--accent)';
+  } else if (lastDataSource === 'cached') {
+    el.textContent = '🟡 Cached (last update from GitHub)';
+    el.style.color = 'var(--warn)';
+  } else {
+    el.textContent = '🔴 Offline';
+    el.style.color = 'var(--danger)';
   }
 }
 
