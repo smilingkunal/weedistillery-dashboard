@@ -1,22 +1,26 @@
-// WeeDistillery Marketing Dashboard - LIVE DATA version
-// Primary: helper API via serveo tunnel (live)
-// Fallback: GitHub Pages hosted dashboard-data.json (always available)
+// WeeDistillery Marketing Dashboard - LIVE DATA + ARCHITECTURE
+// Primary: helper API (live, with approve/reject + approve-to-publish)
+// Fallback: GitHub Pages cached data
+// Architecture: link graph that powers the blog template
 
 const HELPER_URL = 'https://847731ecdb503089-223-185-54-142.serveousercontent.com';
 const GITHUB_FALLBACK_URL = 'https://smilingkunal.github.io/weedistillery-dashboard/data/dashboard-data.json';
+const ARCH_URL = 'https://smilingkunal.github.io/weedistillery-dashboard/data/content-architecture.json';
 
 let jobsData = [];
 let stats = {};
+let architecture = null;
 let currentBlogFilter = 'all';
 let lastDataSource = '';
 
 async function init() {
-  await loadJobs();
+  await Promise.all([loadJobs(), loadArchitecture()]);
   setupTabs();
   setupBlogFilters();
   renderStats();
   renderOpportunities();
   renderBlogs();
+  renderArchitecture();
 
   setInterval(async () => {
     await loadJobs();
@@ -27,7 +31,7 @@ async function init() {
 }
 
 async function loadJobs() {
-  // Try the live helper first
+  // Try live helper
   try {
     const res = await fetch(HELPER_URL + '/dashboard-data', { signal: AbortSignal.timeout(5000) });
     if (res.ok) {
@@ -41,15 +45,14 @@ async function loadJobs() {
       }
     }
   } catch (e) {
-    console.log('Live helper failed, trying GitHub fallback:', e.message);
+    console.log('Live failed, trying GitHub:', e.message);
   }
-
-  // Fallback to GitHub Pages
+  // GitHub fallback
   try {
     const res = await fetch(GITHUB_FALLBACK_URL + '?bust=' + Date.now());
     if (res.ok) {
       const data = await res.json();
-      if (data.success || data.jobs || data.stats) {
+      if (data.success || data.jobs) {
         jobsData = data.jobs || [];
         stats = data.stats || {};
         lastDataSource = 'cached';
@@ -58,9 +61,37 @@ async function loadJobs() {
       }
     }
   } catch (e) {
-    console.error('GitHub fallback also failed:', e.message);
     lastDataSource = 'offline';
     updateSourceIndicator();
+  }
+}
+
+async function loadArchitecture() {
+  // Try live helper first
+  try {
+    const res = await fetch(HELPER_URL + '/architecture', { signal: AbortSignal.timeout(5000) });
+    if (res.ok) {
+      const data = await res.json();
+      if (data.topical_map) {
+        architecture = data;
+        return;
+      }
+    }
+  } catch (e) {
+    console.log('Live arch failed, trying GitHub:', e.message);
+  }
+  // GitHub fallback
+  try {
+    const res = await fetch(ARCH_URL + '?bust=' + Date.now());
+    if (res.ok) {
+      const data = await res.json();
+      if (data.topical_map) {
+        architecture = data;
+        return;
+      }
+    }
+  } catch (e) {
+    console.log('GitHub arch fallback failed:', e.message);
   }
 }
 
@@ -103,7 +134,6 @@ function setupBlogFilters() {
 }
 
 function renderStats() {
-  // Update the badges in the tabs
   const drafts = jobsData.filter(j => j.approval_status === 'pending_approval').length;
   document.getElementById('blogs-badge').textContent = drafts || jobsData.length;
   document.getElementById('opps-badge').textContent = jobsData.length;
@@ -112,55 +142,44 @@ function renderStats() {
 function renderOpportunities() {
   const tbody = document.getElementById('opps-tbody');
   if (!tbody) return;
-
   if (jobsData.length === 0) {
-    tbody.innerHTML = '<tr><td colspan="7" class="loading">No jobs yet. The pipeline will populate this when Module C runs.</td></tr>';
+    tbody.innerHTML = '<tr><td colspan="7" class="loading">No jobs in pipeline yet.</td></tr>';
     return;
   }
-
-  // Show all jobs as "opportunities" (any gap is an opportunity to act on)
   tbody.innerHTML = jobsData.map((job, idx) => {
     const source = job.gap_source || 'topic_cluster';
-    const cluster = job.cluster || '';
     const keyword = job.keyword || '(no keyword)';
     const created = job.created_at ? new Date(job.created_at).toLocaleDateString() : '';
     const blogReady = job.blog_status === 'ready';
     const imageReady = job.image_status === 'ready';
     const published = job.approval_status === 'published';
-
     return `
       <tr>
         <td><strong>${idx + 1}</strong></td>
+        <td><span class="priority-badge ${published ? 'priority-low' : blogReady && imageReady ? 'priority-high' : 'priority-medium'}">${published ? 'published' : blogReady && imageReady ? 'ready' : 'pending'}</span></td>
         <td>
-          <span class="priority-badge ${published ? 'priority-low' : blogReady && imageReady ? 'priority-high' : 'priority-medium'}">
-            ${published ? 'published' : blogReady && imageReady ? 'ready' : 'pending'}
-          </span>
-        </td>
-        <td>
-          <div style="font-weight: 600; margin-bottom: 4px;">${keyword}</div>
-          <div style="color: var(--text-secondary); font-size: 12px;">Cluster: ${cluster}</div>
+          <div style="font-weight: 600; margin-bottom: 4px;">${escapeHtml(keyword)}</div>
+          <div style="color: var(--text-secondary); font-size: 12px;">Cluster: ${escapeHtml(job.cluster || '')}</div>
           <div style="margin-top: 6px;">
-            <span class="cat-badge">blog:${job.blog_status}</span>
-            <span class="cat-badge">img:${job.image_status}</span>
-            ${job.approval_status ? `<span class="cat-badge">${job.approval_status}</span>` : ''}
+            <span class="cat-badge">blog:${escapeHtml(job.blog_status)}</span>
+            <span class="cat-badge">img:${escapeHtml(job.image_status)}</span>
+            ${job.approval_status ? `<span class="cat-badge">${escapeHtml(job.approval_status)}</span>` : ''}
           </div>
         </td>
-        <td><span class="cat-badge">${source}</span></td>
+        <td><span class="cat-badge">${escapeHtml(source)}</span></td>
         <td>${created}</td>
-        <td><span class="cat-badge">${job.gap_id}</span></td>
+        <td><span class="cat-badge">${escapeHtml(job.gap_id)}</span></td>
         <td>
-          ${job.wp_draft_url ? `<a href="${job.wp_draft_url}" target="_blank" class="btn-secondary">View Draft</a>` : '<span class="cat-badge">no draft yet</span>'}
+          ${job.wp_draft_url ? `<a href="${job.wp_draft_url}" target="_blank" class="btn-secondary">Draft</a>` : '<span class="cat-badge">no draft</span>'}
           ${job.wp_live_url ? `<a href="${job.wp_live_url}" target="_blank" class="btn-grab">Live ↗</a>` : ''}
         </td>
-      </tr>
-    `;
+      </tr>`;
   }).join('');
 }
 
 function renderBlogs() {
   const list = document.getElementById('blog-list');
   if (!list) return;
-
   const showReal = document.getElementById('blog-show-real')?.checked ?? true;
   const showPlaceholder = document.getElementById('blog-show-placeholder')?.checked ?? true;
 
@@ -173,7 +192,7 @@ function renderBlogs() {
   });
 
   if (filtered.length === 0) {
-    list.innerHTML = '<div class="loading">No blogs yet. Run the pipeline to generate content.</div>';
+    list.innerHTML = '<div class="loading">No blogs in pipeline yet.</div>';
     return;
   }
 
@@ -186,15 +205,14 @@ function renderBlogs() {
     const excerpt = blog.blog_excerpt || (blog.blog_text ? blog.blog_text.slice(0, 200) + '...' : '(no content yet)');
     const wc = blog.blog_word_count || 0;
     const imageSrc = blog.image_url || '';
-
     return `
       <div class="blog-card">
         <div class="blog-card-image ${isPlaceholder ? 'placeholder' : ''}" style="background-image: url('${imageSrc}');">
-          <span class="img-badge">${isPlaceholder ? '⚠️ NO IMAGE' : '📷 Real'}</span>
+          <span class="img-badge">${isPlaceholder ? '⚠️ NO IMG' : '📷 Real'}</span>
         </div>
         <div class="blog-card-body">
           <div class="blog-card-meta">
-            <span>${blog.cluster || 'no cluster'}</span>
+            <span>${escapeHtml(blog.cluster || 'no cluster')}</span>
             ${wc ? `<span>${wc} words</span>` : ''}
             <span>${dateLabel}</span>
           </div>
@@ -202,20 +220,12 @@ function renderBlogs() {
           <div class="blog-card-excerpt">${escapeHtml(excerpt)}</div>
           <div class="blog-card-actions">
             ${blog.wp_draft_url ? `<a href="${blog.wp_draft_url}" target="_blank" class="btn-secondary">Open Draft</a>` : ''}
-            ${isPending ? `
-              <button class="btn-approve" data-id="${blog.gap_id}">✓ Approve</button>
-              <button class="btn-reject" data-id="${blog.gap_id}">✗ Reject</button>
-            ` : ''}
-            ${blog.approval_status ? `<span class="status-pill status-${blog.approval_status}">${formatStatus(blog.approval_status)}</span>` : ''}
+            ${isPending ? `<button class="btn-approve" data-id="${escapeHtml(blog.gap_id)}">✓ Approve</button><button class="btn-reject" data-id="${escapeHtml(blog.gap_id)}">✗ Reject</button>` : ''}
+            ${blog.approval_status ? `<span class="status-pill status-${escapeHtml(blog.approval_status)}">${formatStatus(blog.approval_status)}</span>` : ''}
           </div>
-          ${isPublished && blog.wp_live_url ? `
-            <div style="margin-top: 8px; font-size: 12px;">
-              <a href="${blog.wp_live_url}" target="_blank" style="color: var(--accent);">${blog.wp_live_url}</a>
-            </div>
-          ` : ''}
+          ${isPublished && blog.wp_live_url ? `<div style="margin-top: 8px; font-size: 12px;"><a href="${blog.wp_live_url}" target="_blank" style="color: var(--accent);">${blog.wp_live_url}</a></div>` : ''}
         </div>
-      </div>
-    `;
+      </div>`;
   }).join('');
 
   list.querySelectorAll('.btn-approve').forEach(btn => {
@@ -226,66 +236,83 @@ function renderBlogs() {
   });
 }
 
+function renderArchitecture() {
+  const container = document.getElementById('architecture-content');
+  if (!container) return;
+  if (!architecture) {
+    container.innerHTML = '<div class="loading">Loading link graph...</div>';
+    return;
+  }
+  const tm = architecture.topical_map || {};
+  const cats = architecture.product_categories || [];
+  const posts = architecture.existing_posts || [];
+
+  let html = `<div style="margin-bottom: 24px;">
+    <div class="stats-row">
+      <div class="stat-card"><div class="stat-value">${architecture.totals.products}</div><div class="stat-label">Real products</div></div>
+      <div class="stat-card"><div class="stat-value">${architecture.totals.product_categories}</div><div class="stat-label">Product categories</div></div>
+      <div class="stat-card"><div class="stat-value">${architecture.totals.existing_posts}</div><div class="stat-label">Existing posts</div></div>
+      <div class="stat-card highlight"><div class="stat-value">${Object.keys(tm).length}</div><div class="stat-label">Active topic clusters</div></div>
+    </div>
+  </div>`;
+
+  html += '<h3 style="margin-bottom: 12px;">Topic Clusters → Hub Categories → Products</h3>';
+
+  for (const [clusterKey, cluster] of Object.entries(tm)) {
+    const products = cluster.product_samples || [];
+    const relatedPosts = cluster.related_existing_posts || [];
+    html += `
+      <div class="cluster-card" style="background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 16px; margin-bottom: 12px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+          <div>
+            <div style="font-weight: 600; font-size: 15px; color: var(--accent);">${clusterKey}</div>
+            <div style="font-size: 12px; color: var(--text-secondary);">Hub: <a href="${cluster.hub_category_url}" target="_blank">${cluster.hub_category_name}</a></div>
+          </div>
+        </div>
+        <div style="margin-bottom: 8px;">
+          <div style="font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px;">Linked products (${products.length})</div>
+          ${products.length === 0 ? '<div style="font-size: 12px; color: var(--text-muted);">No products yet</div>' : products.map(p => `<a href="${p}" target="_blank" class="cat-badge" style="margin: 2px; text-decoration: none; display: inline-block;">${p.split('/product/')[1]?.slice(0, 40) || p.slice(-30)}...</a>`).join('')}
+        </div>
+        <div>
+          <div style="font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px;">Related existing posts (${relatedPosts.length})</div>
+          ${relatedPosts.length === 0 ? '<div style="font-size: 12px; color: var(--text-muted);">None yet</div>' : `<div style="font-size: 12px;">${relatedPosts.slice(0, 3).map(p => `<a href="${p}" target="_blank" style="color: var(--text-secondary); display: block; padding: 2px 0;">${p.split('/').slice(-2, -1)[0] || p}</a>`).join('')}${relatedPosts.length > 3 ? `<div style="color: var(--text-muted);">+${relatedPosts.length - 3} more</div>` : ''}</div>`}
+        </div>
+        <div style="margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--border);">
+          <div style="font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px;">Sample blog topics for this cluster</div>
+          ${(cluster.blog_topic_examples || []).map(t => `<div style="font-size: 12px; color: var(--text-primary); padding: 2px 0;">• ${escapeHtml(t)}</div>`).join('')}
+        </div>
+      </div>`;
+  }
+
+  container.innerHTML = html;
+}
+
 async function approveBlog(gapId) {
   if (!confirm(`Approve and publish ${gapId}?`)) return;
   try {
-    const res = await fetch(HELPER_URL + '/approve', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ gap_id: gapId }),
-    });
+    const res = await fetch(HELPER_URL + '/approve', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({gap_id: gapId}) });
     const data = await res.json();
-    if (data.success) {
-      alert(`✅ Published!\n\n${data.wp_live_url || ''}`);
-      await loadJobs();
-      renderBlogs();
-      renderOpportunities();
-    } else {
-      alert(`Failed: ${data.error || 'unknown'}`);
-    }
-  } catch (e) {
-    alert('Network error: ' + e.message);
-  }
+    if (data.success) { alert(`✅ Published! ${data.wp_live_url || ''}`); await loadJobs(); renderBlogs(); renderOpportunities(); }
+    else { alert(`Failed: ${data.error || 'unknown'}`); }
+  } catch (e) { alert('Network error: ' + e.message); }
 }
 
 async function rejectBlog(gapId) {
   if (!confirm(`Reject and delete ${gapId}?`)) return;
   try {
-    const res = await fetch(HELPER_URL + '/reject', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ gap_id: gapId }),
-    });
+    const res = await fetch(HELPER_URL + '/reject', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({gap_id: gapId}) });
     const data = await res.json();
-    if (data.success) {
-      alert('❌ Rejected');
-      await loadJobs();
-      renderBlogs();
-      renderOpportunities();
-    } else {
-      alert(`Failed: ${data.error || 'unknown'}`);
-    }
-  } catch (e) {
-    alert('Network error: ' + e.message);
-  }
+    if (data.success) { alert('❌ Rejected'); await loadJobs(); renderBlogs(); renderOpportunities(); }
+    else { alert(`Failed: ${data.error || 'unknown'}`); }
+  } catch (e) { alert('Network error: ' + e.message); }
 }
 
 function formatStatus(s) {
-  return {
-    'pending_approval': 'Pending review',
-    'published': 'Published',
-    'rejected': 'Rejected',
-    'failed': 'Failed',
-    'writing': 'Writing',
-    'generating': 'Generating',
-    'pending': 'Pending'
-  }[s] || s;
+  return {'pending_approval': 'Pending', 'published': 'Published', 'rejected': 'Rejected', 'failed': 'Failed', 'writing': 'Writing', 'generating': 'Generating', 'pending': 'Pending'}[s] || s;
 }
 
 function escapeHtml(s) {
-  return String(s).replace(/[&<>"']/g, c => ({
-    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
-  })[c]);
+  return String(s || '').replace(/[&<>"']/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[c]));
 }
 
 document.addEventListener('DOMContentLoaded', init);

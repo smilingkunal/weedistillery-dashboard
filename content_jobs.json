@@ -52,5 +52,9 @@
       "blog_word_count": 230,
       "blog_completed_at": "2026-08-25T22:48:00Z"
     }
+  },
+  "__meta": {
+    "architecture_path": "/dashboard-data-architecture.json",
+    "last_updated": "2026-08-26"
   }
 }
