@@ -1,0 +1,593 @@
+/* Weedistillery 90-Day SEO Dashboard Styles */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    background: #0a0e27;
+    color: #e4e6eb;
+    line-height: 1.6;
+    min-height: 100vh;
+}
+
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Header */
+.dashboard-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 12px;
+    padding: 30px;
+    margin-bottom: 30px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.header-content h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: white;
+}
+
+.subtitle {
+    font-size: 1.1rem;
+    color: rgba(255, 255, 255, 0.9);
+    margin-bottom: 20px;
+}
+
+.status-bar {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.badge {
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+/* KPI Grid */
+.kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.kpi-card {
+    background: #1a1f3a;
+    border-radius: 12px;
+    padding: 24px;
+    border: 1px solid #2a2f4a;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.kpi-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(102, 126, 234, 0.2);
+}
+
+.kpi-icon {
+    font-size: 2rem;
+    margin-bottom: 12px;
+}
+
+.kpi-label {
+    color: #9ca3af;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 8px;
+}
+
+.kpi-value {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 8px;
+}
+
+.kpi-trend {
+    font-size: 0.85rem;
+    color: #667eea;
+}
+
+/* Dashboard Sections */
+.dashboard-section {
+    background: #1a1f3a;
+    border-radius: 12px;
+    padding: 30px;
+    margin-bottom: 30px;
+    border: 1px solid #2a2f4a;
+}
+
+.dashboard-section h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+    color: white;
+    border-bottom: 2px solid #667eea;
+    padding-bottom: 12px;
+}
+
+/* Tasks Container */
+.tasks-container {
+    display: grid;
+    gap: 12px;
+}
+
+.task-item {
+    background: #0f1428;
+    border-radius: 8px;
+    padding: 16px;
+    border-left: 4px solid #667eea;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    transition: background 0.2s;
+}
+
+.task-item:hover {
+    background: #1a1f3a;
+}
+
+.task-item.completed {
+    border-left-color: #10b981;
+    opacity: 0.6;
+}
+
+.task-checkbox {
+    width: 20px;
+    height: 20px;
+    border: 2px solid #667eea;
+    border-radius: 4px;
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
+.task-checkbox.checked {
+    background: #10b981;
+    border-color: #10b981;
+}
+
+.task-text {
+    flex: 1;
+}
+
+.task-title {
+    font-weight: 600;
+    color: white;
+    margin-bottom: 4px;
+}
+
+.task-meta {
+    font-size: 0.85rem;
+    color: #9ca3af;
+}
+
+.task-badge {
+    background: #667eea;
+    color: white;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.task-badge.priority-high {
+    background: #ef4444;
+}
+
+.task-badge.priority-medium {
+    background: #f59e0b;
+}
+
+/* Table */
+.table-container {
+    overflow-x: auto;
+}
+
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #0f1428;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.data-table thead {
+    background: #2a2f4a;
+}
+
+.data-table th {
+    padding: 12px 16px;
+    text-align: left;
+    font-weight: 600;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #9ca3af;
+}
+
+.data-table td {
+    padding: 14px 16px;
+    border-top: 1px solid #2a2f4a;
+    color: #e4e6eb;
+    font-size: 0.9rem;
+}
+
+.data-table tbody tr:hover {
+    background: #1a1f3a;
+}
+
+.status-badge {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.status-ready {
+    background: #fbbf24;
+    color: #78350f;
+}
+
+.status-published {
+    background: #10b981;
+    color: white;
+}
+
+.status-indexed {
+    background: #3b82f6;
+    color: white;
+}
+
+.status-ranking {
+    background: #8b5cf6;
+    color: white;
+}
+
+/* Citations Grid */
+.citations-grid {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 24px;
+}
+
+.citation-summary {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+}
+
+.summary-card {
+    background: #0f1428;
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+    border: 1px solid #2a2f4a;
+}
+
+.summary-label {
+    color: #9ca3af;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+}
+
+.summary-value {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #667eea;
+}
+
+.citations-list {
+    background: #0f1428;
+    border-radius: 8px;
+    padding: 20px;
+}
+
+.citations-list h3 {
+    color: white;
+    margin-bottom: 16px;
+}
+
+.citation-tier {
+    margin-bottom: 16px;
+}
+
+.citation-tier h4 {
+    color: #667eea;
+    font-size: 0.9rem;
+    margin-bottom: 8px;
+}
+
+.citation-tier ul {
+    list-style: none;
+}
+
+.citation-tier li {
+    padding: 8px 12px;
+    background: #1a1f3a;
+    margin-bottom: 6px;
+    border-radius: 6px;
+    border-left: 3px solid #667eea;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.citation-tier .da-badge {
+    background: #667eea;
+    color: white;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+/* Keywords Grid */
+.keywords-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 16px;
+}
+
+.keyword-card {
+    background: #0f1428;
+    border-radius: 8px;
+    padding: 16px;
+    border: 1px solid #2a2f4a;
+    transition: transform 0.2s;
+}
+
+.keyword-card:hover {
+    transform: translateY(-2px);
+    border-color: #667eea;
+}
+
+.keyword-text {
+    font-weight: 600;
+    color: white;
+    margin-bottom: 8px;
+    font-size: 0.95rem;
+}
+
+.keyword-volume {
+    color: #9ca3af;
+    font-size: 0.85rem;
+    margin-bottom: 12px;
+}
+
+.keyword-position {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.85rem;
+}
+
+.position-badge {
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-weight: 600;
+}
+
+.position-not-tracked {
+    background: #6b7280;
+    color: white;
+}
+
+.position-tracking {
+    background: #fbbf24;
+    color: #78350f;
+}
+
+/* Week Grid */
+.week-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+}
+
+.week-card {
+    background: #0f1428;
+    border-radius: 8px;
+    padding: 20px;
+    border: 2px solid #2a2f4a;
+    transition: all 0.2s;
+    cursor: pointer;
+}
+
+.week-card.current {
+    border-color: #667eea;
+    background: linear-gradient(135deg, #1a1f3a 0%, #2a2f4a 100%);
+    transform: scale(1.05);
+}
+
+.week-card.completed {
+    border-color: #10b981;
+}
+
+.week-number {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #667eea;
+    margin-bottom: 8px;
+}
+
+.week-card.current .week-number {
+    color: #fbbf24;
+}
+
+.week-card.completed .week-number {
+    color: #10b981;
+}
+
+.week-title {
+    font-weight: 600;
+    color: white;
+    margin-bottom: 8px;
+    font-size: 0.9rem;
+}
+
+.week-pages {
+    font-size: 0.85rem;
+    color: #9ca3af;
+}
+
+.week-status {
+    display: inline-block;
+    padding: 3px 8px;
+    border-radius: 8px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    margin-top: 8px;
+}
+
+.status-current {
+    background: #fbbf24;
+    color: #78350f;
+}
+
+.status-pending {
+    background: #6b7280;
+    color: white;
+}
+
+.status-done {
+    background: #10b981;
+    color: white;
+}
+
+/* Backlink Grid */
+.backlink-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+}
+
+.backlink-stats {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+}
+
+.stat-box {
+    background: #0f1428;
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+    border: 1px solid #2a2f4a;
+}
+
+.stat-label {
+    color: #9ca3af;
+    font-size: 0.85rem;
+    margin-bottom: 8px;
+}
+
+.stat-value {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #667eea;
+}
+
+.backlink-sources {
+    background: #0f1428;
+    border-radius: 8px;
+    padding: 20px;
+}
+
+.backlink-sources h3 {
+    color: white;
+    margin-bottom: 16px;
+}
+
+.backlink-sources ul {
+    list-style: none;
+}
+
+.backlink-sources li {
+    padding: 12px;
+    background: #1a1f3a;
+    margin-bottom: 8px;
+    border-radius: 6px;
+    border-left: 3px solid #667eea;
+    color: #e4e6eb;
+}
+
+/* Footer */
+.dashboard-footer {
+    text-align: center;
+    padding: 30px 20px;
+    color: #9ca3af;
+    font-size: 0.9rem;
+}
+
+.dashboard-footer p {
+    margin-bottom: 4px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .container {
+        padding: 12px;
+    }
+
+    .header-content h1 {
+        font-size: 1.8rem;
+    }
+
+    .kpi-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .citations-grid,
+    .backlink-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .week-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .data-table {
+        font-size: 0.8rem;
+    }
+
+    .data-table th,
+    .data-table td {
+        padding: 8px;
+    }
+}
+
+/* Progress Bar */
+.progress-bar {
+    width: 100%;
+    height: 8px;
+    background: #2a2f4a;
+    border-radius: 4px;
+    overflow: hidden;
+    margin-top: 16px;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+    transition: width 0.5s ease;
+    border-radius: 4px;
+}

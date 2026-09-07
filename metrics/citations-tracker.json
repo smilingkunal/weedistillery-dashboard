@@ -1,0 +1,216 @@
+{
+  "project": "Weedistillery 90-Day SEO",
+  "description": "Citation submission tracker. Add new citations as you submit them.",
+  "nap": {
+    "name": "Weedistillery",
+    "phone": "+1-905-904-6540",
+    "address": "[Business Address]"
+  },
+  "target_citations": 40,
+  "submitted": 0,
+  "approved": 0,
+  "pending": 0,
+  "rejected": 0,
+  "citations": [
+    {
+      "tier": 1,
+      "platform": "Google Business Profile",
+      "url": "https://business.google.com/",
+      "status": "pending",
+      "submitted_date": "",
+      "approved_date": "",
+      "da": 100,
+      "notes": "Most important citation for local SEO"
+    },
+    {
+      "tier": 1,
+      "platform": "Leafly",
+      "url": "https://www.leafly.com/",
+      "status": "pending",
+      "submitted_date": "",
+      "approved_date": "",
+      "da": 80,
+      "notes": "Top cannabis directory"
+    },
+    {
+      "tier": 1,
+      "platform": "Weedmaps",
+      "url": "https://weedmaps.com/",
+      "status": "pending",
+      "submitted_date": "",
+      "approved_date": "",
+      "da": 75,
+      "notes": "Major cannabis platform"
+    },
+    {
+      "tier": 1,
+      "platform": "CannaReviews",
+      "url": "https://cannareviews.ca/",
+      "status": "pending",
+      "submitted_date": "",
+      "approved_date": "",
+      "da": 60,
+      "notes": "Canadian cannabis reviews"
+    },
+    {
+      "tier": 1,
+      "platform": "Yelp Canada",
+      "url": "https://www.yelp.ca/",
+      "status": "pending",
+      "submitted_date": "",
+      "approved_date": "",
+      "da": 70,
+      "notes": "General local directory"
+    },
+    {
+      "tier": 1,
+      "platform": "Yellow Pages Canada",
+      "url": "https://www.yellowpages.ca/",
+      "status": "pending",
+      "submitted_date": "",
+      "approved_date": "",
+      "da": 65,
+      "notes": "General local directory"
+    },
+    {
+      "tier": 2,
+      "platform": "Bing Places",
+      "url": "https://www.bingplaces.com/",
+      "status": "pending",
+      "submitted_date": "",
+      "approved_date": "",
+      "da": 90,
+      "notes": "Bing search visibility"
+    },
+    {
+      "tier": 2,
+      "platform": "Better Cannabis Bureau",
+      "url": "https://bettercannabisbureau.com/",
+      "status": "pending",
+      "submitted_date": "",
+      "approved_date": "",
+      "da": 50,
+      "notes": "Cannabis certification"
+    },
+    {
+      "tier": 2,
+      "platform": "THC Canada",
+      "url": "https://thc.ca/",
+      "status": "pending",
+      "submitted_date": "",
+      "approved_date": "",
+      "da": 50,
+      "notes": "Cannabis community"
+    },
+    {
+      "tier": 2,
+      "platform": "PotGuide",
+      "url": "https://potguide.com/",
+      "status": "pending",
+      "submitted_date": "",
+      "approved_date": "",
+      "da": 45,
+      "notes": "Cannabis directory"
+    },
+    {
+      "tier": 2,
+      "platform": "Wikileaf",
+      "url": "https://www.wikileaf.com/",
+      "status": "pending",
+      "submitted_date": "",
+      "approved_date": "",
+      "da": 45,
+      "notes": "Cannabis pricing/dispensary info"
+    },
+    {
+      "tier": 2,
+      "platform": "Cannabis.ca",
+      "url": "https://cannabis.ca/",
+      "status": "pending",
+      "submitted_date": "",
+      "approved_date": "",
+      "da": 40,
+      "notes": "Canadian cannabis platform"
+    },
+    {
+      "tier": 3,
+      "platform": "411.ca",
+      "url": "https://www.411.ca/",
+      "status": "pending",
+      "submitted_date": "",
+      "approved_date": "",
+      "da": 50,
+      "notes": "Local directory"
+    },
+    {
+      "tier": 3,
+      "platform": "Canada411",
+      "url": "https://www.canada411.ca/",
+      "status": "pending",
+      "submitted_date": "",
+      "approved_date": "",
+      "da": 45,
+      "notes": "Local directory"
+    },
+    {
+      "tier": 3,
+      "platform": "LocalSaver",
+      "url": "https://www.localsaver.com/",
+      "status": "pending",
+      "submitted_date": "",
+      "approved_date": "",
+      "da": 35,
+      "notes": "Local directory"
+    },
+    {
+      "tier": 3,
+      "platform": "Cypress",
+      "url": "https://www.cypress.com/",
+      "status": "pending",
+      "submitted_date": "",
+      "approved_date": "",
+      "da": 30,
+      "notes": "Local directory"
+    },
+    {
+      "tier": 3,
+      "platform": "Hotfrog",
+      "url": "https://www.hotfrog.com/",
+      "status": "pending",
+      "submitted_date": "",
+      "approved_date": "",
+      "da": 40,
+      "notes": "Local directory"
+    },
+    {
+      "tier": 4,
+      "platform": "Foursquare",
+      "url": "https://foursquare.com/",
+      "status": "pending",
+      "submitted_date": "",
+      "approved_date": "",
+      "da": 90,
+      "notes": "Location-based platform"
+    },
+    {
+      "tier": 4,
+      "platform": "Better Business Bureau",
+      "url": "https://www.bbb.org/",
+      "status": "pending",
+      "submitted_date": "",
+      "approved_date": "",
+      "da": 80,
+      "notes": "Trust signal"
+    },
+    {
+      "tier": 4,
+      "platform": "Apple Maps",
+      "url": "https://mapsconnect.apple.com/",
+      "status": "pending",
+      "submitted_date": "",
+      "approved_date": "",
+      "da": 95,
+      "notes": "iOS maps visibility"
+    }
+  ]
+}

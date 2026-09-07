@@ -1,0 +1,27 @@
+# Build artifacts
+node_modules/
+dist/
+build/
+*.log
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# OS
+.DS_Store
+desktop.ini
+
+# Temporary
+*.tmp
+*.bak
+*.swp

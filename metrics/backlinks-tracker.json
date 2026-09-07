@@ -1,0 +1,106 @@
+{
+  "project": "Weedistillery 90-Day SEO",
+  "description": "Backlink profile tracking. Update weekly from Semrush.",
+  "last_updated": "2026-09-07",
+  "baseline": {
+    "total_backlinks": 743,
+    "referring_domains": 309,
+    "authority_score": 7,
+    "date_captured": "2026-09-07"
+  },
+  "target_day_90": {
+    "total_backlinks": 1050,
+    "referring_domains": 400,
+    "authority_score": 13,
+    "growth_target": "+307 backlinks, +91 domains, +6 authority"
+  },
+  "new_backlinks_log": [],
+  "lost_backlinks_log": [],
+  "weekly_targets": {
+    "week_1": 0,
+    "week_2": 5,
+    "week_3": 10,
+    "week_4": 15,
+    "week_5": 20,
+    "week_6": 25,
+    "week_7": 30,
+    "week_8": 35,
+    "week_9": 40,
+    "week_10": 45,
+    "week_11": 50,
+    "week_12": 55
+  },
+  "guest_post_targets": [
+    {
+      "site": "Cannabis Culture Magazine",
+      "topic": "How Cannabis Delivery is Changing Brampton's Retail Landscape",
+      "da": 45,
+      "status": "pending",
+      "pitch_date": "",
+      "publish_date": "",
+      "url": ""
+    },
+    {
+      "site": "Cannabis Life Network",
+      "topic": "Choosing the Right Strain: A GTA Consumer's Guide",
+      "da": 40,
+      "status": "pending",
+      "pitch_date": "",
+      "publish_date": "",
+      "url": ""
+    },
+    {
+      "site": "Civilized.Life",
+      "topic": "Inside Ontario's Legal Cannabis Delivery Scene",
+      "da": 50,
+      "status": "pending",
+      "pitch_date": "",
+      "publish_date": "",
+      "url": ""
+    },
+    {
+      "site": "The Leaf News",
+      "topic": "AGCO Compliance: What Delivery Services Need to Know",
+      "da": 45,
+      "status": "pending",
+      "pitch_date": "",
+      "publish_date": "",
+      "url": ""
+    },
+    {
+      "site": "StratCann",
+      "topic": "Same-Day Cannabis Delivery: Logistics & Challenges",
+      "da": 40,
+      "status": "pending",
+      "pitch_date": "",
+      "publish_date": "",
+      "url": ""
+    }
+  ],
+  "local_news_targets": [
+    {
+      "site": "Brampton Guardian",
+      "topic": "Local cannabis delivery service launches",
+      "da": 60,
+      "status": "pending"
+    },
+    {
+      "site": "Oakville Beaver",
+      "topic": "Oakville cannabis delivery options",
+      "da": 55,
+      "status": "pending"
+    },
+    {
+      "site": "Mississauga News",
+      "topic": "Mississauga cannabis delivery coverage",
+      "da": 60,
+      "status": "pending"
+    },
+    {
+      "site": "Burlington Post",
+      "topic": "Burlington cannabis delivery service",
+      "da": 50,
+      "status": "pending"
+    }
+  ]
+}

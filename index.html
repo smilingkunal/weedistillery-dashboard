@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weedistillery 90-Day SEO Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="dashboard-header">
+            <div class="header-content">
+                <h1>🌿 Weedistillery 90-Day SEO</h1>
+                <p class="subtitle">Programmatic SEO Execution Dashboard</p>
+                <div class="status-bar">
+                    <span class="badge badge-week">Week <span id="current-week">1</span> of 12</span>
+                    <span class="badge badge-day">Day <span id="current-day">1</span> of 90</span>
+                    <span class="badge badge-progress"><span id="progress-percent">3</span>% Complete</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Top KPI Cards -->
+        <section class="kpi-grid">
+            <div class="kpi-card">
+                <div class="kpi-icon">📄</div>
+                <div class="kpi-label">Pages Published</div>
+                <div class="kpi-value"><span id="pages-published">0</span> / <span id="pages-target">37</span></div>
+                <div class="kpi-trend" id="pages-trend">Target: 35-40 pages in 90 days</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-icon">🔍</div>
+                <div class="kpi-label">Indexed URLs</div>
+                <div class="kpi-value"><span id="indexed-pages">190</span> / <span id="indexed-target">230</span></div>
+                <div class="kpi-trend">+40 new URLs from pSEO</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-icon">📊</div>
+                <div class="kpi-label">Ranking Keywords</div>
+                <div class="kpi-value"><span id="keywords">209</span> / <span id="keywords-target">700</span></div>
+                <div class="kpi-trend">+491 keywords (235% growth)</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-icon">⚡</div>
+                <div class="kpi-label">Authority Score</div>
+                <div class="kpi-value"><span id="authority">7</span> / <span id="authority-target">13</span></div>
+                <div class="kpi-trend">+6 points (85% growth)</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-icon">📈</div>
+                <div class="kpi-label">Organic Traffic</div>
+                <div class="kpi-value"><span id="traffic">10</span> / <span id="traffic-target">350</span> /mo</div>
+                <div class="kpi-trend">+340 monthly visits</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-icon">🔗</div>
+                <div class="kpi-label">Backlinks</div>
+                <div class="kpi-value"><span id="backlinks">743</span> / <span id="backlinks-target">1050</span></div>
+                <div class="kpi-trend">+307 backlinks</div>
+            </div>
+        </section>
+
+        <!-- Daily Tasks Section -->
+        <section class="dashboard-section">
+            <h2>📋 Today's Tasks - Day <span id="today-day">1</span> (Week <span id="today-week">1</span>)</h2>
+            <div class="tasks-container" id="daily-tasks">
+                <!-- Populated by JavaScript -->
+            </div>
+        </section>
+
+        <!-- Pages Tracking Table -->
+        <section class="dashboard-section">
+            <h2>📄 pSEO Pages Tracking</h2>
+            <div class="table-container">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>URL</th>
+                            <th>Title</th>
+                            <th>Primary Keyword</th>
+                            <th>Volume</th>
+                            <th>QA Score</th>
+                            <th>Status</th>
+                            <th>Target Week</th>
+                        </tr>
+                    </thead>
+                    <tbody id="pages-table-body">
+                        <!-- Populated by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Citations Tracking -->
+        <section class="dashboard-section">
+            <h2>📍 Citations & Local SEO</h2>
+            <div class="citations-grid">
+                <div class="citation-summary">
+                    <div class="summary-card">
+                        <div class="summary-label">Total Submitted</div>
+                        <div class="summary-value"><span id="citations-submitted">0</span> / 40</div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="summary-label">Approved</div>
+                        <div class="summary-value" id="citations-approved">0</div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="summary-label">Pending</div>
+                        <div class="summary-value" id="citations-pending">0</div>
+                    </div>
+                </div>
+                <div class="citations-list">
+                    <h3>Top Citations to Submit</h3>
+                    <div class="citation-tier">
+                        <h4>Tier 1 (High Priority)</h4>
+                        <ul id="tier1-list"></ul>
+                    </div>
+                    <div class="citation-tier">
+                        <h4>Tier 2 (Medium Priority)</h4>
+                        <ul id="tier2-list"></ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Keywords Tracking -->
+        <section class="dashboard-section">
+            <h2>🎯 Target Keywords (Week 1 Focus)</h2>
+            <div class="keywords-grid" id="keywords-grid">
+                <!-- Populated by JavaScript -->
+            </div>
+        </section>
+
+        <!-- Weekly Progress -->
+        <section class="dashboard-section">
+            <h2>📅 12-Week Roadmap</h2>
+            <div class="week-grid" id="week-grid">
+                <!-- Populated by JavaScript -->
+            </div>
+        </section>
+
+        <!-- Backlink Tracking -->
+        <section class="dashboard-section">
+            <h2>🔗 Backlink Acquisition</h2>
+            <div class="backlink-grid">
+                <div class="backlink-stats">
+                    <div class="stat-box">
+                        <div class="stat-label">Total Backlinks</div>
+                        <div class="stat-value">743 → 1050</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-label">Referring Domains</div>
+                        <div class="stat-value">309 → 400</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-label">Authority Score</div>
+                        <div class="stat-value">7 → 13</div>
+                    </div>
+                </div>
+                <div class="backlink-sources">
+                    <h3>Active Backlink Sources</h3>
+                    <ul>
+                        <li>🎯 Cannabis Directories (Leafly, Weedmaps, CannaReviews)</li>
+                        <li>📰 Local News (Brampton Guardian, Oakville Beaver)</li>
+                        <li>✍️ Guest Posts (5 cannabis publications)</li>
+                        <li>📱 Influencer Partnerships (micro-influencers)</li>
+                        <li>🌐 General Directories (Yelp, Yellow Pages, BBB)</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="dashboard-footer">
+            <p>🌿 Weedistillery 90-Day SEO Dashboard | Last updated: <span id="last-updated">2026-09-07</span></p>
+            <p>Auto-refreshes every 6 hours via GitHub Actions</p>
+        </footer>
+    </div>
+
+    <script src="dashboard.js"></script>
+</body>
+</html>
