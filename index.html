@@ -66,73 +66,48 @@
 
         <!-- KPI CARDS -->
         <section class="kpi-grid">
-
             <div class="kpi-card" data-tooltip="Total pSEO pages published this 90-day campaign">
                 <div class="kpi-icon"><i class="fas fa-file-alt"></i></div>
                 <div class="kpi-label">Pages Published</div>
-                <div class="kpi-value">
-                    <span class="current" id="pages-published">0</span>
-                    <span class="target">/ <span id="pages-target">37</span></span>
-                </div>
+                <div class="kpi-value"><span class="current" id="pages-published">0</span><span class="target">/ <span id="pages-target">37</span></span></div>
                 <div class="kpi-trend">+37 in 90 days</div>
                 <div class="kpi-spark" id="spark-pages"></div>
             </div>
-
             <div class="kpi-card" data-tooltip="Total URLs indexed by Google">
                 <div class="kpi-icon"><i class="fas fa-search"></i></div>
                 <div class="kpi-label">Indexed URLs</div>
-                <div class="kpi-value">
-                    <span class="current" id="indexed-pages">190</span>
-                    <span class="target">/ 230</span>
-                </div>
+                <div class="kpi-value"><span class="current" id="indexed-pages">190</span><span class="target">/ 230</span></div>
                 <div class="kpi-trend">+40 new from pSEO</div>
                 <div class="kpi-spark" id="spark-indexed"></div>
             </div>
-
             <div class="kpi-card" data-tooltip="Keywords ranking in top 100 Google results">
                 <div class="kpi-icon"><i class="fas fa-chart-bar"></i></div>
                 <div class="kpi-label">Ranking Keywords</div>
-                <div class="kpi-value">
-                    <span class="current" id="keywords">209</span>
-                    <span class="target">/ 700</span>
-                </div>
+                <div class="kpi-value"><span class="current" id="keywords">209</span><span class="target">/ 700</span></div>
                 <div class="kpi-trend">+491 keywords (235%)</div>
                 <div class="kpi-spark" id="spark-keywords"></div>
             </div>
-
             <div class="kpi-card" data-tooltip="Domain authority score (0-100)">
                 <div class="kpi-icon"><i class="fas fa-bolt"></i></div>
                 <div class="kpi-label">Authority Score</div>
-                <div class="kpi-value">
-                    <span class="current" id="authority">7</span>
-                    <span class="target">/ 13</span>
-                </div>
+                <div class="kpi-value"><span class="current" id="authority">7</span><span class="target">/ 13</span></div>
                 <div class="kpi-trend">+6 points (85%)</div>
                 <div class="kpi-spark" id="spark-authority"></div>
             </div>
-
             <div class="kpi-card" data-tooltip="Monthly organic search traffic">
                 <div class="kpi-icon"><i class="fas fa-chart-line"></i></div>
                 <div class="kpi-label">Organic Traffic</div>
-                <div class="kpi-value">
-                    <span class="current" id="traffic">10</span>
-                    <span class="target">/ 350 /mo</span>
-                </div>
+                <div class="kpi-value"><span class="current" id="traffic">10</span><span class="target">/ 350 /mo</span></div>
                 <div class="kpi-trend">+340 monthly visits</div>
                 <div class="kpi-spark" id="spark-traffic"></div>
             </div>
-
             <div class="kpi-card" data-tooltip="Total backlinks from external sites">
                 <div class="kpi-icon"><i class="fas fa-link"></i></div>
                 <div class="kpi-label">Backlinks</div>
-                <div class="kpi-value">
-                    <span class="current" id="backlinks">743</span>
-                    <span class="target">/ 1,050</span>
-                </div>
+                <div class="kpi-value"><span class="current" id="backlinks">743</span><span class="target">/ 1,050</span></div>
                 <div class="kpi-trend">+307 backlinks</div>
                 <div class="kpi-spark" id="spark-backlinks"></div>
             </div>
-
         </section>
 
         <!-- CHARTS SECTION -->
@@ -161,6 +136,68 @@
             </div>
         </section>
 
+        <!-- NEW: PAGE TYPE BREAKDOWN (Pie Chart) -->
+        <section class="dashboard-section">
+            <div class="section-header">
+                <h2><i class="fas fa-chart-pie"></i> Page Type Distribution</h2>
+                <span class="section-count">37 pages planned</span>
+            </div>
+            <div class="charts-grid">
+                <div class="chart-container">
+                    <h3>Pages by Type</h3>
+                    <canvas id="page-type-pie"></canvas>
+                </div>
+                <div class="chart-container">
+                    <h3>Pages by City</h3>
+                    <canvas id="city-bar"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- NEW: SEO HEALTH RADAR -->
+        <section class="dashboard-section">
+            <div class="section-header">
+                <h2><i class="fas fa-radar"></i> SEO Health Radar</h2>
+                <span class="section-count">Multi-dimensional analysis</span>
+            </div>
+            <div class="charts-grid">
+                <div class="chart-container chart-wide">
+                    <h3>Current vs Target Performance (0-100 scale)</h3>
+                    <canvas id="seo-radar"></canvas>
+                </div>
+                <div class="chart-container">
+                    <h3>Citation Sources by Type</h3>
+                    <canvas id="citation-pie"></canvas>
+                </div>
+                <div class="chart-container">
+                    <h3>Monthly Backlink Acquisition Goal</h3>
+                    <canvas id="backlink-bar"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- NEW: BACKLINK ANALYTICS -->
+        <section class="dashboard-section">
+            <div class="section-header">
+                <h2><i class="fas fa-project-diagram"></i> Backlink Analytics</h2>
+                <span class="section-count">Visual breakdown</span>
+            </div>
+            <div class="charts-grid">
+                <div class="chart-container">
+                    <h3>Backlink Quality Distribution</h3>
+                    <canvas id="backlink-quality-pie"></canvas>
+                </div>
+                <div class="chart-container">
+                    <h3>Referring Domain Authority</h3>
+                    <canvas id="domain-authority-bar"></canvas>
+                </div>
+                <div class="chart-container chart-wide">
+                    <h3>Backlink Acquisition Timeline (90 Days)</h3>
+                    <canvas id="backlink-timeline"></canvas>
+                </div>
+            </div>
+        </section>
+
         <!-- ACTION BAR -->
         <section class="action-bar">
             <div class="action-text">
@@ -180,9 +217,7 @@
                     <i class="fas fa-redo"></i> Reset
                 </button>
             </div>
-            <div class="tasks-container" id="daily-tasks">
-                <!-- Populated by JavaScript -->
-            </div>
+            <div class="tasks-container" id="daily-tasks"></div>
         </section>
 
         <!-- PAGES TRACKING -->
@@ -208,9 +243,7 @@
                             <th>Actions</th>
                         </tr>
                     </thead>
-                    <tbody id="pages-table-body">
-                        <!-- Populated by JavaScript -->
-                    </tbody>
+                    <tbody id="pages-table-body"></tbody>
                 </table>
             </div>
         </section>
@@ -247,7 +280,7 @@
                 <div class="citations-list">
                     <h3>🎯 Top Priority Citations</h3>
                     <div class="citation-tier">
-                        <h4>Tier 1 — High Priority (Submit First)</h4>
+                        <h4>Tier 1 — High Priority</h4>
                         <ul id="tier1-list"></ul>
                     </div>
                     <div class="citation-tier">
@@ -264,9 +297,7 @@
                 <h2><i class="fas fa-key"></i> Target Keywords <span class="section-count">Week 1 focus</span></h2>
                 <input type="search" id="keyword-search" placeholder="🔍 Search keywords..." class="search-input">
             </div>
-            <div class="keywords-grid" id="keywords-grid">
-                <!-- Populated by JavaScript -->
-            </div>
+            <div class="keywords-grid" id="keywords-grid"></div>
         </section>
 
         <!-- 12-WEEK ROADMAP -->
@@ -274,9 +305,7 @@
             <div class="section-header">
                 <h2><i class="fas fa-road"></i> 12-Week Roadmap <span class="section-count">37 pages planned</span></h2>
             </div>
-            <div class="week-grid" id="week-grid">
-                <!-- Populated by JavaScript -->
-            </div>
+            <div class="week-grid" id="week-grid"></div>
         </section>
 
         <!-- BACKLINKS -->
@@ -328,7 +357,6 @@
 
     </div>
 
-    <!-- Toast Notification -->
     <div class="toast" id="toast"></div>
 
     <script src="dashboard.js"></script>
