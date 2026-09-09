@@ -1,195 +1,423 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>WeeDistillery Marketing Dashboard</title>
-  <link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Real-time dashboard tracking Weedistillery's 90-day Programmatic SEO strategy execution">
+    <title>Weedistillery 90-Day SEO Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌿</text></svg>">
 </head>
 <body>
-  <!-- Auth gate -->
-  <div id="auth-gate" class="auth-gate">
-    <div class="auth-card">
-      <h1>WeeDistillery Dashboard</h1>
-      <p class="muted">Sign in with Google to view this dashboard.</p>
-      <button id="sign-in-btn" class="btn-primary">Sign in with Google</button>
-      <p id="auth-error" class="error"></p>
+    <div class="container">
+
+        <!-- HEADER -->
+        <header class="dashboard-header">
+            <div class="header-content">
+                <div class="header-top">
+                    <div>
+                        <h1>🌿 Weedistillery 90-Day SEO</h1>
+                        <p class="subtitle">Programmatic SEO Execution Dashboard · Real-Time Tracking</p>
+                    </div>
+                    <div class="header-controls">
+                        <button class="theme-toggle" id="theme-toggle" title="Toggle Dark/Light Mode">
+                            <i class="fas fa-moon" id="theme-icon"></i>
+                        </button>
+                        <div class="export-menu">
+                            <button class="export-btn" id="export-btn" title="Export Report">
+                                <i class="fas fa-download"></i> Export
+                            </button>
+                            <div class="export-dropdown" id="export-dropdown">
+                                <a href="#" data-export="pdf"><i class="fas fa-file-pdf"></i> Export as PDF</a>
+                                <a href="#" data-export="csv"><i class="fas fa-file-csv"></i> Export as CSV</a>
+                                <a href="#" data-export="json"><i class="fas fa-file-code"></i> Export as JSON</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="status-bar">
+                    <span class="badge"><i class="fas fa-calendar"></i> Week <span id="current-week">1</span> of 12</span>
+                    <span class="badge"><i class="fas fa-clock"></i> Day <span id="current-day">1</span> of 90</span>
+                    <span class="badge"><i class="fas fa-chart-line"></i> <span id="progress-percent">3</span>% Complete</span>
+                    <span class="badge" id="current-date"><i class="fas fa-calendar-day"></i> Sept 7, 2026</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- PROGRESS BAR -->
+        <section class="progress-section">
+            <div class="progress-header">
+                <span class="progress-title"><i class="fas fa-bullseye"></i> Overall 90-Day Progress</span>
+                <span class="progress-percentage"><span id="progress-bar-percent">3</span>%</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill" style="width: 3%"></div>
+            </div>
+            <div class="progress-milestones">
+                <span class="milestone" data-milestone="25">25%</span>
+                <span class="milestone" data-milestone="50">50%</span>
+                <span class="milestone" data-milestone="75">75%</span>
+                <span class="milestone" data-milestone="100">100%</span>
+            </div>
+        </section>
+
+        <!-- KPI CARDS -->
+        <section class="kpi-grid">
+            <div class="kpi-card" data-tooltip="Total pSEO pages published this 90-day campaign">
+                <div class="kpi-icon"><i class="fas fa-file-alt"></i></div>
+                <div class="kpi-label">Pages Published</div>
+                <div class="kpi-value"><span class="current" id="pages-published">0</span><span class="target">/ <span id="pages-target">37</span></span></div>
+                <div class="kpi-trend">+37 in 90 days</div>
+                <div class="kpi-spark" id="spark-pages"></div>
+            </div>
+            <div class="kpi-card" data-tooltip="Total URLs indexed by Google">
+                <div class="kpi-icon"><i class="fas fa-search"></i></div>
+                <div class="kpi-label">Indexed URLs</div>
+                <div class="kpi-value"><span class="current" id="indexed-pages">190</span><span class="target">/ 230</span></div>
+                <div class="kpi-trend">+40 new from pSEO</div>
+                <div class="kpi-spark" id="spark-indexed"></div>
+            </div>
+            <div class="kpi-card" data-tooltip="Keywords ranking in top 100 Google results">
+                <div class="kpi-icon"><i class="fas fa-chart-bar"></i></div>
+                <div class="kpi-label">Ranking Keywords</div>
+                <div class="kpi-value"><span class="current" id="keywords">209</span><span class="target">/ 700</span></div>
+                <div class="kpi-trend">+491 keywords (235%)</div>
+                <div class="kpi-spark" id="spark-keywords"></div>
+            </div>
+            <div class="kpi-card" data-tooltip="Domain authority score (0-100)">
+                <div class="kpi-icon"><i class="fas fa-bolt"></i></div>
+                <div class="kpi-label">Authority Score</div>
+                <div class="kpi-value"><span class="current" id="authority">7</span><span class="target">/ 13</span></div>
+                <div class="kpi-trend">+6 points (85%)</div>
+                <div class="kpi-spark" id="spark-authority"></div>
+            </div>
+            <div class="kpi-card" data-tooltip="Monthly organic search traffic">
+                <div class="kpi-icon"><i class="fas fa-chart-line"></i></div>
+                <div class="kpi-label">Organic Traffic</div>
+                <div class="kpi-value"><span class="current" id="traffic">10</span><span class="target">/ 350 /mo</span></div>
+                <div class="kpi-trend">+340 monthly visits</div>
+                <div class="kpi-spark" id="spark-traffic"></div>
+            </div>
+            <div class="kpi-card" data-tooltip="Total backlinks from external sites">
+                <div class="kpi-icon"><i class="fas fa-link"></i></div>
+                <div class="kpi-label">Backlinks</div>
+                <div class="kpi-value"><span class="current" id="backlinks">743</span><span class="target">/ 1,050</span></div>
+                <div class="kpi-trend">+307 backlinks</div>
+                <div class="kpi-spark" id="spark-backlinks"></div>
+            </div>
+        </section>
+
+        <!-- CHARTS SECTION -->
+        <section class="dashboard-section">
+            <div class="section-header">
+                <h2><i class="fas fa-chart-area"></i> Performance Trajectory</h2>
+                <div class="chart-controls">
+                    <button class="chart-btn active" data-range="week">Week</button>
+                    <button class="chart-btn" data-range="month">Month</button>
+                    <button class="chart-btn" data-range="quarter">Quarter</button>
+                </div>
+            </div>
+            <div class="charts-grid">
+                <div class="chart-container">
+                    <h3>Traffic Growth Projection</h3>
+                    <canvas id="traffic-chart"></canvas>
+                </div>
+                <div class="chart-container">
+                    <h3>Keyword Ranking Distribution</h3>
+                    <canvas id="rankings-chart"></canvas>
+                </div>
+                <div class="chart-container chart-wide">
+                    <h3>90-Day Growth Trajectory (All Metrics)</h3>
+                    <canvas id="growth-chart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- NEW: PAGE TYPE BREAKDOWN (Pie Chart) -->
+        <section class="dashboard-section">
+            <div class="section-header">
+                <h2><i class="fas fa-chart-pie"></i> Page Type Distribution</h2>
+                <span class="section-count">37 pages planned</span>
+            </div>
+            <div class="charts-grid">
+                <div class="chart-container">
+                    <h3>Pages by Type</h3>
+                    <canvas id="page-type-pie"></canvas>
+                </div>
+                <div class="chart-container">
+                    <h3>Pages by City</h3>
+                    <canvas id="city-bar"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- NEW: SEO HEALTH RADAR -->
+        <section class="dashboard-section">
+            <div class="section-header">
+                <h2><i class="fas fa-radar"></i> SEO Health Radar</h2>
+                <span class="section-count">Multi-dimensional analysis</span>
+            </div>
+            <div class="charts-grid">
+                <div class="chart-container chart-wide">
+                    <h3>Current vs Target Performance (0-100 scale)</h3>
+                    <canvas id="seo-radar"></canvas>
+                </div>
+                <div class="chart-container">
+                    <h3>Citation Sources by Type</h3>
+                    <canvas id="citation-pie"></canvas>
+                </div>
+                <div class="chart-container">
+                    <h3>Monthly Backlink Acquisition Goal</h3>
+                    <canvas id="backlink-bar"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- NEW: BACKLINK ANALYTICS -->
+        <section class="dashboard-section">
+            <div class="section-header">
+                <h2><i class="fas fa-project-diagram"></i> Backlink Analytics</h2>
+                <span class="section-count">Visual breakdown</span>
+            </div>
+            <div class="charts-grid">
+                <div class="chart-container">
+                    <h3>Backlink Quality Distribution</h3>
+                    <canvas id="backlink-quality-pie"></canvas>
+                </div>
+                <div class="chart-container">
+                    <h3>Referring Domain Authority</h3>
+                    <canvas id="domain-authority-bar"></canvas>
+                </div>
+                <div class="chart-container chart-wide">
+                    <h3>Backlink Acquisition Timeline (90 Days)</h3>
+                    <canvas id="backlink-timeline"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- ACTION BAR -->
+        <section class="action-bar">
+            <div class="action-text">
+                🚀 <strong>Ready to publish your first page?</strong>
+                <small>Start with Burlington, Oakville, or Milton — all 3 are ready to publish</small>
+            </div>
+            <a href="content-to-publish/week1/Day1-Burlington.md" class="action-button" target="_blank">
+                <i class="fas fa-rocket"></i> Open Day 1 Content
+            </a>
+        </section>
+
+        <!-- DAILY TASKS -->
+        <section class="dashboard-section">
+            <div class="section-header">
+                <h2><i class="fas fa-tasks"></i> Today's Tasks <span class="section-count" id="tasks-count">6 pending</span></h2>
+                <button class="reset-tasks-btn" id="reset-tasks-btn" title="Reset all tasks">
+                    <i class="fas fa-redo"></i> Reset
+                </button>
+            </div>
+            <div class="tasks-container" id="daily-tasks"></div>
+        </section>
+
+        <!-- PAGES TRACKING -->
+        <section class="dashboard-section">
+            <div class="section-header">
+                <h2><i class="fas fa-file-code"></i> pSEO Pages Tracker <span class="section-count">3 pages</span></h2>
+                <button class="filter-btn" id="filter-pages-btn">
+                    <i class="fas fa-filter"></i> Filter
+                </button>
+            </div>
+            <div class="table-container">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>URL</th>
+                            <th>Title</th>
+                            <th>Primary Keyword</th>
+                            <th>Volume</th>
+                            <th>QA</th>
+                            <th>Status</th>
+                            <th>Week</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="pages-table-body"></tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- CITATIONS -->
+        <section class="dashboard-section">
+            <div class="section-header">
+                <h2><i class="fas fa-map-marker-alt"></i> Citations & Local SEO <span class="section-count">20 citations</span></h2>
+            </div>
+            <div class="citations-layout">
+                <div class="citation-summary">
+                    <div class="summary-card">
+                        <div class="summary-label"><i class="fas fa-paper-plane"></i> Submitted</div>
+                        <div class="summary-value"><span id="citations-submitted">0</span> / 40</div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="summary-label"><i class="fas fa-check-circle"></i> Approved</div>
+                        <div class="summary-value" id="citations-approved">0</div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="summary-label"><i class="fas fa-clock"></i> Pending</div>
+                        <div class="summary-value" id="citations-pending">0</div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="summary-label"><i class="fas fa-chart-pie"></i> Progress</div>
+                        <div class="citation-progress">
+                            <div class="citation-progress-bar">
+                                <div class="citation-progress-fill" id="citation-progress-fill"></div>
+                            </div>
+                            <div class="citation-progress-text" id="citation-progress-text">0%</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="citations-list">
+                    <h3>🎯 Top Priority Citations</h3>
+                    <div class="citation-tier">
+                        <h4>Tier 1 — High Priority</h4>
+                        <ul id="tier1-list"></ul>
+                    </div>
+                    <div class="citation-tier">
+                        <h4>Tier 2 — Medium Priority</h4>
+                        <ul id="tier2-list"></ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- KEYWORDS -->
+        <section class="dashboard-section">
+            <div class="section-header">
+                <h2><i class="fas fa-key"></i> Target Keywords <span class="section-count">Week 1 focus</span></h2>
+                <input type="search" id="keyword-search" placeholder="🔍 Search keywords..." class="search-input">
+            </div>
+            <div class="keywords-grid" id="keywords-grid"></div>
+        </section>
+
+        <!-- 12-WEEK ROADMAP -->
+        <section class="dashboard-section">
+            <div class="section-header">
+                <h2><i class="fas fa-road"></i> 12-Week Roadmap <span class="section-count">37 pages planned</span></h2>
+            </div>
+            <div class="week-grid" id="week-grid"></div>
+        </section>
+
+        <!-- BACKLINKS -->
+        <section class="dashboard-section">
+            <div class="section-header">
+                <h2><i class="fas fa-link"></i> Backlink Acquisition <span class="section-count">5 guest posts planned</span></h2>
+            </div>
+            <div class="backlink-layout">
+                <div class="backlink-stats">
+                    <div class="stat-box">
+                        <div class="stat-label"><i class="fas fa-link"></i> Total Backlinks</div>
+                        <div class="stat-value">743 → 1,050</div>
+                        <div class="stat-change"><i class="fas fa-arrow-up"></i> +307 (+41%)</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-label"><i class="fas fa-globe"></i> Referring Domains</div>
+                        <div class="stat-value">309 → 400</div>
+                        <div class="stat-change"><i class="fas fa-arrow-up"></i> +91 (+29%)</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-label"><i class="fas fa-chart-line"></i> Authority Score</div>
+                        <div class="stat-value">7 → 13</div>
+                        <div class="stat-change"><i class="fas fa-arrow-up"></i> +6 (+85%)</div>
+                    </div>
+                </div>
+                <div class="backlink-sources">
+                    <h3>🎯 Active Backlink Sources</h3>
+                    <ul>
+                        <li><strong><i class="fas fa-cannabis"></i> Cannabis Directories</strong> — Leafly, Weedmaps, CannaReviews</li>
+                        <li><strong><i class="fas fa-newspaper"></i> Local News</strong> — Brampton Guardian, Oakville Beaver, Mississauga News</li>
+                        <li><strong><i class="fas fa-pen-nib"></i> Guest Posts</strong> — Cannabis Culture Magazine, Civilized.Life, StratCann</li>
+                        <li><strong><i class="fas fa-mobile-alt"></i> Influencer Partnerships</strong> — Micro-influencers in cannabis space</li>
+                        <li><strong><i class="fas fa-globe-americas"></i> General Directories</strong> — Yelp, Yellow Pages, BBB</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- GSC: TOP QUERIES -->
+        <section class="dashboard-section gsc-section">
+            <div class="section-header">
+                <h2><i class="fas fa-search"></i> Top Search Queries <span class="section-count" id="gsc-status-text"><i class="fas fa-circle" style="color: var(--warning)"></i> Mock Data</span></h2>
+                <button class="filter-btn" id="refresh-gsc-btn" title="Refresh GSC Data">
+                    <i class="fas fa-sync"></i> Refresh
+                </button>
+            </div>
+            <ul class="gsc-list" id="gsc-queries-list"></ul>
+        </section>
+
+        <!-- GSC: TOP PAGES -->
+        <section class="dashboard-section gsc-section">
+            <div class="section-header">
+                <h2><i class="fas fa-file-alt"></i> Top Performing Pages</h2>
+                <span class="section-count">Real GSC data</span>
+            </div>
+            <ul class="gsc-list" id="gsc-pages-list"></ul>
+        </section>
+
+        <!-- GSC: BREAKDOWN CHARTS -->
+        <section class="dashboard-section gsc-section">
+            <div class="section-header">
+                <h2><i class="fas fa-globe"></i> GSC Breakdown</h2>
+                <span id="gsc-last-refresh" class="section-count">—</span>
+            </div>
+            <div class="charts-grid">
+                <div class="chart-container"><h3>Device Distribution</h3><canvas id="gsc-devices-chart"></canvas></div>
+                <div class="chart-container"><h3>Position Distribution</h3><canvas id="gsc-position-chart"></canvas></div>
+                <div class="chart-container"><h3>Country Traffic</h3><canvas id="gsc-countries-chart"></canvas></div>
+                <div class="chart-container chart-wide"><h3>Top 5 Queries</h3><canvas id="gsc-queries-chart"></canvas></div>
+            </div>
+            <div id="gsc-countries-bars" style="margin-top: 24px;"></div>
+        </section>
+
+        <!-- GSC: URL INSPECTION -->
+        <section class="dashboard-section gsc-section">
+            <div class="section-header">
+                <h2><i class="fas fa-stethoscope"></i> Site Health (URL Inspection)</h2>
+                <span class="section-count">Last crawled status</span>
+            </div>
+            <div id="gsc-inspection-status"></div>
+        </section>
+
+        <!-- GSC: SITEMAPS -->
+        <section class="dashboard-section gsc-section">
+            <div class="section-header">
+                <h2><i class="fas fa-sitemap"></i> Sitemap Status</h2>
+                <span class="section-count">Submission health</span>
+            </div>
+            <div class="table-container">
+                <table class="data-table">
+                    <thead><tr><th>Sitemap URL</th><th>Last Submitted</th><th>Errors</th><th>Warnings</th><th>Status</th></tr></thead>
+                    <tbody id="gsc-sitemaps-body"></tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- FOOTER -->
+        <footer class="dashboard-footer">
+            <p>🌿 <strong>Weedistillery 90-Day SEO Dashboard</strong></p>
+            <p>Last updated: <span id="last-updated">2026-09-07</span> · Auto-refreshes daily via GitHub Actions</p>
+            <p>
+                <a href="README.md"><i class="fas fa-book"></i> Documentation</a> ·
+                <a href="GITHUB_SETUP.md"><i class="fas fa-rocket"></i> Deployment</a> ·
+                <a href="apps-script/README.md"><i class="fas fa-code"></i> GSC Setup</a> ·
+                <a href="#" id="export-link-footer"><i class="fas fa-download"></i> Export Report</a>
+            </p>
+        </footer>
+
     </div>
-  </div>
 
-  <!-- Main dashboard (hidden until authenticated) -->
-  <div id="dashboard" class="dashboard hidden">
-    <header class="topbar">
-      <div class="topbar-left">
-        <h1 class="brand">🌿 WeeDistillery</h1>
-        <span class="subtitle">Marketing Dashboard</span>
-      </div>
-      <div class="topbar-right">
-        <span id="data-source" class="user-info">Loading...</span>
-        <span id="user-info" class="user-info"></span>
-        <button id="sign-out-btn" class="btn-secondary">Sign out</button>
-      </div>
-    </header>
+    <div class="toast" id="toast"></div>
 
-    <nav class="tabs">
-      <button class="tab active" data-tab="opportunities">
-        Top 10 Opportunities
-        <span class="tab-badge" id="opps-badge">10</span>
-      </button>
-      <button class="tab" data-tab="blogs">
-        Blogs
-        <span class="tab-badge" id="blogs-badge">8</span>
-      </button>
-      <button class="tab" data-tab="architecture">
-        Architecture
-        <span class="tab-badge" id="arch-badge">7</span>
-      </button>
-      <button class="tab" data-tab="gsc-topics">
-        Real Topics
-        <span class="tab-badge" id="gsc-badge">25</span>
-      </button>
-      <button class="tab" data-tab="competitors" disabled>
-        Competitors <span class="tab-soon">soon</span>
-      </button>
-      <button class="tab" data-tab="gbp" disabled>
-        GBP <span class="tab-soon">soon</span>
-      </button>
-      <button class="tab" data-tab="seo" disabled>
-        SEO On-Page <span class="tab-soon">soon</span>
-      </button>
-    </nav>
-
-    <main class="content">
-      <!-- Opportunities tab -->
-      <section id="tab-opportunities" class="tab-panel active">
-        <div class="panel-header">
-          <h2>Top 10 Opportunities</h2>
-          <p class="muted">Ranked by potential traffic impact. Click "Grab" to send to content pipeline.</p>
-        </div>
-
-        <div class="stats-row">
-          <div class="stat-card">
-            <div class="stat-value" id="stat-high">3</div>
-            <div class="stat-label">High impact</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-value" id="stat-medium">6</div>
-            <div class="stat-label">Medium impact</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-value" id="stat-low">3</div>
-            <div class="stat-label">Low impact</div>
-          </div>
-          <div class="stat-card highlight">
-            <div class="stat-value" id="stat-uplift">+91</div>
-            <div class="stat-label">Est. monthly visits if all shipped</div>
-          </div>
-        </div>
-
-        <div class="filter-bar">
-          <label><input type="checkbox" data-filter="impact" value="high" checked> High</label>
-          <label><input type="checkbox" data-filter="impact" value="medium" checked> Medium</label>
-          <label><input type="checkbox" data-filter="impact" value="low" checked> Low</label>
-          <label><input type="checkbox" data-filter="category" value="content_gap" checked> Content gap</label>
-          <label><input type="checkbox" data-filter="category" value="onpage" checked> On-page</label>
-          <label><input type="checkbox" data-filter="category" value="geo_targeting" checked> Geo</label>
-          <label><input type="checkbox" data-filter="category" value="competitor" checked> Competitor</label>
-          <label><input type="checkbox" data-filter="category" value="gbp_qa" checked> GBP Q</label>
-        </div>
-
-        <table class="opps-table">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Priority</th>
-              <th>Opportunity</th>
-              <th>Source</th>
-              <th>Est. lift</th>
-              <th>Action</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody id="opps-tbody">
-            <tr><td colspan="7" class="loading">Loading opportunities...</td></tr>
-          </tbody>
-        </table>
-      </section>
-
-      <!-- Blogs tab -->
-      <section id="tab-blogs" class="tab-panel">
-        <div class="panel-header">
-          <h2>Blog Pipeline</h2>
-          <p class="muted">Drafts awaiting review and published posts. Approve inline or open in WordPress.</p>
-        </div>
-
-        <div class="stats-row">
-          <div class="stat-card">
-            <div class="stat-value" id="blog-stat-drafts">3</div>
-            <div class="stat-label">Pending review</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-value" id="blog-stat-published">5</div>
-            <div class="stat-label">Published this week</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-value" id="blog-stat-rejected">0</div>
-            <div class="stat-label">Rejected this week</div>
-          </div>
-          <div class="stat-card highlight">
-            <div class="stat-value" id="blog-stat-time">2.3h</div>
-            <div class="stat-label">Avg time to publish</div>
-          </div>
-        </div>
-
-        <div class="filter-bar">
-          <label>Filter:
-            <select id="blog-filter">
-              <option value="all">All</option>
-              <option value="pending_approval">Pending review</option>
-              <option value="published">Published</option>
-              <option value="rejected">Rejected</option>
-            </select>
-          </label>
-          <label><input type="checkbox" id="blog-show-real" checked> Real images</label>
-          <label><input type="checkbox" id="blog-show-placeholder" checked> Placeholder images</label>
-        </div>
-
-        <div id="blog-list" class="blog-list">
-          <div class="loading">Loading blogs...</div>
-        </div>
-      </section>
-
-      <!-- Real Topics (GSC) tab -->
-      <section id="tab-gsc-topics" class="tab-panel">
-        <div class="panel-header">
-          <h2>Real Topics from Google Search Console</h2>
-          <p class="muted">The 25 queries real people are typing into Google to find weedistillery.com. Sorted by opportunity score (impressions × position).</p>
-        </div>
-        <div id="gsc-gap-content">
-          <div class="loading">Loading real keyword data...</div>
-        </div>
-      </section>
-
-      <!-- Architecture tab -->
-      <section id="tab-architecture" class="tab-panel">
-        <div class="panel-header">
-          <h2>Content Architecture</h2>
-          <p class="muted">The link graph the blog pipeline uses — hub categories, real product URLs, and related posts. Every new blog links into this graph.</p>
-        </div>
-        <div id="architecture-content">
-          <div class="loading">Loading link graph...</div>
-        </div>
-      </section>
-    </main>
-
-    <footer class="footer">
-      <span>WeeDistillery Content Bot • Live data • Auto-refresh every 30s</span>
-    </footer>
-  </div>
-
-  <script src="dashboard.js"></script>
-  <script src="auth.js"></script>
-  <!-- Google Identity Services for "Sign in with Google" (only loaded when DEMO_MODE=false in auth.js) -->
-  <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <script src="dashboard.js"></script>
 </body>
 </html>

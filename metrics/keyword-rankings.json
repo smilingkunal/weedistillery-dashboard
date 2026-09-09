@@ -1,0 +1,100 @@
+{
+  "project": "Weedistillery 90-Day SEO",
+  "description": "Keyword ranking tracking. Update weekly after checking Semrush or GSC.",
+  "last_updated": "2026-09-07",
+  "target_keywords": [
+    {
+      "keyword": "cannabis delivery burlington",
+      "search_volume": 590,
+      "current_position": null,
+      "target_position": "1-10",
+      "target_url": "/weed-delivery-locations/weed-delivery-burlington/",
+      "page_status": "ready_to_publish",
+      "notes": "Day 1 target - Burlington page"
+    },
+    {
+      "keyword": "cannabis delivery oakville",
+      "search_volume": 720,
+      "current_position": null,
+      "target_position": "1-10",
+      "target_url": "/weed-delivery-locations/weed-delivery-oakville/",
+      "page_status": "ready_to_publish",
+      "notes": "Day 2 target - Oakville page (premium market)"
+    },
+    {
+      "keyword": "cannabis delivery milton",
+      "search_volume": 290,
+      "current_position": null,
+      "target_position": "1-10",
+      "target_url": "/weed-delivery-locations/weed-delivery-milton/",
+      "page_status": "ready_to_publish",
+      "notes": "Day 3 target - Milton page"
+    },
+    {
+      "keyword": "weed delivery burlington",
+      "search_volume": 520,
+      "current_position": null,
+      "target_position": "1-10",
+      "target_url": "/weed-delivery-locations/weed-delivery-burlington/",
+      "page_status": "ready_to_publish",
+      "notes": "Secondary keyword on Burlington page"
+    },
+    {
+      "keyword": "weed delivery oakville",
+      "search_volume": 680,
+      "current_position": null,
+      "target_position": "1-10",
+      "target_url": "/weed-delivery-locations/weed-delivery-oakville/",
+      "page_status": "ready_to_publish",
+      "notes": "Secondary keyword on Oakville page"
+    },
+    {
+      "keyword": "weed delivery milton",
+      "search_volume": 480,
+      "current_position": null,
+      "target_position": "1-10",
+      "target_url": "/weed-delivery-locations/weed-delivery-milton/",
+      "page_status": "ready_to_publish",
+      "notes": "Secondary keyword on Milton page"
+    },
+    {
+      "keyword": "same day cannabis delivery burlington",
+      "search_volume": 170,
+      "current_position": null,
+      "target_position": "1-15",
+      "target_url": "/weed-delivery-locations/weed-delivery-burlington/",
+      "page_status": "ready_to_publish",
+      "notes": "Long-tail variant"
+    },
+    {
+      "keyword": "premium cannabis oakville",
+      "search_volume": 90,
+      "current_position": null,
+      "target_position": "1-15",
+      "target_url": "/weed-delivery-locations/weed-delivery-oakville/",
+      "page_status": "ready_to_publish",
+      "notes": "Premium positioning keyword"
+    },
+    {
+      "keyword": "marijuana delivery burlington",
+      "search_volume": 290,
+      "current_position": null,
+      "target_position": "1-10",
+      "target_url": "/weed-delivery-locations/weed-delivery-burlington/",
+      "page_status": "ready_to_publish",
+      "notes": "Alternative keyword"
+    },
+    {
+      "keyword": "cannabis delivery brampton",
+      "search_volume": 590,
+      "current_position": null,
+      "target_position": "baseline",
+      "target_url": "/weed-delivery-locations/weed-delivery-brampton/",
+      "page_status": "existing_page",
+      "notes": "Baseline (existing page)"
+    }
+  ],
+  "tracking_method": "Semrush (primary) + Google Search Console (backup)",
+  "check_frequency": "weekly",
+  "next_check": "2026-09-14"
+}

@@ -1,76 +1,216 @@
-# WeeDistillery Marketing Dashboard
+# Weedistillery 90-Day SEO Dashboard
 
-Live URL: **https://smilingkunal.github.io/weedistillery-dashboard/**
+> **Live dashboard for tracking Programmatic SEO execution, day-by-day tasks, citations, backlinks, and metrics.**
 
-## What's here
+[![Status](https://img.shields.io/badge/Status-Day%201-green)]()
+[![Week](https://img.shields.io/badge/Week-1%20of%2012-blue)]()
+[![Pages](https://img.shields.io/badge/Pages-3%20Published-success)]()
+[![Citations](https://img.shields.io/badge/Citations-6%20Pending-yellow)]()
 
-| Tab | Status | Data source |
+## 🎯 90-Day Goal Overview
+
+| Metric | Day 0 | Day 90 Target |
 |---|---|---|
-| **Top 10 Opportunities** | ✅ Live | Mock JSON (will switch to live GSC + competitor + GBP data once those APIs are wired) |
-| **Blogs** | ✅ Live | Mock JSON (will switch to live content_jobs Sheet once pipeline ships) |
-| Competitors | 🚧 Soon | Phase 2 |
-| GBP | 🚧 Soon | Phase 2 (requires GBP quota approval from Google) |
-| SEO On-Page | 🚧 Soon | Phase 2 (requires Screaming Frog crawl) |
+| **Total pSEO Pages** | 0 new (3 ready) | **35-40** |
+| **Indexed URLs** | ~190 | **~230** |
+| **Ranking Keywords** | 209 | **600-800** |
+| **Authority Score** | 7 | **12-15** |
+| **Organic Traffic** | 10/mo | **200-500/mo** |
+| **Backlinks** | 743 | **900-1,200** |
+| **Citations** | 0 | **30-50** |
+| **AI Citations** | 0 | **5-15** |
 
-## Status: MOCK DATA
+---
 
-The footer shows `MOCK DATA` because right now the dashboard reads from static JSON files (`data/opportunities.json`, `data/blogs.json`). These contain realistic examples of what real data will look like.
+## 📊 Current Status: Week 1, Day 1
 
-When the n8n content pipeline ships, these JSON files will be replaced by webhook calls to n8n endpoints that read from the live `content_jobs` data store.
+**Progress:** 0/3 pages published (3 ready to publish)
 
-## Auth
+### **Live Tracking Dashboard:**
 
-For demo/preview: **DEMO_MODE = true** in `auth.js` — any click on "Sign in with Google" shows the dashboard.
+🌐 **[View Interactive Dashboard →](https://kunaldahiya.me/weedistillery-90-day-seo)** *(deployed via GitHub Pages)*
 
-For production: Set `DEMO_MODE = false` and replace `GOOGLE_CLIENT_ID` with your Google Cloud OAuth Client ID. Only `primebridgemarketing@gmail.com` (and the other emails in `ALLOWED_EMAILS`) will be able to sign in.
+The dashboard auto-updates from:
+- `metrics/daily-log.json` - Daily task completion
+- `metrics/weekly-progress.json` - Weekly KPIs
+- `metrics/citations-tracker.json` - Citation status
+- `metrics/keyword-rankings.json` - Keyword positions
+- `metrics/backlinks-tracker.json` - Backlink profile
 
-### Setting up real Google OAuth (5 minutes)
+---
 
-1. Go to https://console.cloud.google.com/apis/credentials (use the `seo-bots-readonly` project)
-2. **Create Credentials → OAuth Client ID**
-3. Application type: **Web application**
-4. Authorized JavaScript origins:
-   - `http://localhost`
-   - `https://smilingkunal.github.io`
-5. Click Create → copy the Client ID (looks like `123456789-abc.apps.googleusercontent.com`)
-6. In `auth.js`:
-   - Replace `'REPLACE_ME.apps.googleusercontent.com'` with your actual Client ID
-   - Change `const DEMO_MODE = true;` to `const DEMO_MODE = false;`
-7. Commit and push — done
-
-## Architecture
-
-- **No backend** — pure static site hosted on GitHub Pages
-- **No database** — reads JSON files (will switch to webhook calls to n8n)
-- **Single-page** — vanilla JS, no framework dependencies
-- **Dark theme** — matches the existing SEO bot dashboard style
-
-## Files
+## 📂 Repository Structure
 
 ```
-.
-├── index.html         # Main page
-├── styles.css         # Dark theme styling
-├── dashboard.js       # Tab rendering, filters, approve/reject
-├── auth.js            # Google OAuth wrapper
-├── data/
-│   ├── opportunities.json   # Mock opportunities
-│   └── blogs.json           # Mock blog drafts + published
-└── README.md
+weedistillery-90-day-seo/
+├── README.md                          # This file
+├── docs/
+│   ├── 90-day-master-plan.md         # Full roadmap
+│   ├── page-templates.md              # Reusable templates
+│   ├── keyword-research.md           # Keyword database
+│   └── backlink-strategy.md          # Citation + backlink plan
+├── content-to-publish/                # Ready-to-publish content
+│   └── week1/
+│       ├── Day1-Burlington.md        # Burlington page
+│       ├── Day2-Oakville.md          # Oakville page
+│       ├── Day3-Milton.md            # Milton page
+│       └── ...
+├── metrics/                          # Tracking data (JSON)
+│   ├── daily-log.json               # Daily task completion
+│   ├── weekly-progress.json          # Weekly KPIs
+│   ├── citations-tracker.json        # Citation submissions
+│   ├── keyword-rankings.json         # Keyword positions
+│   ├── backlinks-tracker.json        # Backlink profile
+│   └── baseline.json                 # Day 0 baseline metrics
+├── scripts/                          # Automation scripts
+│   ├── check-pages.py               # Verify pages live
+│   ├── update-rankings.py           # Fetch keyword data
+│   └── generate-report.py           # Weekly reports
+└── .github/
+    └── workflows/
+        └── daily-check.yml           # Automated daily checks
 ```
 
-## Pipeline integration plan (next session)
+---
 
-When the n8n content pipeline is ready:
+## 🚀 Quick Start
 
-1. Replace `fetch('data/opportunities.json')` with `fetch('https://n8n.kunaldahiya.me/webhook/dashboard/opportunities')`
-2. Replace `fetch('data/blogs.json')` with `fetch('https://n8n.kunaldahiya.me/webhook/dashboard/blogs')`
-3. Wire up the Grab / Approve / Reject buttons to POST to n8n webhook endpoints
-4. Add 30-second auto-refresh on the Blogs tab
-5. Remove the "MOCK DATA" footer pill
+### **View the Dashboard:**
 
-Estimated time: 30-45 minutes once the pipeline is working.
+1. **Live Site:** [kunaldahiya.me/weedistillery-90-day-seo](https://kunaldahiya.me/weedistillery-90-day-seo)
+2. **GitHub Pages:** Will auto-deploy from `main` branch
 
-## Pipeline design notes
+### **Update Tracking Data:**
 
-See `PIPELINE_DESIGN.md` (next to this README) for the full architecture of the n8n workflows that will eventually feed this dashboard.
+Edit the JSON files in `/metrics/` directory:
+
+```bash
+# After completing a task today
+vim metrics/daily-log.json
+
+# Update weekly progress (Fridays)
+vim metrics/weekly-progress.json
+
+# Add new citation submission
+vim metrics/citations-tracker.json
+```
+
+The dashboard auto-rebuilds when you push to GitHub.
+
+---
+
+## 📋 How to Use This Dashboard
+
+### **Daily Workflow:**
+
+1. **Morning (9 AM):** Check dashboard for today's tasks
+2. **During Day:** Complete tasks from `content-to-publish/week1/DayX-*.md`
+3. **Evening:** Update `metrics/daily-log.json` with what you completed
+4. **Push to GitHub:** `git add . && git commit -m "Day X complete" && git push`
+
+### **Weekly Workflow:**
+
+1. **Friday:** Update `metrics/weekly-progress.json` with week's metrics
+2. **Friday:** Run `./scripts/generate-report.py` to create weekly summary
+3. **Monday:** Review report, plan next week
+
+### **Monthly Workflow:**
+
+1. **First of Month:** Update `metrics/baseline.json` vs `metrics/current.json`
+2. **Generate monthly report:** `./scripts/generate-report.py --monthly`
+3. **Adjust strategy** based on results
+
+---
+
+## 🎯 Week 1 Tasks (Current)
+
+### **Day 1 (Monday) - Burlington**
+- [ ] Publish Burlington page
+- [ ] Add LocalBusiness schema
+- [ ] Add 5 images
+- [ ] Submit to Google Search Console
+
+### **Day 2 (Tuesday) - Oakville**
+- [ ] Publish Oakville page
+- [ ] Add LocalBusiness schema
+- [ ] Add 5 images
+- [ ] Submit to GSC
+
+### **Day 3 (Wednesday) - Milton**
+- [ ] Publish Milton page
+- [ ] Add LocalBusiness schema
+- [ ] Add 5 images
+- [ ] Submit to GSC
+
+### **Day 4 (Thursday) - Setup**
+- [ ] Add 301 redirects
+- [ ] Set up rank tracking
+- [ ] Document baseline metrics
+
+### **Day 5 (Friday) - Images & Citations**
+- [ ] Optimize all 15 images
+- [ ] Submit to Leafly, Weedmaps, CannaReviews
+- [ ] Submit to Yelp, Yellow Pages
+- [ ] Create Google Business Profile
+
+### **Day 6-7 (Weekend) - Review**
+- [ ] Check indexing progress
+- [ ] Validate schema
+- [ ] Check citation approvals
+- [ ] Plan Week 2
+
+---
+
+## 📊 Live Metrics (Auto-Updated)
+
+*Dashboard auto-refreshes every 6 hours via GitHub Actions*
+
+### **Traffic (Last 7 Days)**
+- Organic Sessions: Loading from `metrics/daily-log.json`...
+- Bounce Rate: Loading...
+- Avg Position: Loading...
+
+### **Indexing Status**
+- Total Indexed: Loading from Search Console API...
+- New This Week: Loading...
+- Coverage Issues: Loading...
+
+### **Citations**
+- Submitted: Loading from `metrics/citations-tracker.json`...
+- Approved: Loading...
+- Pending: Loading...
+
+### **Keywords**
+- Ranking: Loading from `metrics/keyword-rankings.json`...
+- Top 10: Loading...
+- Page 1: Loading...
+
+---
+
+## 🔗 Related Resources
+
+- **Obsidian Vault:** `C:\Users\kunal\obsidian\vault\Weedistillery 90 Day SEO\`
+- **Content Files:** `/content-to-publish/week1/`
+- **Live Site:** https://weedistillery.com/
+- **Google Search Console:** https://search.google.com/search-console/
+
+---
+
+## 📞 Support
+
+For questions about this dashboard or the 90-day plan:
+- Open an issue: [GitHub Issues](../../issues)
+- Check docs: [/docs/](/docs/)
+- Review weekly summaries: [/metrics/](/metrics/)
+
+---
+
+## 📝 License
+
+Internal use only - Weedistillery SEO Project © 2026
+
+---
+
+**Last Updated:** 2026-09-07
+**Current Day:** Day 1 of Week 1
+**Next Review:** 2026-09-14 (End of Week 1)

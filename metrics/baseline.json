@@ -1,0 +1,33 @@
+{
+  "baseline_date": "2026-09-07",
+  "project": "Weedistillery 90-Day SEO",
+  "current_day": 1,
+  "current_week": 1,
+  "start_date": "2026-09-08",
+  "end_date": "2026-12-06",
+  "metrics": {
+    "indexed_pages": 190,
+    "ranking_keywords": 209,
+    "authority_score": 7,
+    "organic_traffic_monthly": 10,
+    "backlinks_total": 743,
+    "referring_domains": 309,
+    "citations_count": 0,
+    "ai_citations": 0,
+    "pseo_pages_live": 0,
+    "pseo_pages_published_total": 0
+  },
+  "targets_day_90": {
+    "indexed_pages": 230,
+    "ranking_keywords": 700,
+    "authority_score": 13,
+    "organic_traffic_monthly": 350,
+    "backlinks_total": 1050,
+    "referring_domains": 400,
+    "citations_count": 40,
+    "ai_citations": 10,
+    "pseo_pages_live": 37,
+    "pseo_pages_published_total": 37
+  },
+  "notes": "Day 0 baseline captured before Week 1 begins. Update current metrics as you progress."
+}

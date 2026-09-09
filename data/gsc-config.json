@@ -1,0 +1,15 @@
+{
+  "config": {
+    "apiEndpoint": "",
+    "siteUrl": "https://weedistillery.com/",
+    "lastUpdated": null,
+    "autoRefreshEnabled": false,
+    "refreshIntervalMinutes": 360,
+    "enabled": false
+  },
+  "fallback": {
+    "useMockData": true,
+    "mockSource": "apps-script/Code.gs#generateMockData_"
+  },
+  "instructions": "1. Deploy Apps Script as Web App\n2. Copy deployment URL\n3. Paste URL above in apiEndpoint\n4. Set enabled: true\n5. Reload dashboard"
+}
