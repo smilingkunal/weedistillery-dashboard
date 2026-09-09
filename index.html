@@ -294,8 +294,13 @@
         <!-- KEYWORDS -->
         <section class="dashboard-section">
             <div class="section-header">
-                <h2><i class="fas fa-key"></i> Target Keywords <span class="section-count">Week 1 focus</span></h2>
-                <input type="search" id="keyword-search" placeholder="🔍 Search keywords..." class="search-input">
+                <h2><i class="fas fa-key"></i> Target Keywords <span class="section-count">Week 1 focus · click to log position</span></h2>
+                <div class="section-actions">
+                    <input type="search" id="keyword-search" placeholder="🔍 Search keywords..." class="search-input">
+                    <button class="filter-btn" id="reset-keywords-btn" title="Clear all position tracking">
+                        <i class="fas fa-redo"></i> Reset
+                    </button>
+                </div>
             </div>
             <div class="keywords-grid" id="keywords-grid"></div>
         </section>

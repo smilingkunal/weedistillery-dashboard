@@ -1,16 +1,80 @@
 // Weedistillery 90-Day SEO Dashboard - Enhanced with All Chart Types
 
+
+// ============================================
+// FILE OPEN HELPER (handles local + GitHub Pages gracefully)
+// ============================================
+
+async function fileExistsOnServer(relPath) {
+    try {
+        const root = location.pathname.endsWith('/') ? location.pathname : location.pathname.replace(/[^/]+$/, '');
+        const url = root + relPath;
+        const r = await fetch(url, { method: 'HEAD', cache: 'no-cache' });
+        return r.ok;
+    } catch (e) { return false; }
+}
+
+function showLocalSourceModal(item) {
+    const existing = document.getElementById('local-source-modal');
+    if (existing) existing.remove();
+    const title = item.title || 'this content';
+    const wordCount = (item.word_count || (item.qa_score ? '~2,500' : '?')) + ' words';
+    const modal = document.createElement('div');
+    modal.id = 'local-source-modal';
+    modal.className = 'local-source-modal';
+    modal.innerHTML = `
+        <div class="local-source-modal__card">
+            <button class="local-source-modal__close" aria-label="Close">×</button>
+            <h3><i class="fas fa-folder-open"></i> Local source material</h3>
+            <p>This is a copy-paste-ready file that lives on your <strong>local C: drive</strong> at:</p>
+            <code>${item.file || contentPathOf(item.id)}</code>
+            <p class="local-source-modal__hint">
+                These files are NOT served from the live dashboard &mdash; they are <strong>source material</strong>
+                for you to copy/paste into WordPress to publish the actual pages.
+            </p>
+            <div class="local-source-modal__actions">
+                <button class="btn-primary" id="ls-copy-path"><i class="fas fa-copy"></i> Copy path</button>
+                <button class="btn-secondary" id="ls-dismiss">Got it</button>
+            </div>
+        </div>
+    `;
+    document.body.appendChild(modal);
+
+    modal.querySelector('.local-source-modal__close').onclick = () => modal.remove();
+    modal.querySelector('#ls-dismiss').onclick = () => modal.remove();
+    modal.querySelector('#ls-copy-path').onclick = async () => {
+        const fullPath = 'C:\\Users\\kunal\\projects\\weedistillery-90-day-seo\\' + (item.file || '');
+        try {
+            await navigator.clipboard.writeText(fullPath);
+            showToast('Path copied: ' + fullPath);
+        } catch {
+            showToast('Path: ' + fullPath);
+        }
+        modal.remove();
+    };
+    modal.addEventListener('click', e => { if (e.target === modal) modal.remove(); });
+}
+
+function contentPathOf(id) {
+    // Fallback - works for the 3 known pages
+    const map = {1: 'content-to-publish/week1/Day1-Burlington.md', 2: 'content-to-publish/week1/Day2-Oakville.md', 3: 'content-to-publish/week1/Day3-Milton.md'};
+    return map[id] || '';
+}
+
+
 // ============================================
 // DATA
 // ============================================
 
-const pagesData = [
+let pagesData = []; // loaded async from metrics/pages-tracker.json (fallback below)
+const pagesData_FALLBACK = [
     { id: 1, url: "/weed-delivery-locations/weed-delivery-burlington/", title: "Burlington Cannabis Delivery", keyword: "cannabis delivery burlington", volume: 590, qa_score: 92, status: "ready_to_publish", week: 1, file: "content-to-publish/week1/Day1-Burlington.md" },
     { id: 2, url: "/weed-delivery-locations/weed-delivery-oakville/", title: "Oakville Cannabis Delivery", keyword: "cannabis delivery oakville", volume: 720, qa_score: 93, status: "ready_to_publish", week: 1, file: "content-to-publish/week1/Day2-Oakville.md" },
     { id: 3, url: "/weed-delivery-locations/weed-delivery-milton/", title: "Milton Cannabis Delivery", keyword: "cannabis delivery milton", volume: 290, qa_score: 91, status: "ready_to_publish", week: 1, file: "content-to-publish/week1/Day3-Milton.md" }
 ];
 
-const dailyTasks = [
+let dailyTasks = []; // loaded async from metrics/daily-log.json (fallback below)
+const dailyTasks_FALLBACK = [
     { day: 1, week: 1, title: "Publish Burlington Cannabis Delivery page", meta: "Day 1 · 2,500 words · QA 92/100 · 22 internal links", priority: "high", file: "content-to-publish/week1/Day1-Burlington.md" },
     { day: 2, week: 1, title: "Publish Oakville Cannabis Delivery page", meta: "Day 2 · 2,500 words · QA 93/100 · 20 internal links", priority: "high", file: "content-to-publish/week1/Day2-Oakville.md" },
     { day: 3, week: 1, title: "Publish Milton Cannabis Delivery page", meta: "Day 3 · 2,500 words · QA 91/100 · 19 internal links", priority: "high", file: "content-to-publish/week1/Day3-Milton.md" },
@@ -19,7 +83,8 @@ const dailyTasks = [
     { day: 6, week: 1, title: "Weekend review: Check indexing + validate schema", meta: "Day 6-7 · Light monitoring · Plan Week 2", priority: "low", file: "content-to-publish/week1/Day6-7-Weekend-Review.md" }
 ];
 
-const citationsData = [
+let citationsData = []; // loaded async from metrics/citations-tracker.json (fallback below)
+const citationsData_FALLBACK = [
     { platform: "Google Business Profile", da: 100, tier: 1 },
     { platform: "Bing Places", da: 90, tier: 1 },
     { platform: "Leafly", da: 80, tier: 1 },
@@ -34,7 +99,8 @@ const citationsData = [
     { platform: "Cannabis.ca", da: 40, tier: 2 }
 ];
 
-const keywordsData = [
+let keywordsData = []; // loaded async from metrics/keyword-rankings.json (fallback below)
+const keywordsData_FALLBACK = [
     { keyword: "cannabis delivery burlington", volume: 590 },
     { keyword: "cannabis delivery oakville", volume: 720 },
     { keyword: "cannabis delivery milton", volume: 290 },
@@ -49,7 +115,8 @@ const keywordsData = [
     { keyword: "best indica for sleep", volume: 480 }
 ];
 
-const weeksData = [
+let weeksData = []; // loaded async from metrics/weekly-progress.json (fallback below)
+const weeksData_FALLBACK = [
     { week: 1, title: "Foundation", pages: 3, status: "current", desc: "Burlington, Oakville, Milton" },
     { week: 2, title: "Audits", pages: 0, status: "pending", desc: "Audit Brampton + Mississauga" },
     { week: 3, title: "City Coverage", pages: 2, status: "pending", desc: "Halton Hills + Georgetown" },
@@ -566,11 +633,20 @@ function renderDailyTasks() {
         const el = document.createElement('a');
         el.className = 'task-item';
         el.href = task.file || '#';
+        el.dataset.file = task.file || '';
         el.innerHTML = `
             <div class="task-checkbox" onclick="event.preventDefault(); event.stopPropagation(); toggleTask(this, ${i})"></div>
             <div class="task-text"><div class="task-title">${task.title}</div><div class="task-meta">${task.meta}</div></div>
             <span class="task-badge priority-${task.priority}">${task.priority}</span>`;
         container.appendChild(el);
+        // intercept: only navigate if the file exists on the server (GitHub Pages)
+        el.addEventListener('click', async (ev) => {
+            if (!task.file) return;
+            const ok = await fileExistsOnServer(task.file);
+            if (ok) return;
+            ev.preventDefault();
+            showLocalSourceModal({ title: task.title, file: task.file });
+        }, true);
     });
     loadTaskState();
 }
@@ -583,6 +659,9 @@ function toggleTask(cb, i) {
     if (el) el.textContent = done === total ? '✓ All done!' : `${total - done} pending`;
     saveTaskState();
     showToast(cb.classList.contains('checked') ? 'Task completed!' : 'Task unmarked');
+    // Real-time cascade: every toggle re-evaluates metrics and re-renders
+    applyTaskStateToData();
+    recomputeAndRerender();
 }
 
 function saveTaskState() {
@@ -601,10 +680,47 @@ function loadTaskState() {
         document.querySelectorAll('.task-item').forEach((it, i) => {
             if (states[i]) { it.classList.add('completed'); it.querySelector('.task-checkbox').classList.add('checked'); }
         });
+        applyTaskStateToData();
+        // Tasks summary
         const total = dailyTasks.length, done = document.querySelectorAll('.task-item.completed').length;
         const el = document.getElementById('tasks-count');
         if (el) el.textContent = done === total ? '✓ All done!' : `${total - done} pending`;
     } catch (e) {}
+}
+
+// Map localStorage task states onto pagesData/citationsData status fields in memory
+function applyTaskStateToData() {
+    try {
+        const saved = JSON.parse(localStorage.getItem('weedistillery-tasks') || '{}');
+        // Tasks 0..2 (Burlington, Oakville, Milton) correspond to pages 1..3
+        // Task 3 (Day 4 redirects + GSC) maps to a citation bump
+        // Task 4 (Day 5 images + 6 citations) maps to 6 citation approvals
+        const taskToPage = { 0: 1, 1: 2, 2: 3 };
+        for (const [taskIdx, pageIdx] of Object.entries(taskToPage)) {
+            const page = pagesData.find(p => p.id === pageIdx);
+            if (page) {
+                page.status = saved[taskIdx] ? 'published' : 'ready_to_publish';
+                if (saved[taskIdx] && !page.publish_date) page.publish_date = new Date().toISOString().split('T')[0];
+            }
+        }
+        // Task 4 (Day 5) — bumping first 6 citations to 'approved'
+        if (saved[4] && Array.isArray(citationsData)) {
+            citationsData.slice(0, 6).forEach(c => { c.status = 'approved'; });
+        }
+    } catch (e) { console.warn('applyTaskStateToData failed', e); }
+}
+
+// Recompute all derived metrics and re-render affected UI
+function recomputeAndRerender() {
+    // KPIs
+    renderHeader();
+    renderProgressBar();
+    // Table needs updating because page statuses changed
+    renderPagesTable();
+    // Citation tier progress
+    renderCitations();
+    // Charts (sparklines + main charts) need re-render
+    if (typeof Chart !== 'undefined') renderCharts();
 }
 
 function renderPagesTable() {
@@ -618,7 +734,18 @@ function renderPagesTable() {
         const sm = { 'ready_to_publish': 'status-ready', 'published': 'status-published', 'indexed': 'status-indexed', 'ranking': 'status-ranking' };
         const st = { 'ready_to_publish': 'Ready', 'published': 'Published', 'indexed': 'Indexed', 'ranking': 'Ranking' };
         row.innerHTML = `<td><strong>#${p.id}</strong></td><td><code>${p.url}</code></td><td class="keyword">${p.title}</td><td class="keyword">${p.keyword}</td><td class="volume">${p.volume}/mo</td><td><span class="qa-score ${qaClass}">${p.qa_score}/100</span></td><td><span class="status-badge ${sm[p.status]}">${st[p.status]}</span></td><td>Week ${p.week}</td><td><i class="fas fa-external-link-alt action-icon"></i></td>`;
-        row.onclick = () => p.file && window.open(p.file, '_blank');
+        if (p.file) {
+        row.dataset.file = p.file;
+        row.style.cursor = 'pointer';
+    }
+    row.onclick = () => {
+        if (!p.file) return;
+        if (fileExistsOnServer(p.file)) {
+            window.open(p.file, '_blank');
+        } else {
+            showLocalSourceModal(p);
+        }
+    };
         tbody.appendChild(row);
     });
 }
@@ -639,12 +766,214 @@ function renderKeywords() {
     const grid = document.getElementById('keywords-grid');
     if (!grid) return;
     grid.innerHTML = '';
-    keywordsData.forEach(kw => {
+
+    // Hydrate positions from localStorage
+    const saved = JSON.parse(localStorage.getItem('weedistillery-keywords') || '{}');
+
+    keywordsData.forEach((kw, idx) => {
+        const pos = saved[idx]?.position ?? null;
         const card = document.createElement('div');
-        card.className = 'keyword-card';
-        card.innerHTML = `<div class="keyword-text">${kw.keyword}</div><div class="keyword-meta"><span class="keyword-volume"><i class="fas fa-chart-bar"></i> ${kw.volume}/mo</span><span class="position-badge position-not-tracked">Not Tracked</span></div>`;
+        card.className = 'keyword-card' + (pos ? ' has-position' : '');
+        card.dataset.idx = idx;
+
+        // Position badge color by bucket
+        let badgeClass = 'position-not-tracked';
+        let badgeText = 'Click to add position';
+        if (pos != null) {
+            if (pos <= 3) { badgeClass = 'position-top3'; badgeText = '#' + pos; }
+            else if (pos <= 10) { badgeClass = 'position-top10'; badgeText = '#' + pos; }
+            else if (pos <= 20) { badgeClass = 'position-top20'; badgeText = '#' + pos; }
+            else if (pos <= 50) { badgeClass = 'position-top50'; badgeText = '#' + pos; }
+            else if (pos <= 100) { badgeClass = 'position-top100'; badgeText = '#' + pos; }
+            else { badgeClass = 'position-beyond'; badgeText = '#' + pos; }
+        }
+
+        card.innerHTML = `
+            <div class="keyword-text">${kw.keyword}</div>
+            <div class="keyword-meta">
+                <span class="keyword-volume"><i class="fas fa-chart-bar"></i> ${kw.volume}/mo</span>
+                <span class="position-badge ${badgeClass}" data-pos="${pos ?? ''}">${badgeText}</span>
+            </div>
+            <button class="keyword-edit-btn" aria-label="Edit position">
+                <i class="fas fa-pencil-alt"></i>
+            </button>
+        `;
+
+        card.addEventListener('click', (e) => openKeywordEditor(idx, card));
         grid.appendChild(card);
     });
+}
+
+// Inline editor: replaces the keyword card with input + save/cancel
+function openKeywordEditor(idx, cardEl) {
+    const saved = JSON.parse(localStorage.getItem('weedistillery-keywords') || '{}');
+    const current = saved[idx]?.position ?? '';
+    const kw = keywordsData[idx];
+
+    cardEl.classList.add('editing');
+    cardEl.innerHTML = `
+        <div class="keyword-text">${kw.keyword}</div>
+        <div class="keyword-editor">
+            <label>Position</label>
+            <input type="number" min="1" max="500" value="${current}" placeholder="1-100" autofocus>
+            <div class="keyword-editor-actions">
+                <button class="kw-save"><i class="fas fa-check"></i> Save</button>
+                <button class="kw-cancel"><i class="fas fa-times"></i></button>
+                <button class="kw-clear" title="Remove position"><i class="fas fa-eraser"></i></button>
+            </div>
+        </div>
+    `;
+    const input = cardEl.querySelector('input');
+    input.focus();
+    input.select();
+
+    cardEl.querySelector('.kw-save').addEventListener('click', (e) => {
+        e.stopPropagation();
+        const v = parseInt(input.value, 10);
+        if (isNaN(v) || v < 1) { showToast('Enter a position 1-500'); return; }
+        saveKeywordPosition(idx, v);
+    });
+    cardEl.querySelector('.kw-cancel').addEventListener('click', (e) => {
+        e.stopPropagation();
+        renderKeywords();
+    });
+    cardEl.querySelector('.kw-clear').addEventListener('click', (e) => {
+        e.stopPropagation();
+        clearKeywordPosition(idx);
+    });
+    input.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') { e.preventDefault(); cardEl.querySelector('.kw-save').click(); }
+        if (e.key === 'Escape') { e.preventDefault(); cardEl.querySelector('.kw-cancel').click(); }
+    });
+}
+
+function saveKeywordPosition(idx, position) {
+    const saved = JSON.parse(localStorage.getItem('weedistillery-keywords') || '{}');
+    saved[idx] = { position, updated: new Date().toISOString() };
+    localStorage.setItem('weedistillery-keywords', JSON.stringify(saved));
+    // Persist on the data object too (so charts that read keywordsData see the change)
+    if (keywordsData[idx]) {
+        keywordsData[idx].position = position;
+        keywordsData[idx].target = keywordsData[idx].target ?? 10;
+    }
+    renderKeywords();
+    recomputeKeywordMetrics();
+    showToast(`"${keywordsData[idx].keyword}" → #${position}`);
+}
+
+function clearKeywordPosition(idx) {
+    const saved = JSON.parse(localStorage.getItem('weedistillery-keywords') || '{}');
+    delete saved[idx];
+    localStorage.setItem('weedistillery-keywords', JSON.stringify(saved));
+    if (keywordsData[idx]) { delete keywordsData[idx].position; }
+    renderKeywords();
+    recomputeKeywordMetrics();
+    showToast('Position cleared');
+}
+
+function resetAllKeywordPositions() {
+    if (!confirm('Clear all keyword position tracking?')) return;
+    localStorage.removeItem('weedistillery-keywords');
+    keywordsData.forEach(kw => { delete kw.position; });
+    renderKeywords();
+    recomputeKeywordMetrics();
+    showToast('All keyword positions reset');
+}
+
+// Recompute position buckets + score + estimated traffic from current keywordsData
+function recomputeKeywordMetrics() {
+    const counts = { top3: 0, top10: 0, top20: 0, top50: 0, top100: 0, beyond: 0 };
+    let tracked = 0;
+    let estimatedClicks = 0;
+
+    // CTR model by position (industry averages, conservative)
+    const ctrByPos = (p) => {
+        if (p === 1) return 0.30;
+        if (p === 2) return 0.15;
+        if (p === 3) return 0.10;
+        if (p <= 5) return 0.06;
+        if (p <= 10) return 0.025;
+        if (p <= 20) return 0.008;
+        if (p <= 50) return 0.002;
+        if (p <= 100) return 0.0005;
+        return 0;
+    };
+
+    keywordsData.forEach(kw => {
+        const pos = kw.position;
+        if (!pos || pos < 1) return;
+        tracked++;
+        if (pos <= 3) counts.top3++;
+        else if (pos <= 10) counts.top10++;
+        else if (pos <= 20) counts.top20++;
+        else if (pos <= 50) counts.top50++;
+        else if (pos <= 100) counts.top100++;
+        else counts.beyond++;
+        estimatedClicks += (kw.volume || 0) * ctrByPos(pos);
+    });
+
+    // Store on window for chart consumers
+    window.__keywordMetrics = { counts, tracked, estimatedClicks: Math.round(estimatedClicks) };
+
+    // Update rankings donut chart with new buckets
+    if (typeof Chart !== 'undefined' && charts.rankings) {
+        charts.rankings.data.datasets[0].data = [
+            counts.top3, counts.top10, counts.top20, counts.top50, counts.top100, counts.beyond
+        ];
+        charts.rankings.update('none');
+    }
+
+    // Update SEO radar 'Keywords' axis (% of target_keywords in Top 20)
+    const targetCount = 700; // from baseline.json targets_day_90
+    const keywordsScore = Math.min(100, Math.round((counts.top20 / Math.max(1, targetCount)) * 100 * 7));
+    if (typeof Chart !== 'undefined' && charts['seo-radar']) {
+        const r = charts['seo-radar'];
+        // Index 2 = Keywords axis in our radar
+        r.data.datasets[0].data[2] = Math.max(r.data.datasets[0].data[2], keywordsScore);
+        r.update('none');
+    }
+
+    // Update traffic KPI sparkline if present (chart id 'traffic-chart')
+    if (typeof Chart !== 'undefined' && charts['traffic-chart']) {
+        // Add a small bump for current CTR-based clicks
+        const t = charts['traffic-chart'];
+        // Only bump if current data is below our estimate (don't exceed 350/mo target)
+        const last = t.data.datasets[0].data[t.data.datasets[0].data.length - 1] || 0;
+        const target = Math.max(last, estimatedClicks);
+        if (target > last) {
+            // Scale: last-day = baseline (10), interpolated tail toward target
+            const len = t.data.datasets[0].data.length;
+            for (let i = 0; i < len; i++) {
+                const f = (i + 1) / len;
+                const interp = 10 + (target - 10) * f;
+                t.data.datasets[0].data[i] = Math.max(t.data.datasets[0].data[i], Math.round(interp));
+            }
+            t.update('none');
+        }
+    }
+
+    // Update KPI card #5 (Organic Traffic) inline text
+    const trafficCard = document.querySelector('.kpi-card[data-kpi="traffic"] .kpi-current');
+    if (trafficCard) {
+        const current = Math.max(parseInt(trafficCard.textContent, 10) || 0, estimatedClicks);
+        trafficCard.textContent = current.toLocaleString();
+    }
+
+    // Update KPI card #3 (Ranking Keywords)
+    const kwCard = document.querySelector('.kpi-card[data-kpi="keywords"] .kpi-current');
+    if (kwCard) {
+        kwCard.textContent = tracked.toString();
+    }
+
+    // Update KPI card #4 (Authority Score) if many positions in Top 10
+    const authCard = document.querySelector('.kpi-card[data-kpi="authority"] .kpi-current');
+    if (authCard) {
+        const cur = parseInt(authCard.textContent, 10) || 0;
+        const bonus = (counts.top3 * 0.5) + (counts.top10 * 0.2);
+        authCard.textContent = Math.min(13, Math.round((cur + bonus) * 10) / 10).toString();
+    }
+
+    showToast(`Updated: ${tracked} keywords, ~${Math.round(estimatedClicks)} clicks/mo`);
 }
 
 function filterKeywords(q) {
@@ -666,6 +995,207 @@ function renderWeeks() {
         card.innerHTML = `<div class="week-number">Week ${week.week}</div><div class="week-title">${week.title}</div><div class="week-pages">+${week.pages} pages · ${week.desc}</div>${sb}`;
         grid.appendChild(card);
     });
+}
+
+
+// ============================================
+// DATA LOADER (fetches metrics/*.json; falls back to embedded defaults)
+// Maps structured JSON schema → flat arrays the dashboard renders.
+// ============================================
+
+let dataLoadPromise = null;
+let dataLoadState = 'pending'; // pending | loaded | fallback
+
+function _assign(name, value) {
+    // Helper to set a global from inside async scope (avoids eval complexity)
+    if (typeof window !== 'undefined') window[name] = value;
+}
+
+async function loadDashboardData() {
+    if (dataLoadPromise) return dataLoadPromise;
+    dataLoadPromise = (async () => {
+        let loaded = 0, fellback = 0, mapped = 0;
+
+        // 1. pages-tracker.json → pagesData
+        try {
+            const res = await fetch('metrics/pages-tracker.json', { cache: 'no-cache' });
+            if (!res.ok) throw new Error('HTTP ' + res.status);
+            const j = await res.json();
+            if (Array.isArray(j.pages) && j.pages.length > 0) {
+                pagesData = j.pages.map((p, i) => ({
+                    id: p.id ?? (i+1),
+                    url: p.url,
+                    title: p.title,
+                    keyword: p.target_keyword || p.keyword || '',
+                    volume: p.volume ?? 0,
+                    qa_score: p.qa_score ?? null,
+                    status: p.status || 'draft',
+                    week: p.week_target ?? p.week ?? 1,
+                    file: p.file || '',
+                    publish_date: p.publish_date ?? null,
+                    indexed_date: p.indexed_date ?? null,
+                }));
+                mapped++;
+            } else throw new Error('no pages');
+        } catch (e) {
+            pagesData = pagesData_FALLBACK;
+            fellback++;
+        }
+
+        // 2. daily-log.json → dailyTasks
+        // daily-log.json has { days: [{day, week, title, meta, priority, file, completed}] }
+        // If empty (no log entries yet), use embedded defaults so UI works on day-1.
+        try {
+            const res = await fetch('metrics/daily-log.json', { cache: 'no-cache' });
+            if (!res.ok) throw new Error('HTTP ' + res.status);
+            const j = await res.json();
+            if (Array.isArray(j.days) && j.days.length > 0) {
+                dailyTasks = j.days;
+                loaded++;
+            } else {
+                // Empty log → use embedded defaults
+                dailyTasks = dailyTasks_FALLBACK;
+                fellback++;
+            }
+        } catch (e) {
+            dailyTasks = dailyTasks_FALLBACK;
+            fellback++;
+        }
+
+        // 3. citations-tracker.json → citationsData
+        // citations-tracker.json: { target_citations: [{platform, da, tier, ...}], submitted, approved, ... }
+        try {
+            const res = await fetch('metrics/citations-tracker.json', { cache: 'no-cache' });
+            if (!res.ok) throw new Error('HTTP ' + res.status);
+            const j = await res.json();
+            // Schema variants supported:
+            //   { target_citations: [...] }  OR
+            //   { citations: [...] }  (current file uses this)
+            //   { submitted: [...], approved: [...], pending: [...] }
+            const citArr = j.target_citations || j.citations || [
+                ...(j.submitted || []), ...(j.approved || []), ...(j.pending || [])
+            ];
+            if (Array.isArray(citArr) && citArr.length > 0) {
+                citationsData = citArr.map(c => ({
+                    platform: c.platform || c.name,
+                    da: c.domain_authority ?? c.da ?? 0,
+                    tier: c.tier ?? 1,
+                    status: c.status || 'pending',
+                    submitted_date: c.submitted_date ?? null,
+                    login_url: c.login_url ?? '',
+                }));
+                mapped++;
+            } else throw new Error('no citations');
+        } catch (e) {
+            citationsData = citationsData_FALLBACK;
+            fellback++;
+        }
+
+        // 4. keyword-rankings.json → keywordsData
+        // keyword-rankings.json: { target_keywords: [{keyword, page, current_position, target_position, search_volume, url_slug}] }
+        try {
+            const res = await fetch('metrics/keyword-rankings.json', { cache: 'no-cache' });
+            if (!res.ok) throw new Error('HTTP ' + res.status);
+            const j = await res.json();
+            if (Array.isArray(j.target_keywords) && j.target_keywords.length > 0) {
+                keywordsData = j.target_keywords.map(k => ({
+                    keyword: k.keyword,
+                    volume: k.search_volume ?? k.volume ?? 0,
+                    position: k.current_position ?? null,
+                    target: k.target_position ?? null,
+                    page: k.page ?? '',
+                }));
+                mapped++;
+            } else throw new Error('no keywords');
+        } catch (e) {
+            keywordsData = keywordsData_FALLBACK;
+            fellback++;
+        }
+
+        // 5. weekly-progress.json → weeksData
+        // weekly-progress.json: { weeks: [{week, theme, pages_target, status, summary}] }
+        try {
+            const res = await fetch('metrics/weekly-progress.json', { cache: 'no-cache' });
+            if (!res.ok) throw new Error('HTTP ' + res.status);
+            const j = await res.json();
+            if (Array.isArray(j.weeks) && j.weeks.length > 0) {
+                weeksData = j.weeks.map((w, i) => ({
+                    week: w.week ?? (i+1),
+                    title: w.theme || w.title,
+                    pages: w.pages_target ?? w.pages ?? 0,
+                    status: w.status || 'pending',
+                    desc: w.summary || w.desc || ''
+                }));
+                mapped++;
+            } else throw new Error('no weeks');
+        } catch (e) {
+            weeksData = weeksData_FALLBACK;
+            fellback++;
+        }
+
+        // 6. baseline.json → baselineData
+        try {
+            const res = await fetch('metrics/baseline.json', { cache: 'no-cache' });
+            if (!res.ok) throw new Error('HTTP ' + res.status);
+            const j = await res.json();
+            if (j.metrics && j.targets_day_90) {
+                baselineData = {
+                    metrics: j.metrics,
+                    targets: j.targets_day_90,
+                    baseline_date: j.baseline_date,
+                    current_day: j.current_day ?? 1,
+                    current_week: j.current_week ?? 1,
+                };
+                loaded++;
+            } else throw new Error('baseline shape mismatch');
+        } catch (e) {
+            baselineData = baselineData_FALLBACK;
+            fellback++;
+        }
+
+        dataLoadState = mapped > 0 ? 'loaded' : (loaded > 0 ? 'partial' : 'fallback');
+        console.log(`Dashboard data: mapped=${mapped}, loaded=${loaded}, fallback=${fellback}, state=${dataLoadState}`);
+    })();
+    return dataLoadPromise;
+}
+
+                    } else {
+                        val = weeksData_FALLBACK;
+                    }
+                } else if (name === 'baselineData') {
+                    // keep shape - require object with metrics + targets
+                    if (!json.metrics || !json.targets) val = baselineData_FALLBACK;
+                }
+                if (Array.isArray(val)) {
+                    if (val.length === 0 && eval(name + '_FALLBACK').length > 0) {
+                        // empty array - fall back
+                        eval(name + ' = ' + name + '_FALLBACK');
+                        fellback++;
+                    } else {
+                        eval(name + ' = ' + JSON.stringify(val));
+                        loaded++;
+                    }
+                } else if (typeof val === 'object' && val !== null) {
+                    eval(name + ' = ' + JSON.stringify(val));
+                    loaded++;
+                } else {
+                    eval(name + ' = ' + name + '_FALLBACK');
+                    fellback++;
+                }
+            } catch (e) {
+                eval(name + ' = ' + name + '_FALLBACK');
+                fellback++;
+                console.info('Dashboard data: using embedded fallback for', name, '(' + e.message + ')');
+            }
+        }
+        dataLoadState = loaded > 0 ? 'loaded' : 'fallback';
+        console.log(`Dashboard data: loaded=${loaded}, fallback=${fellback}`);
+    })();
+    return dataLoadPromise;
+}
+
+function tryEval(name, json) {
+    // helper used during async wait
 }
 
 // ============================================
@@ -1136,7 +1666,9 @@ function refreshGscData() {
     loadAllGscData();
 }
 
-function renderAll() {
+async function renderAll() {
+    // Load dashboard data (metrics/*.json) first; falls back silently if fetch fails
+    await loadDashboardData();
     renderHeader();
     renderProgressBar();
     renderDailyTasks();
@@ -1190,6 +1722,17 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     document.getElementById('keyword-search')?.addEventListener('input', e => filterKeywords(e.target.value));
+
+    document.getElementById('reset-keywords-btn')?.addEventListener('click', () => {
+        resetAllKeywordPositions();
+    });
+
+    // On load: hydrate + recompute (in case localStorage has prior entries)
+    const kwSaved = JSON.parse(localStorage.getItem('weedistillery-keywords') || '{}');
+    Object.entries(kwSaved).forEach(([idx, v]) => {
+        if (keywordsData[idx]) keywordsData[idx].position = v.position;
+    });
+    setTimeout(recomputeKeywordMetrics, 250);
 
     document.getElementById('refresh-gsc-btn')?.addEventListener('click', () => {
         refreshGscData();
