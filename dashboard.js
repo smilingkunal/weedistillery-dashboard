@@ -1712,7 +1712,42 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    document.getElementById('export-link-footer')?.addEventListener('click', e => { e.preventDefault(); exportAsPDF(); });
+    
+
+// ============================================
+// SITE ANALYSIS — wire refresh button + initial run
+// ============================================
+document.getElementById('site-analysis-refresh-btn')?.addEventListener('click', async () => {
+    showToast('Running live site analysis...');
+    await runSiteAnalysis();
+    const el = document.getElementById('site-analysis-lastrun');
+    if (el) el.textContent = 'updated ' + new Date().toLocaleTimeString();
+    showToast('Site analysis complete');
+});
+// Initial run after data load
+setTimeout(() => {
+    runSiteAnalysis().then(() => {
+        const el = document.getElementById('site-analysis-lastrun');
+        if (el) el.textContent = 'updated ' + new Date().toLocaleTimeString();
+    });
+}, 800);
+
+// ============================================
+// OPEN GRAPH PREVIEW — wire refresh + initial run
+// ============================================
+document.getElementById('og-refresh-btn')?.addEventListener('click', async () => {
+    const container = document.getElementById('og-preview-content');
+    if (container) container.classList.add('loading');
+    showToast('Fetching OG metadata...');
+    await loadOpenGraphPreview();
+    showToast('OG preview updated');
+});
+setTimeout(() => {
+    if (typeof loadOpenGraphPreview === 'function') loadOpenGraphPreview();
+}, 1200);
+
+
+document.getElementById('export-link-footer')?.addEventListener('click', e => { e.preventDefault(); exportAsPDF(); });
 
     document.getElementById('reset-tasks-btn')?.addEventListener('click', () => {
         if (confirm('Reset all task completions?')) {

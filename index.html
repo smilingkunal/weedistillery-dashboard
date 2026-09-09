@@ -407,6 +407,42 @@
             </div>
         </section>
 
+
+        <!-- SITE ANALYSIS — live cross-source health -->
+        <section class="dashboard-section">
+            <div class="section-header">
+                <h2><i class="fas fa-stethoscope"></i> Site Analysis <span class="section-count">Live cross-source health</span></h2>
+                <div class="section-actions">
+                    <button class="filter-btn" id="site-analysis-refresh-btn" title="Re-run all probes">
+                        <i class="fas fa-sync"></i> Refresh
+                    </button>
+                    <span class="site-analysis-lastrun" id="site-analysis-lastrun">never</span>
+                </div>
+            </div>
+
+            <div class="site-analysis-grid">
+                <div class="site-card loading" id="site-card-server"></div>
+                <div class="site-card loading" id="site-card-seo"></div>
+                <div class="site-card loading" id="site-card-speed"></div>
+                <div class="site-card loading" id="site-card-domain"></div>
+                <div class="site-card loading" id="site-card-wayback"></div>
+                <div class="site-card loading" id="site-card-schema"></div>
+            </div>
+        </section>
+
+        <!-- OPEN GRAPH PREVIEW — social card mockups -->
+        <section class="dashboard-section">
+            <div class="section-header">
+                <h2><i class="fas fa-share-alt"></i> Open Graph Preview <span class="section-count">How your homepage looks when shared</span></h2>
+                <button class="filter-btn" id="og-refresh-btn"><i class="fas fa-sync"></i> Refresh</button>
+            </div>
+            <div class="og-preview-wrap loading" id="og-preview-content">
+                <div class="loading-placeholder">Loading OG metadata from weedistillery.com...</div>
+            </div>
+        </section>
+
+
+
         <!-- FOOTER -->
         <footer class="dashboard-footer">
             <p>🌿 <strong>Weedistillery 90-Day SEO Dashboard</strong></p>
@@ -423,6 +459,8 @@
 
     <div class="toast" id="toast"></div>
 
+    <script src="analytics/site-analysis.js"></script>
+    <script src="analytics/og-preview.js"></script>
     <script src="dashboard.js"></script>
 </body>
 </html>

@@ -429,6 +429,319 @@ function fetchInspection_(ss) {
  * Serve data as JSON to the dashboard
  * Deploy as Web App to expose this endpoint
  */
+/**
+ * Site Analysis Proxy — fetches CORS-blocked sources server-side
+ * Called via ?type=siteanalysis_<kind>&url=<optional>
+ *   kind ∈ { rdap, wayback, sitemap, pagespeed, og, headers }
+ */
+function siteAnalysisProxy(e) {
+    const kind = String(e.parameter.kind || '').toLowerCase();
+    const targetUrl = e.parameter.url || 'https://weedistillery.com';
+    const apiKey = e.parameter.pagespeedKey || '';
+
+    let payload = { ok: false, kind: kind, error: null, source: null, fetched_at: new Date().toISOString() };
+
+    try {
+        switch (kind) {
+            case 'rdap': {
+                const domain = e.parameter.domain || 'weedistillery.com';
+                const resp = UrlFetchApp.fetch('https://rdap.org/domain/' + domain, {
+                    muteHttpExceptions: true,
+                    followRedirects: true,
+                });
+                if (resp.getResponseCode() !== 200) throw new Error('RDAP HTTP ' + resp.getResponseCode());
+                const data = JSON.parse(resp.getContentText());
+                const events = data.events || [];
+                payload.ok = true;
+                payload.source = 'rdap.org';
+                payload.data = {
+                    registrar: ((data.entities || [])
+                        .filter(function(x) { return (x.roles || []).indexOf('registrar') >= 0; })
+                        .map(function(x) {
+                            const v = x.vcardArray && x.vcardArray[1];
+                            if (!v) return null;
+                            const fn = v.find(function(c) { return c[0] === 'fn'; });
+                            return fn ? fn[3] : null;
+                        })
+                        .filter(Boolean)[0]) || 'unknown',
+                    registered:    ((events.find(function(x){return x.eventAction==='registration'})||{}).eventDate) || null,
+                    expires:       ((events.find(function(x){return x.eventAction==='expiration'})||{}).eventDate) || null,
+                    last_changed:  ((events.find(function(x){return x.eventAction==='last changed'})||{}).eventDate) || null,
+                    status: (data.status || []).filter(function(s){return s.indexOf('client') !== 0;})
+                };
+                break;
+            }
+
+            case 'wayback': {
+                const cdxUrl = 'https://web.archive.org/cdx/search/cdx?url=' + encodeURIComponent(targetUrl)
+                              + '&output=json&fl=timestamp,statuscode&from=19950101&to=20991231';
+                const resp = UrlFetchApp.fetch(cdxUrl, { muteHttpExceptions: true });
+                if (resp.getResponseCode() !== 200) throw new Error('Wayback HTTP ' + resp.getResponseCode());
+                const cdx = JSON.parse(resp.getContentText());
+                let count = 0, oldest = null, newest = null;
+                if (cdx.length > 1) {
+                    count = cdx.length - 1;
+                    oldest = cdx[1][0];
+                    newest = cdx[cdx.length - 1][0];
+                }
+                // Try latest available
+                let availableUrl = null, availableTs = null;
+                try {
+                    const availResp = UrlFetchApp.fetch('https://archive.org/wayback/available?url=' + encodeURIComponent(targetUrl));
+                    if (availResp.getResponseCode() === 200) {
+                        const a = JSON.parse(availResp.getContentText());
+                        if (a.archived_snapshots && a.archived_snapshots.closest) {
+                            availableUrl = a.archived_snapshots.closest.url;
+                            availableTs  = a.archived_snapshots.closest.timestamp;
+                        }
+                    }
+                } catch(e) {}
+                payload.ok = true;
+                payload.source = 'archive.org';
+                payload.data = {
+                    snapshot_count: count,
+                    oldest_snapshot: oldest,
+                    newest_snapshot: newest,
+                    available_url: availableUrl,
+                    available_timestamp: availableTs,
+                };
+                break;
+            }
+
+            case 'sitemap': {
+                const resp = UrlFetchApp.fetch(targetUrl + '/sitemap.xml', { muteHttpExceptions: true });
+                if (resp.getResponseCode() !== 200) throw new Error('Sitemap HTTP ' + resp.getResponseCode());
+                const xml = resp.getContentText();
+                const locs = [];
+                const re = /<loc>(.*?)<\/loc>/g;
+                let m;
+                while ((m = re.exec(xml)) !== null) locs.push(m[1]);
+                const lastmods = [];
+                const re2 = /<lastmod>(.*?)<\/lastmod>/g;
+                while ((m = re2.exec(xml)) !== null) lastmods.push(m[1]);
+                const isIndex = /<sitemapindex/i.test(xml);
+                // If it's an index, follow the child sitemaps for a full count
+                let totalUrls = locs.length;
+                let childSitemaps = [];
+                if (isIndex) {
+                    childSitemaps = locs;
+                    for (const childUrl of childSitemaps.slice(0, 5)) {
+                        try {
+                            const childResp = UrlFetchApp.fetch(childUrl, { muteHttpExceptions: true });
+                            if (childResp.getResponseCode() === 200) {
+                                const childXml = childResp.getContentText();
+                                const childLocs = (childXml.match(/<loc>(.*?)<\/loc>/g) || []);
+                                totalUrls += childLocs.length;
+                            }
+                        } catch (e) {}
+                    }
+                }
+                payload.ok = true;
+                payload.source = 'self';
+                payload.data = {
+                    type: isIndex ? 'index' : 'urlset',
+                    is_index: isIndex,
+                    url_count: locs.length,
+                    total_urls: totalUrls,
+                    child_sitemaps: childSitemaps,
+                    lastmods: lastmods.slice(0, 10),
+                    bytes: xml.length,
+                };
+                break;
+            }
+
+            case 'robots': {
+                const resp = UrlFetchApp.fetch(targetUrl + '/robots.txt', { muteHttpExceptions: true });
+                if (resp.getResponseCode() !== 200) throw new Error('Robots HTTP ' + resp.getResponseCode());
+                const txt = resp.getContentText();
+                const lines = txt.split('\n').filter(function(l){return l.trim() && !l.startsWith('#');});
+                const userAgents = [];
+                const disallowed = [];
+                const allowed = [];
+                const sitemaps = [];
+                lines.forEach(function(l) {
+                    const idx = l.indexOf(':');
+                    if (idx < 0) return;
+                    const key = l.substring(0, idx).trim().toLowerCase();
+                    const val = l.substring(idx + 1).trim();
+                    if (key === 'user-agent') userAgents.push(val);
+                    else if (key === 'disallow' && val) disallowed.push(val);
+                    else if (key === 'allow' && val) allowed.push(val);
+                    else if (key === 'sitemap') sitemaps.push(val);
+                });
+                payload.ok = true;
+                payload.source = 'self';
+                payload.data = {
+                    user_agents: Array.from(new Set(userAgents)),
+                    disallowed: disallowed,
+                    allowed: allowed,
+                    sitemaps: Array.from(new Set(sitemaps)),
+                    bytes: txt.length,
+                    raw: txt.substring(0, 3000),
+                };
+                break;
+            }
+
+            case 'pagespeed': {
+                const psUrl = 'https://www.googleapis.com/pagespeedonline/v5/runPagespeed'
+                            + '?url=' + encodeURIComponent(targetUrl)
+                            + '&strategy=' + (e.parameter.strategy || 'mobile')
+                            + '&category=performance,seo,accessibility,best-practices'
+                            + (apiKey ? '&key=' + apiKey : '');
+                const resp = UrlFetchApp.fetch(psUrl, { muteHttpExceptions: true });
+                if (resp.getResponseCode() !== 200) throw new Error('PageSpeed HTTP ' + resp.getResponseCode() + ' (add pagespeedKey=YOUR_KEY to URL for higher quota)');
+                const j = JSON.parse(resp.getContentText());
+                const cats = (j.lighthouseResult && j.lighthouseResult.categories) || {};
+                const audits = (j.lighthouseResult && j.lighthouseResult.audits) || {};
+                payload.ok = true;
+                payload.source = 'googleapis.com';
+                payload.data = {
+                    performance:    Math.round((cats.performance && cats.performance.score || 0) * 100),
+                    seo:            Math.round((cats.seo && cats.seo.score || 0) * 100),
+                    accessibility:  Math.round((cats.accessibility && cats.accessibility.score || 0) * 100),
+                    best_practices: Math.round((cats['best-practices'] && cats['best-practices'].score || 0) * 100),
+                    lcp: (audits['largest-contentful-paint'] && audits['largest-contentful-paint'].displayValue) || '?',
+                    cls: (audits['cumulative-layout-shift'] && audits['cumulative-layout-shift'].displayValue) || '?',
+                    tbt: (audits['total-blocking-time'] && audits['total-blocking-time'].displayValue) || '?',
+                    fcp: (audits['first-contentful-paint'] && audits['first-contentful-paint'].displayValue) || '?',
+                    speed_index: (audits['speed-index'] && audits['speed-index'].displayValue) || '?',
+                };
+                break;
+            }
+
+            case 'og': {
+                const resp = UrlFetchApp.fetch(targetUrl, { muteHttpExceptions: true, followRedirects: true });
+                if (resp.getResponseCode() !== 200) throw new Error('OG HTTP ' + resp.getResponseCode());
+                const html = resp.getContentText();
+                payload.ok = true;
+                payload.source = 'self';
+                payload.data = extractOpenGraph_(html, targetUrl);
+                break;
+            }
+
+            case 'headers': {
+                const resp = UrlFetchApp.fetch(targetUrl, {
+                    muteHttpExceptions: true,
+                    followRedirects: true,
+                    method: 'head',
+                });
+                payload.ok = true;
+                payload.source = 'self';
+                payload.data = {
+                    status: resp.getResponseCode(),
+                    headers: resp.getHeaders(),
+                };
+                break;
+            }
+
+            case 'schema': {
+                const resp = UrlFetchApp.fetch(targetUrl, { muteHttpExceptions: true });
+                if (resp.getResponseCode() !== 200) throw new Error('Schema HTTP ' + resp.getResponseCode());
+                const html = resp.getContentText();
+                const types = {};
+                const re = /"@type"\s*:\s*"([^"]+)"/g;
+                let m;
+                while ((m = re.exec(html)) !== null) types[m[1]] = (types[m[1]] || 0) + 1;
+                const blocks = (html.match(/<script[^>]*application\/ld\+json[^>]*>([\s\S]*?)<\/script>/gi) || []).length;
+                payload.ok = true;
+                payload.source = 'self';
+                payload.data = {
+                    types: types,
+                    jsonld_blocks: blocks,
+                    type_list: Object.keys(types),
+                };
+                break;
+            }
+
+            default:
+                payload.error = 'Unknown kind: ' + kind + '. Use one of: rdap, wayback, sitemap, robots, pagespeed, og, headers, schema';
+        }
+    } catch (err) {
+        payload.error = String(err && err.message ? err.message : err);
+        payload.fetched_at = new Date().toISOString();
+    }
+
+    return ContentService.createTextOutput(JSON.stringify(payload))
+        .setMimeType(ContentService.MimeType.JSON);
+}
+
+/**
+ * Extract Open Graph + Twitter Card metadata from HTML.
+ * Returns structured object for the OG preview card.
+ */
+function extractOpenGraph_(html, pageUrl) {
+    const og = {};
+    const twitter = {};
+    const standard = {};
+
+    // Match <meta property="og:..." content="...">
+    const ogRe = /<meta\s+[^>]*property=["']og:([^"']+)["'][^>]*content=["']([^"']*)["']/gi;
+    let m;
+    while ((m = ogRe.exec(html)) !== null) og[m[1]] = m[2];
+
+    // Some sites flip order: <meta content="..." property="og:...">
+    const ogRe2 = /<meta\s+[^>]*content=["']([^"']*)["'][^>]*property=["']og:([^"']+)["']/gi;
+    while ((m = ogRe2.exec(html)) !== null) og[m[2]] = m[1];
+
+    // Twitter Card
+    const twRe = /<meta\s+[^>]*name=["']twitter:([^"']+)["'][^>]*content=["']([^"']*)["']/gi;
+    while ((m = twRe.exec(html)) !== null) twitter[m[1]] = m[2];
+    const twRe2 = /<meta\s+[^>]*content=["']([^"']*)["'][^>]*name=["']twitter:([^"']+)["']/gi;
+    while ((m = twRe2.exec(html)) !== null) twitter[m[2]] = m[1];
+
+    // Standard meta tags
+    const descRe = /<meta\s+name=["']description["']\s+content=["']([^"']*)["']/i;
+    if ((m = descRe.exec(html)) !== null) standard.description = m[1];
+    const descRe2 = /<meta\s+content=["']([^"']*)["']\s+name=["']description["']/i;
+    if ((m = descRe2.exec(html)) !== null) standard.description = m[1];
+    const titleRe = /<title>(.*?)<\/title>/i;
+    if ((m = titleRe.exec(html)) !== null) standard.title = m[1].trim();
+
+    // Canonical
+    const canonRe = /<link\s+rel=["']canonical["']\s+href=["']([^"']+)["']/i;
+    if ((m = canonRe.exec(html)) !== null) standard.canonical = m[1];
+    const canonRe2 = /<link\s+href=["']([^"']+)["']\s+rel=["']canonical["']/i;
+    if ((m = canonRe2.exec(html)) !== null) standard.canonical = m[1];
+
+    // Favicon
+    const faviconRe = /<link\s+rel=["']icon["']\s+(?:[^>]*href=["']([^"']+)["']|type=["']([^"']+)["'])/i;
+    if ((m = faviconRe.exec(html)) !== null) standard.favicon = (m[1] || m[2]) || null;
+
+    // Resolve image URL to absolute
+    const resolveUrl = (u) => {
+        if (!u) return null;
+        if (/^https?:\/\//.test(u)) return u;
+        if (u.startsWith('//')) return 'https:' + u;
+        if (u.startsWith('/')) {
+            try { return new URL(u, pageUrl).href; } catch(e) { return u; }
+        }
+        return u;
+    };
+
+    // Fallback to standard description if no og:description
+    const description = og.description || twitter.description || standard.description || '';
+    const title = og.title || twitter.title || standard.title || pageUrl;
+    const image = resolveUrl(og.image || twitter.image || twitter['image:src'] || null);
+
+    return {
+        url: pageUrl,
+        canonical: standard.canonical || pageUrl,
+        title: title,
+        description: description,
+        image: image,
+        site_name: og['site_name'] || '',
+        type: og.type || 'website',
+        locale: og.locale || '',
+        twitter_card: twitter.card || '',
+        twitter_site: twitter.site || '',
+        twitter_creator: twitter.creator || '',
+        favicon: resolveUrl(standard.favicon),
+        og_count: Object.keys(og).length,
+        twitter_count: Object.keys(twitter).length,
+    };
+}
+
+
 function doGet(e) {
     const ssId = getSpreadsheetId_();
     const ss = SpreadsheetApp.openById(ssId);
