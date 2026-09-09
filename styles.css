@@ -1708,3 +1708,221 @@ body {
         color: black;
     }
 }
+/* ===== GSC SECTIONS ===== */
+.gsc-section.loading {
+    opacity: 0.6;
+    pointer-events: none;
+    transition: opacity 0.3s;
+}
+
+.gsc-list {
+    list-style: none;
+    display: grid;
+    gap: 10px;
+}
+
+.gsc-query-item,
+.gsc-page-item {
+    background: var(--bg-secondary);
+    border-radius: var(--radius-md);
+    padding: 16px 20px;
+    border: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.2s;
+    cursor: pointer;
+    gap: 16px;
+}
+
+.gsc-query-item:hover,
+.gsc-page-item:hover {
+    background: var(--bg-card-hover);
+    transform: translateX(4px);
+    border-color: var(--primary);
+}
+
+.gsc-query-main,
+.gsc-page-main {
+    flex: 1;
+    min-width: 0;
+}
+
+.gsc-query-text {
+    font-weight: 600;
+    color: var(--text-primary);
+    font-size: 0.95rem;
+    margin-bottom: 8px;
+    word-break: break-word;
+}
+
+.gsc-page-url {
+    font-family: 'Monaco', 'Menlo', monospace;
+    font-size: 0.85rem;
+    color: var(--primary-light);
+    background: var(--bg-tertiary);
+    padding: 4px 8px;
+    border-radius: 4px;
+    margin-bottom: 8px;
+    display: inline-block;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.gsc-query-meta {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    font-size: 0.85rem;
+    color: var(--text-tertiary);
+}
+
+.gsc-query-meta span {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.gsc-query-meta i {
+    color: var(--primary);
+    font-size: 0.8rem;
+}
+
+.position-badge-large {
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    color: white;
+    padding: 12px 18px;
+    border-radius: var(--radius-md);
+    font-weight: 800;
+    font-size: 1.2rem;
+    min-width: 60px;
+    text-align: center;
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+}
+
+#gsc-countries-bars {
+    display: grid;
+    gap: 8px;
+}
+
+.gsc-country-item {
+    background: var(--bg-secondary);
+    border-radius: var(--radius-sm);
+    padding: 10px 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border: 1px solid var(--border);
+    transition: background 0.2s;
+}
+
+.gsc-country-item:hover {
+    background: var(--bg-card-hover);
+}
+
+.country-flag {
+    font-size: 1.4rem;
+}
+
+.country-code {
+    font-weight: 700;
+    color: var(--text-primary);
+    min-width: 36px;
+    font-size: 0.85rem;
+    letter-spacing: 1px;
+}
+
+.country-bar-track {
+    flex: 1;
+    height: 8px;
+    background: var(--bg-card);
+    border-radius: 4px;
+    overflow: hidden;
+    margin: 0 12px;
+}
+
+.country-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--primary), var(--accent));
+    transition: width 0.5s ease;
+    border-radius: 4px;
+}
+
+.country-clicks {
+    font-weight: 700;
+    color: var(--accent);
+    min-width: 40px;
+    text-align: right;
+    font-size: 0.9rem;
+}
+
+.inspection-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 16px;
+}
+
+.inspection-card {
+    background: var(--bg-secondary);
+    border-radius: var(--radius-md);
+    padding: 18px;
+    border: 1px solid var(--border);
+}
+
+.inspection-label {
+    color: var(--text-tertiary);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 600;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.inspection-label i {
+    color: var(--primary);
+}
+
+.inspection-value {
+    color: var(--text-primary);
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.inspection-value code {
+    font-family: 'Monaco', 'Menlo', monospace;
+    font-size: 0.85rem;
+    color: var(--primary-light);
+    background: var(--bg-tertiary);
+    padding: 4px 8px;
+    border-radius: 4px;
+    display: inline-block;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    vertical-align: middle;
+}
+
+[data-theme="light"] .gsc-query-item,
+[data-theme="light"] .gsc-page-item,
+[data-theme="light"] .gsc-country-item,
+[data-theme="light"] .inspection-card {
+    background: #ffffff;
+    border-color: #e5e7eb;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+[data-theme="light"] .gsc-page-url,
+[data-theme="light"] .inspection-value code {
+    background: #f3f4f6;
+    color: #4f46e5;
+}
+
+[data-theme="light"] .country-bar-track {
+    background: #e5e7eb;
+}

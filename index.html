@@ -344,6 +344,64 @@
             </div>
         </section>
 
+        <!-- GSC: TOP QUERIES -->
+        <section class="dashboard-section gsc-section">
+            <div class="section-header">
+                <h2><i class="fas fa-search"></i> Top Search Queries <span class="section-count" id="gsc-status-text"><i class="fas fa-circle" style="color: var(--warning)"></i> Mock Data</span></h2>
+                <button class="filter-btn" id="refresh-gsc-btn" title="Refresh GSC Data">
+                    <i class="fas fa-sync"></i> Refresh
+                </button>
+            </div>
+            <ul class="gsc-list" id="gsc-queries-list"></ul>
+        </section>
+
+        <!-- GSC: TOP PAGES -->
+        <section class="dashboard-section gsc-section">
+            <div class="section-header">
+                <h2><i class="fas fa-file-alt"></i> Top Performing Pages</h2>
+                <span class="section-count">Real GSC data</span>
+            </div>
+            <ul class="gsc-list" id="gsc-pages-list"></ul>
+        </section>
+
+        <!-- GSC: BREAKDOWN CHARTS -->
+        <section class="dashboard-section gsc-section">
+            <div class="section-header">
+                <h2><i class="fas fa-globe"></i> GSC Breakdown</h2>
+                <span id="gsc-last-refresh" class="section-count">—</span>
+            </div>
+            <div class="charts-grid">
+                <div class="chart-container"><h3>Device Distribution</h3><canvas id="gsc-devices-chart"></canvas></div>
+                <div class="chart-container"><h3>Position Distribution</h3><canvas id="gsc-position-chart"></canvas></div>
+                <div class="chart-container"><h3>Country Traffic</h3><canvas id="gsc-countries-chart"></canvas></div>
+                <div class="chart-container chart-wide"><h3>Top 5 Queries</h3><canvas id="gsc-queries-chart"></canvas></div>
+            </div>
+            <div id="gsc-countries-bars" style="margin-top: 24px;"></div>
+        </section>
+
+        <!-- GSC: URL INSPECTION -->
+        <section class="dashboard-section gsc-section">
+            <div class="section-header">
+                <h2><i class="fas fa-stethoscope"></i> Site Health (URL Inspection)</h2>
+                <span class="section-count">Last crawled status</span>
+            </div>
+            <div id="gsc-inspection-status"></div>
+        </section>
+
+        <!-- GSC: SITEMAPS -->
+        <section class="dashboard-section gsc-section">
+            <div class="section-header">
+                <h2><i class="fas fa-sitemap"></i> Sitemap Status</h2>
+                <span class="section-count">Submission health</span>
+            </div>
+            <div class="table-container">
+                <table class="data-table">
+                    <thead><tr><th>Sitemap URL</th><th>Last Submitted</th><th>Errors</th><th>Warnings</th><th>Status</th></tr></thead>
+                    <tbody id="gsc-sitemaps-body"></tbody>
+                </table>
+            </div>
+        </section>
+
         <!-- FOOTER -->
         <footer class="dashboard-footer">
             <p>🌿 <strong>Weedistillery 90-Day SEO Dashboard</strong></p>
@@ -351,6 +409,7 @@
             <p>
                 <a href="README.md"><i class="fas fa-book"></i> Documentation</a> ·
                 <a href="GITHUB_SETUP.md"><i class="fas fa-rocket"></i> Deployment</a> ·
+                <a href="apps-script/README.md"><i class="fas fa-code"></i> GSC Setup</a> ·
                 <a href="#" id="export-link-footer"><i class="fas fa-download"></i> Export Report</a>
             </p>
         </footer>

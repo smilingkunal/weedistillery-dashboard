@@ -668,6 +668,474 @@ function renderWeeks() {
     });
 }
 
+// ============================================
+// GSC DATA INTEGRATION
+// ============================================
+
+let gscConfig = null;
+let gscData = null;
+let gscLoading = false;
+
+async function loadGscConfig_() {
+    // Try multiple paths for compatibility (file://, http://, https://)
+    const paths = [
+        'data/gsc-config.json',
+        './data/gsc-config.json',
+        '../data/gsc-config.json'
+    ];
+
+    for (const path of paths) {
+        try {
+            const res = await fetch(path);
+            if (res.ok) {
+                gscConfig = await res.json();
+                console.log(`✓ GSC config loaded from ${path}`);
+                return gscConfig;
+            }
+        } catch (e) {
+            // Try next path
+        }
+    }
+
+    console.log('ℹ GSC config not found - using mock data fallback');
+    return null;
+}
+
+async function fetchGscData(endpoint) {
+    if (!gscConfig || !gscConfig.config.apiEndpoint) return null;
+    try {
+        const url = `${gscConfig.config.apiEndpoint}?type=${endpoint}&days=90`;
+        const res = await fetch(url);
+        if (!res.ok) return null;
+        return await res.json();
+    } catch (e) {
+        console.warn(`GSC ${endpoint} fetch failed:`, e);
+        return null;
+    }
+}
+
+async function loadAllGscData() {
+    gscLoading = true;
+    showLoadingState(true);
+
+    try {
+        // Try API first if enabled and configured
+        if (gscConfig && gscConfig.config.enabled && gscConfig.config.apiEndpoint) {
+            const data = await fetchGscData('all');
+            if (data) {
+                gscData = data;
+                console.log('✓ GSC data loaded from API');
+                renderGscData();
+                return;
+            }
+        }
+        // Fallback to mock data (always available)
+        console.log('ℹ Using fallback mock data');
+        gscData = generateMockGscData();
+        renderGscData();
+    } catch (e) {
+        console.error('GSC load error:', e);
+        gscData = generateMockGscData();
+        renderGscData();
+    } finally {
+        gscLoading = false;
+        showLoadingState(false);
+    }
+}
+
+function generateMockGscData() {
+    const days = 90;
+    const endDate = new Date();
+    const performance = [];
+
+    for (let i = days - 1; i >= 0; i--) {
+        const date = new Date(endDate.getTime() - i * 86400000);
+        const dateStr = date.toISOString().split('T')[0];
+        const growth = 1 + ((days - i) / days) * 5;
+        const clicks = Math.max(1, Math.floor(5 * growth * (0.7 + Math.random() * 0.6)));
+        const impressions = clicks * 40 + Math.floor(Math.random() * 200);
+        const ctr = impressions > 0 ? ((clicks / impressions) * 100).toFixed(2) : 0;
+        const position = Math.max(1, (16 - (growth - 1) * 2 + Math.random())).toFixed(1);
+        performance.push({ date: dateStr, clicks, impressions, ctr, position });
+    }
+
+    return {
+        performance,
+        queries: [
+            { query: 'cannabis delivery burlington', clicks: 12, impressions: 480, ctr: 2.50, position: 11.2 },
+            { query: 'cannabis delivery oakville', clicks: 8, impressions: 360, ctr: 2.22, position: 12.5 },
+            { query: 'cannabis delivery milton', clicks: 5, impressions: 240, ctr: 2.08, position: 14.1 },
+            { query: 'weed delivery brampton', clicks: 4, impressions: 180, ctr: 2.22, position: 13.8 },
+            { query: 'cannabis delivery mississauga', clicks: 3, impressions: 150, ctr: 2.00, position: 15.2 },
+            { query: 'best indica for sleep', clicks: 2, impressions: 95, ctr: 2.11, position: 16.5 },
+            { query: 'marijuana delivery burlington', clicks: 2, impressions: 85, ctr: 2.35, position: 14.8 },
+            { query: 'cannabis delivery ontario', clicks: 1, impressions: 60, ctr: 1.67, position: 18.2 }
+        ],
+        pages: [
+            { page: 'https://weedistillery.com/', clicks: 45, impressions: 2100, ctr: 2.14, position: 8.5 },
+            { page: 'https://weedistillery.com/shop/', clicks: 32, impressions: 1450, ctr: 2.21, position: 9.8 },
+            { page: 'https://weedistillery.com/weed-delivery-locations/weed-delivery-brampton/', clicks: 8, impressions: 320, ctr: 2.50, position: 12.2 },
+            { page: 'https://weedistillery.com/contact-us/', clicks: 5, impressions: 180, ctr: 2.78, position: 11.5 },
+            { page: 'https://weedistillery.com/about-us/', clicks: 4, impressions: 165, ctr: 2.42, position: 13.1 }
+        ],
+        countries: [
+            { country: 'can', clicks: 68, impressions: 2800, ctr: 2.43, position: 10.5 },
+            { country: 'usa', clicks: 8, impressions: 320, ctr: 2.50, position: 14.2 },
+            { country: 'gbr', clicks: 3, impressions: 120, ctr: 2.50, position: 16.8 }
+        ],
+        devices: [
+            { device: 'DESKTOP', clicks: 48, impressions: 1850, ctr: 2.59, position: 11.1 },
+            { device: 'MOBILE', clicks: 28, impressions: 1280, ctr: 2.19, position: 12.5 }
+        ],
+        searchAppearance: [
+            { appearance: 'BLUE_LINK', clicks: 78, impressions: 3120, ctr: 2.50, position: 11.5 },
+            { appearance: 'AMP', clicks: 0, impressions: 0, ctr: 0, position: 0 }
+        ],
+        positionDistribution: [
+            { bucket: 'Top 3', queries: 2, impressions: 95, clicks: 18 },
+            { bucket: 'Top 10', queries: 8, impressions: 380, clicks: 32 },
+            { bucket: 'Top 20', queries: 15, impressions: 720, clicks: 28 },
+            { bucket: 'Top 50', queries: 42, impressions: 2100, clicks: 18 },
+            { bucket: 'Top 100', queries: 28, impressions: 1500, clicks: 8 },
+            { bucket: 'Beyond', queries: 114, impressions: 6200, clicks: 5 }
+        ],
+        sitemaps: [
+            { sitemap: 'https://weedistillery.com/sitemap.xml', lastSubmitted: new Date().toISOString(), errors: 0, warnings: 0 },
+            { sitemap: 'https://weedistillery.com/post-sitemap.xml', lastSubmitted: new Date().toISOString(), errors: 0, warnings: 0 },
+            { sitemap: 'https://weedistillery.com/page-sitemap.xml', lastSubmitted: new Date().toISOString(), errors: 0, warnings: 0 },
+            { sitemap: 'https://weedistillery.com/product-sitemap.xml', lastSubmitted: new Date().toISOString(), errors: 0, warnings: 0 }
+        ],
+        inspection: {
+            inspectedUrl: 'https://weedistillery.com/',
+            indexed: true,
+            verdict: 'PASS',
+            coverageState: 'Indexed, not submitted in sitemap',
+            lastCrawled: new Date().toISOString()
+        },
+        lastUpdated: new Date().toISOString(),
+        dataSource: 'mock'
+    };
+}
+
+function showLoadingState(show) {
+    const gscSections = document.querySelectorAll('.gsc-section');
+    gscSections.forEach(s => {
+        if (show) s.classList.add('loading');
+        else s.classList.remove('loading');
+    });
+}
+
+function renderGscData() {
+    if (!gscData) return;
+
+    const updateText = (id, value) => {
+        const el = document.getElementById(id);
+        if (el) el.textContent = value;
+    };
+
+    // Update KPI cards with live GSC data
+    if (gscData.performance && gscData.performance.length > 0) {
+        const recent = gscData.performance.slice(-7);
+        const recentClicks = recent.reduce(function(s, r) { return s + (r.clicks || 0); }, 0);
+        const totalImpressions = gscData.performance.reduce(function(s, r) { return s + (r.impressions || 0); }, 0);
+        const avgPosition = gscData.performance.reduce(function(s, r) { return s + parseFloat(r.position || 0); }, 0) / gscData.performance.length;
+
+        updateText('gsc-clicks-7d', recentClicks);
+        updateText('gsc-impressions-total', totalImpressions.toLocaleString());
+        updateText('gsc-avg-position', avgPosition.toFixed(1));
+    }
+
+    // Render top queries
+    const queriesList = document.getElementById('gsc-queries-list');
+    if (queriesList && gscData.queries) {
+        queriesList.innerHTML = '';
+        gscData.queries.slice(0, 10).forEach(function(q) {
+            const li = document.createElement('li');
+            li.className = 'gsc-query-item';
+            const ctr = parseFloat(q.ctr) || 0;
+            li.innerHTML = `
+                <div class="gsc-query-main">
+                    <div class="gsc-query-text">${escapeHtml(q.query)}</div>
+                    <div class="gsc-query-meta">
+                        <span><i class="fas fa-mouse-pointer"></i> ${q.clicks} clicks</span>
+                        <span><i class="fas fa-eye"></i> ${q.impressions.toLocaleString()} impr.</span>
+                        <span><i class="fas fa-percentage"></i> ${ctr.toFixed(2)}% CTR</span>
+                    </div>
+                </div>
+                <div class="gsc-query-position">
+                    <div class="position-badge-large">#${parseFloat(q.position).toFixed(1)}</div>
+                </div>
+            `;
+            queriesList.appendChild(li);
+        });
+    }
+
+    // Render top pages
+    const pagesList = document.getElementById('gsc-pages-list');
+    if (pagesList && gscData.pages) {
+        pagesList.innerHTML = '';
+        gscData.pages.slice(0, 10).forEach(function(p) {
+            const li = document.createElement('li');
+            li.className = 'gsc-page-item';
+            li.innerHTML = `
+                <div class="gsc-page-main">
+                    <div class="gsc-page-url">${escapeHtml(p.page)}</div>
+                    <div class="gsc-page-meta">
+                        <span><i class="fas fa-mouse-pointer"></i> ${p.clicks} clicks</span>
+                        <span><i class="fas fa-eye"></i> ${p.impressions.toLocaleString()} impr.</span>
+                        <span><i class="fas fa-percentage"></i> ${(parseFloat(p.ctr) || 0).toFixed(2)}% CTR</span>
+                    </div>
+                </div>
+                <div class="gsc-query-position">
+                    <div class="position-badge-large">#${parseFloat(p.position).toFixed(1)}</div>
+                </div>
+            `;
+            li.onclick = function() { window.open(p.page, '_blank'); };
+            pagesList.appendChild(li);
+        });
+    }
+
+    // Render countries
+    const countriesBars = document.getElementById('gsc-countries-bars');
+    if (countriesBars && gscData.countries) {
+        countriesBars.innerHTML = '';
+        const maxClicks = Math.max.apply(null, gscData.countries.map(function(c) { return c.clicks; }));
+        gscData.countries.forEach(function(c) {
+            const li = document.createElement('li');
+            const pct = maxClicks > 0 ? (c.clicks / maxClicks * 100) : 0;
+            const flag = getCountryFlag(c.country);
+            li.innerHTML = `
+                <div class="gsc-country-item">
+                    <span class="country-flag">${flag}</span>
+                    <span class="country-code">${c.country.toUpperCase()}</span>
+                    <div class="country-bar-track">
+                        <div class="country-bar-fill" style="width: ${pct}%"></div>
+                    </div>
+                    <span class="country-clicks">${c.clicks}</span>
+                </div>
+            `;
+            countriesBars.appendChild(li);
+        });
+    }
+
+    // Render devices pie chart
+    renderDevicesChart();
+
+    // Render position distribution
+    renderPositionChart();
+
+    // Render top countries chart
+    renderCountriesChart();
+
+    // Render queries/pages chart (combine into one chart)
+    renderQueriesChart();
+
+    // Render sitemaps table
+    renderSitemapsTable();
+
+    // Render inspection status
+    renderInspectionStatus();
+
+    // Update connection status indicator
+    const statusEl = document.getElementById('gsc-status-text');
+    if (statusEl) {
+        const isLive = gscConfig && gscConfig.config.enabled && gscData && gscData.dataSource !== 'mock';
+        statusEl.innerHTML = isLive
+            ? '<i class="fas fa-circle" style="color: var(--success)"></i> Live GSC Data'
+            : '<i class="fas fa-circle" style="color: var(--warning)"></i> Mock Data (Setup GSC API)';
+    }
+
+    // Update last refresh time
+    const refreshEl = document.getElementById('gsc-last-refresh');
+    if (refreshEl && gscData.lastUpdated) {
+        const d = new Date(gscData.lastUpdated);
+        refreshEl.textContent = d.toLocaleString();
+    }
+}
+
+function getCountryFlag(code) {
+    const flags = {
+        can: '🇨🇦', usa: '🇺🇸', gbr: '🇬🇧', aus: '🇦🇺',
+        ind: '🇮🇳', deu: '🇩🇪', fra: '🇫🇷', nld: '🇳🇱'
+    };
+    return flags[code] || '🌍';
+}
+
+function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+}
+
+function renderDevicesChart() {
+    if (!gscData.devices) return;
+    destroyChart('gsc-devices-chart');
+    const ctx = document.getElementById('gsc-devices-chart');
+    if (!ctx) return;
+    const c = getChartThemeColors();
+    charts['gsc-devices-chart'] = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels: gscData.devices.map(function(d) { return d.device.toLowerCase().replace(/_/g, ' '); }),
+            datasets: [{
+                data: gscData.devices.map(function(d) { return d.clicks; }),
+                backgroundColor: [c.primary, c.success, c.accent, c.purple],
+                borderWidth: 0
+            }]
+        },
+        options: {
+            responsive: true, maintainAspectRatio: false,
+            plugins: {
+                legend: { position: 'bottom', labels: { color: c.text, font: { size: 11 } } }
+            }
+        }
+    });
+}
+
+function renderPositionChart() {
+    if (!gscData.positionDistribution) return;
+    const ctx = document.getElementById('gsc-position-chart');
+    if (!ctx) return;
+    destroyChart('gsc-position-chart');
+    const c = getChartThemeColors();
+    charts['gsc-position-chart'] = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: gscData.positionDistribution.map(function(p) { return p.bucket; }),
+            datasets: [{
+                label: 'Queries',
+                data: gscData.positionDistribution.map(function(p) { return p.queries; }),
+                backgroundColor: c.primary,
+                borderRadius: 6
+            }]
+        },
+        options: {
+            responsive: true, maintainAspectRatio: false,
+            indexAxis: 'y',
+            plugins: { legend: { display: false } },
+            scales: {
+                x: { ticks: { color: c.text }, grid: { color: c.grid }, beginAtZero: true },
+                y: { ticks: { color: c.text, font: { size: 11 } }, grid: { display: false } }
+            }
+        }
+    });
+}
+
+function renderCountriesChart() {
+    if (!gscData.countries) return;
+    const ctx = document.getElementById('gsc-countries-chart');
+    if (!ctx) return;
+    destroyChart('gsc-countries-chart');
+    const c = getChartThemeColors();
+    charts['gsc-countries-chart'] = new Chart(ctx, {
+        type: 'polarArea',
+        data: {
+            labels: gscData.countries.map(function(co) { return getCountryFlag(co.country) + ' ' + co.country.toUpperCase(); }),
+            datasets: [{
+                data: gscData.countries.map(function(co) { return co.clicks; }),
+                backgroundColor: [c.primary, c.success, c.accent, c.purple, c.info],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true, maintainAspectRatio: false,
+            plugins: { legend: { position: 'right', labels: { color: c.text, font: { size: 11 } } } }
+        }
+    });
+}
+
+function renderQueriesChart() {
+    if (!gscData.queries) return;
+    const ctx = document.getElementById('gsc-queries-chart');
+    if (!ctx) return;
+    destroyChart('gsc-queries-chart');
+    const c = getChartThemeColors();
+    const top5 = gscData.queries.slice(0, 5);
+    charts['gsc-queries-chart'] = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: top5.map(function(q) { return q.query.length > 25 ? q.query.substring(0, 22) + '...' : q.query; }),
+            datasets: [{
+                label: 'Clicks',
+                data: top5.map(function(q) { return q.clicks; }),
+                backgroundColor: c.success,
+                borderRadius: 6
+            }]
+        },
+        options: {
+            responsive: true, maintainAspectRatio: false,
+            plugins: {
+                legend: { display: false },
+                title: { display: true, text: 'Top 5 Queries (Last 90 Days)', color: c.text }
+            },
+            scales: {
+                x: { ticks: { color: c.text, font: { size: 9 } }, grid: { display: false } },
+                y: { ticks: { color: c.text, font: { size: 10 } }, grid: { color: c.grid }, beginAtZero: true }
+            }
+        }
+    });
+}
+
+function renderSitemapsTable() {
+    if (!gscData.sitemaps) return;
+    const tbody = document.getElementById('gsc-sitemaps-body');
+    if (!tbody) return;
+    tbody.innerHTML = '';
+    gscData.sitemaps.forEach(function(sm) {
+        const tr = document.createElement('tr');
+        const status = sm.errors > 0 ? '<span class="status-badge status-ready"><i class="fas fa-exclamation-triangle"></i> Errors</span>' : '<span class="status-badge status-published"><i class="fas fa-check"></i> OK</span>';
+        const lastDate = sm.lastSubmitted && sm.lastSubmitted !== 'N/A' ? new Date(sm.lastSubmitted).toLocaleDateString() : 'N/A';
+        tr.innerHTML = `
+            <td><code>${escapeHtml(sm.sitemap)}</code></td>
+            <td>${lastDate}</td>
+            <td>${sm.errors || 0}</td>
+            <td>${sm.warnings || 0}</td>
+            <td>${status}</td>
+        `;
+        tbody.appendChild(tr);
+    });
+}
+
+function renderInspectionStatus() {
+    if (!gscData.inspection) return;
+    const el = document.getElementById('gsc-inspection-status');
+    if (!el) return;
+    const ins = gscData.inspection;
+    const verdictClass = ins.verdict === 'PASS' ? 'status-published' : 'status-ready';
+
+    let crawledTime = 'N/A';
+    if (ins.lastCrawled && ins.lastCrawled !== 'N/A') {
+        try {
+            crawledTime = new Date(ins.lastCrawled).toLocaleString();
+        } catch (e) {}
+    }
+
+    el.innerHTML = `
+        <div class="inspection-grid">
+            <div class="inspection-card">
+                <div class="inspection-label"><i class="fas fa-link"></i> URL</div>
+                <div class="inspection-value"><code>${escapeHtml(ins.inspectedUrl)}</code></div>
+            </div>
+            <div class="inspection-card">
+                <div class="inspection-label"><i class="fas fa-search"></i> Index Status</div>
+                <div class="inspection-value"><span class="status-badge ${verdictClass}">${ins.verdict}</span></div>
+            </div>
+            <div class="inspection-card">
+                <div class="inspection-label"><i class="fas fa-map"></i> Coverage State</div>
+                <div class="inspection-value">${escapeHtml(ins.coverageState)}</div>
+            </div>
+            <div class="inspection-card">
+                <div class="inspection-label"><i class="fas fa-clock"></i> Last Crawled</div>
+                <div class="inspection-value">${crawledTime}</div>
+            </div>
+        </div>
+    `;
+}
+
+function refreshGscData() {
+    loadAllGscData();
+}
+
 function renderAll() {
     renderHeader();
     renderProgressBar();
@@ -676,7 +1144,15 @@ function renderAll() {
     renderCitations();
     renderKeywords();
     renderWeeks();
-    setTimeout(() => { if (typeof Chart !== 'undefined') renderCharts(); }, 100);
+    setTimeout(function() {
+        if (typeof Chart !== 'undefined') renderCharts();
+    }, 100);
+    // Load GSC data asynchronously
+    setTimeout(function() {
+        loadGscConfig_().then(function() {
+            return loadAllGscData();
+        });
+    }, 500);
 }
 
 // ============================================
@@ -714,6 +1190,11 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     document.getElementById('keyword-search')?.addEventListener('input', e => filterKeywords(e.target.value));
+
+    document.getElementById('refresh-gsc-btn')?.addEventListener('click', () => {
+        refreshGscData();
+        showToast('Refreshing GSC data...');
+    });
 
     document.querySelectorAll('.chart-btn').forEach(btn => {
         btn.addEventListener('click', () => {
